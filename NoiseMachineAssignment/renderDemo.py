@@ -73,7 +73,6 @@ class RainbowRenderer(ProgressiveRenderer):
 
     def getColor(self, x, y):
         """Gives a random color per pixel."""
-        # return np.array((self.hPercent(x), self.vPercent(y), self.hundredMinusHPercent(x)))
         return np.array((self.callFunc(self.rFunc, x, y),
                          self.callFunc(self.gFunc, x, y),
                          self.callFunc(self.bFunc, x, y)))
@@ -81,11 +80,11 @@ class RainbowRenderer(ProgressiveRenderer):
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
-                pass
+                self.rFunc += 1
             elif event.key == pygame.K_2:
-                pass
+                self.gFunc += 1
             elif event.key == pygame.K_3:
-                pass
+                self.bFunc += 1
             else:
                 return None
             # Run only if one of 1, 2, or 3 was hit
