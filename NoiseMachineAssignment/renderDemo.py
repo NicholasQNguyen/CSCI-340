@@ -40,7 +40,16 @@ class RainbowRenderer(ProgressiveRenderer):
         return np.array((r, g, b))
                          
     def handleOtherInput(self, event):
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                pass
+            elif event.key == pygame.K_2:
+                pass
+            elif event.key == pygame.K_3:
+                pass
+            else:
+                return None
+            # Run only if one of 1, 2, or 3 was hit
             type(self).restart()
 
 
