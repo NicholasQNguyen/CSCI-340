@@ -45,9 +45,9 @@ class RainbowRenderer(ProgressiveRenderer):
                  minimumPixel,
                  startPixelSize)
         self.functionsList = [self.hPercent,
-                         self.vPercent,
-                         self.hundredMinusHPercent,
-                         self.hundredMinusVPercent]
+                              self.vPercent,
+                              self.hundredMinusHPercent,
+                              self.hundredMinusVPercent]
         self.rFunc = 0
         self.gFunc = 1
         self.bFunc = 2
@@ -67,9 +67,9 @@ class RainbowRenderer(ProgressiveRenderer):
     def callFunc(self, index, x, y):
         # If hori func, then use x
         if index % 2 == 0:
-            return self.functionsList[index](x)
+            return self.functionsList[index % 4](x)
         else:
-            return self.functionsList[index](y)
+            return self.functionsList[index % 4](y)
 
     def getColor(self, x, y):
         """Gives a random color per pixel."""
@@ -94,7 +94,6 @@ class RainbowRenderer(ProgressiveRenderer):
 # Calls the 'main' function when this script is executed
 if __name__ == '__main__':
     try:
-        # RandomRenderer.main()
         RainbowRenderer.main()
     finally:
         pygame.quit()
