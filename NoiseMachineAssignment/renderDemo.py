@@ -44,10 +44,13 @@ class RainbowRenderer(ProgressiveRenderer):
                  show,
                  minimumPixel,
                  startPixelSize)
-        functionsList = [self.hPercent,
+        self.functionsList = [self.hPercent,
                          self.vPercent,
                          self.hundredMinusHPercent,
                          self.hundredMinusVPercent]
+        self.rFunc = 0
+        self.gFunc = 1
+        self.bFunc = 2
 
     def hPercent(self, x):
         return x / self.width
@@ -61,9 +64,19 @@ class RainbowRenderer(ProgressiveRenderer):
     def hundredMinusVPercent(self, y):
         return 1.0 - self.vPercent(y)
 
+    def callFunc(self, index, x, y):
+        # If hori func, then use x
+        if index % 2 == 0:
+            return self.functionsList[index](x)
+        else:
+            return self.functionsList[index](y)
+
     def getColor(self, x, y):
         """Gives a random color per pixel."""
-        return np.array((self.hPercent(x), self.vPercent(y), self.hundredMinusHPercent(x)))
+        # return np.array((self.hPercent(x), self.vPercent(y), self.hundredMinusHPercent(x)))
+        return np.array((self.callFunc(self.rFunc, x, y),
+                         self.callFunc(self.gFunc, x, y),
+                         self.callFunc(self.bFunc, x, y)))
                          
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
