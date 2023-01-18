@@ -31,9 +31,23 @@ class RandomRenderer(ProgressiveRenderer):
             type(self).restart()
 
     
+class RainbowRenderer(ProgressiveRenderer):
+    def getColor(self, x, y):
+        """Gives a random color per pixel."""
+        r = x / self.width 
+        g = y / self.height 
+        b = 1.0 - r 
+        return np.array((r, g, b))
+                         
+    def handleOtherInput(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+            type(self).restart()
+
+
 # Calls the 'main' function when this script is executed
 if __name__ == '__main__':
     try:
-        RandomRenderer.main()
+        # RandomRenderer.main()
+        RainbowRenderer.main()
     finally:
         pygame.quit()
