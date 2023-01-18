@@ -15,22 +15,22 @@ class RandomRenderer(ProgressiveRenderer):
         """An unnecessary override but provided to show how
         to override the __init__ in future inheritance classes."""
         super().__init__(width, height,
-                 showTime,
-                 show,
-                 minimumPixel,
-                 startPixelSize)
-        
+                         showTime,
+                         show,
+                         minimumPixel,
+                         startPixelSize)
+
     def getColor(self, x, y):
         """Gives a random color per pixel."""
         return np.array((random.random(),
                          random.random(),
                          random.random()))
-    
+
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
             type(self).restart()
 
-    
+
 class RainbowRenderer(ProgressiveRenderer):
     def __init__(self, width=640, height=480,
                  showTime=True,
@@ -40,10 +40,10 @@ class RainbowRenderer(ProgressiveRenderer):
         """An unnecessary override but provided to show how
         to override the __init__ in future inheritance classes."""
         super().__init__(width, height,
-                 showTime,
-                 show,
-                 minimumPixel,
-                 startPixelSize)
+                         showTime,
+                         show,
+                         minimumPixel,
+                         startPixelSize)
         self.functionsList = [self.hPercent,
                               self.vPercent,
                               self.hundredMinusHPercent,
@@ -76,7 +76,7 @@ class RainbowRenderer(ProgressiveRenderer):
         return np.array((self.callFunc(self.rFunc, x, y),
                          self.callFunc(self.gFunc, x, y),
                          self.callFunc(self.bFunc, x, y)))
-                         
+
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
@@ -87,7 +87,7 @@ class RainbowRenderer(ProgressiveRenderer):
                 self.bFunc += 1
             else:
                 return None
-            # Run only if one of 1, 2, or 3 was hit
+            # Reset only if one of 1, 2, or 3 was hit
             type(self).restart()
 
 
