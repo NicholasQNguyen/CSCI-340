@@ -32,6 +32,23 @@ class RandomRenderer(ProgressiveRenderer):
 
     
 class RainbowRenderer(ProgressiveRenderer):
+    def __init__(self, width=640, height=480,
+                 showTime=True,
+                 show=ShowTypes.PerColumn,
+                 minimumPixel=0,
+                 startPixelSize=256):
+        """An unnecessary override but provided to show how
+        to override the __init__ in future inheritance classes."""
+        super().__init__(width, height,
+                 showTime,
+                 show,
+                 minimumPixel,
+                 startPixelSize)
+        functionsList = [self.hPercent,
+                         self.vPercent,
+                         self.hundredMinusHPercent,
+                         self.hundredMinusVPercent]
+
     def hPercent(self, x):
         return x / self.width
 
