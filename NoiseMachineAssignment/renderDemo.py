@@ -46,10 +46,7 @@ class RainbowRenderer(ProgressiveRenderer):
 
     def getColor(self, x, y):
         """Gives a random color per pixel."""
-        r = self.hPercent(x)
-        g = self.vPercent(y)
-        b = self.hundredMinusHPercent(x)
-        return np.array((r, g, b))
+        return np.array((self.hPercent(x), self.vPercent(y), self.hundredMinusHPercent(x)))
                          
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
