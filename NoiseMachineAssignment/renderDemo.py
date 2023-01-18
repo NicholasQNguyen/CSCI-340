@@ -32,11 +32,23 @@ class RandomRenderer(ProgressiveRenderer):
 
     
 class RainbowRenderer(ProgressiveRenderer):
+    def hPercent(self, x):
+        return x / self.width
+
+    def vPercent(self, y):
+        return y / self.height
+
+    def hundredMinusHPercent(self, x):
+        return 1.0 - self.hPercent(x)
+
+    def hundredMinusVPercent(self, y):
+        return 1.0 - self.vPercent(y)
+
     def getColor(self, x, y):
         """Gives a random color per pixel."""
-        r = x / self.width 
-        g = y / self.height 
-        b = 1.0 - r 
+        r = self.hPercent(x)
+        g = self.vPercent(y)
+        b = self.hundredMinusHPercent(x)
         return np.array((r, g, b))
                          
     def handleOtherInput(self, event):
