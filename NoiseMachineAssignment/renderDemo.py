@@ -119,8 +119,14 @@ class NoiseRenderer(ProgressiveRenderer):
                 self.id -= 1
             elif event.key == pygame.K_w:
                 self.id += 1
+            elif event.key == pygame.K_e:
+                self.noisePat.previous()
+            elif event.key == pygame.K_r:
+                self.noisePat.next()
             else:
                 return None
+            print(self.id)
+            type(self).restart()
 
 
 # Calls the 'main' function when this script is executed
