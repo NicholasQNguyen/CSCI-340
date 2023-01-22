@@ -135,11 +135,17 @@ class NoisePatterns(object):
 
     def tiledClouds(self, x, y, xMod, yMod, c1=COLORS["blue"],
                     c2=COLORS["white"]):
-        noise = self.nms[self.noiseId].noise2dTiled(x,y)
+        noise = self.nms[self.noiseId].noise2dTiled(x, y, xMod, yMod)
         return lerp(c1, c2, noise)
 
-    def marble(self, x, y, c1, c2, noiseStrength):
-        pass
+    def marble(self, x, y,
+               c1=COLORS["marble1"],
+               c2=COLORS["marble2"],
+               noiseStrength=0.2):
+        noise = self.nms[self.noiseId].noise2d(x,y)
+        value = np.sin(x + y + noise + noiseStrength * scale)
+        value = (value + 1) / 2
+        return lerp(c1, c2, value)
 
     def wood(self, x, y, c1, c2, noiseStrength):
         pass
