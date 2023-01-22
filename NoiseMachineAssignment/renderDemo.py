@@ -102,19 +102,23 @@ class NoiseRenderer(ProgressiveRenderer):
                          show,
                          minimumPixel,
                          startPixelSize)
-        self.patterns = []
-        self.currentMethod = 0
+        self.patterns = [NoisePatterns.clouds,
+                         NoisePatterns.tiledClouds,
+                         NoisePatterns.marble,
+                         NoisePatterns.wood,
+                         NoisePatterns.fire]
+        self.id = 0
+        self.noisePat = NoisePatterns.getInstance()
 
     def getColor(self, x, y, scale=64):
-        newX = x / scale
-        newY = y / scale
+        return self.patterns[self.id](self.noisePat, x/scale, y/scale)
 
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:
-                self.currentMethod -= 1
+                self.id -= 1
             elif event.key == pygame.K_w:
-                self.currentMethod += 1
+                self.id += 1
             else:
                 return None
 
@@ -123,6 +127,7 @@ class NoiseRenderer(ProgressiveRenderer):
 if __name__ == '__main__':
     try:
         # RandomRenderer.main()
-        RainbowRenderer.main()
+        # RainbowRenderer.main()
+        NoiseRenderer.main()
     finally:
         pygame.quit()

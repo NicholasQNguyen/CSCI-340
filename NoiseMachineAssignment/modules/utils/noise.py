@@ -111,6 +111,7 @@ class NoisePatterns(object):
     @classmethod
     def getInstance(cls):
         if cls._instance == None:
+            print("AAAAAAAAAA")
             cls._instance = NoisePatterns()
         return cls._instance
     
@@ -132,7 +133,16 @@ class NoisePatterns(object):
         noise = self.nms[self.noiseId].noise2d(x,y)
         return lerp(c1, c2, noise)
 
-    def cloudsTiled(self, x, y, xMod, yMod, c1=COLORS["blue"],
+    def tiledClouds(self, x, y, xMod, yMod, c1=COLORS["blue"],
                     c2=COLORS["white"]):
         noise = self.nms[self.noiseId].noise2dTiled(x,y)
         return lerp(c1, c2, noise)
+
+    def marble(self, x, y, c1, c2, noiseStrength):
+        pass
+
+    def wood(self, x, y, c1, c2, noiseStrength):
+        pass
+
+    def fire(self, x, y, c1, c2, noiseStrength):
+        pass
