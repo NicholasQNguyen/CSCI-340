@@ -142,13 +142,31 @@ class NoisePatterns(object):
                c1=COLORS["marble1"],
                c2=COLORS["marble2"],
                noiseStrength=0.2):
-        noise = self.nms[self.noiseId].noise2d(x,y)
-        value = np.sin(x + y + noise + noiseStrength * scale)
+        noise = self.nms[self.noiseId].noise2d(x, y)
+        value = np.sin(x + y + noise + noiseStrength * self.scale)
+        # Adjust from [-1, 1] to [0, 1]
         value = (value + 1) / 2
         return lerp(c1, c2, value)
 
-    def wood(self, x, y, c1, c2, noiseStrength):
-        pass
+    def wood(self, x, y,
+             c1=COLORS["wood1"],
+             c2=COLORS["wood2"],
+             noiseStrength=0.2):
+        noise = self.nms[self.noiseId].noise2d(x, y)
+        radius = np.sqrt(x**2 + y**2)
+        value = np.sin(radius + noise * noiseStrength * self.scale)
+        # Adjust from [-1, 1] to [0, 1]
+        value = (value + 1) / 2
+        return lerp(c1, c2, value)
 
-    def fire(self, x, y, c1, c2, noiseStrength):
-        pass
+    def fire(self, x, y,
+             c1=COLORS["red"],
+             c2=COLORS["yellow"],
+             noiseStrength=0.2):
+        noise = self.nms[self.noiseId].noise2d(x*2, y*2)
+        color = lerp(c1, c2, noise)
+        radius = np.sqrt((x-xMiddle)**2 + (y-yMiddle)**2)/4
+        noise2 = self.nms[self.noiseId].noise2d(x + np.sin(y*2) * 0.5, y)
+        radius += (noise - 0.5) * noiseStrength
+        s = 1.0 - smerp(0.1, 1.0, radius)
+        return color * s
