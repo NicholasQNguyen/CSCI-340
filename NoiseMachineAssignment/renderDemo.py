@@ -66,10 +66,8 @@ class RainbowRenderer(ProgressiveRenderer):
 
     def callFunc(self, index, x, y):
         # If hori func, then use x
-        if index % 2 == 0:
-            return self.functionsList[index % 4](x)
-        else:
-            return self.functionsList[index % 4](y)
+        return self.functionsList[index % len(self.functionsList)](x) if index % 2 == 0 \
+        else self.functionsList[index % len(self.functionsList)](y)
 
     def getColor(self, x, y):
         """Gives a random color per pixel."""
@@ -91,9 +89,40 @@ class RainbowRenderer(ProgressiveRenderer):
             type(self).restart()
 
 
+class NoiseRenderer(ProgressiveRenderer):
+    def __init__(self, width=640, height=480,
+                 showTime=True,
+                 show=ShowTypes.PerColumn,
+                 minimumPixel=0,
+                 startPixelSize=256):
+        """An unnecessary override but provided to show how
+        to override the __init__ in future inheritance classes."""
+        super().__init__(width, height,
+                         showTime,
+                         show,
+                         minimumPixel,
+                         startPixelSize)
+        self.patterns = []
+        self.currentMethod = 0
+
+    def getColor(self, x, y, scale=64):
+        newX = x / scale
+        newY = y / scale
+
+    def handleOtherInput(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                self.currentMethod -= 1
+            elif event.key == pygame.K_w:
+                self.currentMethod += 1
+            else:
+                return None
+
+
 # Calls the 'main' function when this script is executed
 if __name__ == '__main__':
     try:
+        # RandomRenderer.main()
         RainbowRenderer.main()
     finally:
         pygame.quit()

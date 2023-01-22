@@ -132,4 +132,7 @@ class NoisePatterns(object):
         noise = self.nms[self.noiseId].noise2d(x,y)
         return lerp(c1, c2, noise)
 
-                 
+    def cloudsTiled(self, x, y, xMod, yMod, c1=COLORS["blue"],
+                    c2=COLORS["white"]):
+        noise = self.nms[self.noiseId].noise2dTiled(x,y)
+        return lerp(c1, c2, noise)
