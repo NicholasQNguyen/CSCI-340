@@ -111,7 +111,14 @@ class NoiseRenderer(ProgressiveRenderer):
         self.noisePat = NoisePatterns.getInstance()
 
     def getColor(self, x, y, scale=64):
-        return self.patterns[self.id](self.noisePat, x/scale, y/scale)
+        # Do it straight if not tiled
+        return self.patterns[self.id](self.noisePat,
+                                      x/scale,
+                                      y/scale) \
+        if self.id % len(self.patterns) != 1 \
+        else self.patterns[self.id](self.noisePat,
+                                    x/scale,
+                                    y/scale)
 
     def handleOtherInput(self, event):
         if event.type == pygame.KEYDOWN:
