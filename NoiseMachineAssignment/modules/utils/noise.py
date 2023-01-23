@@ -111,7 +111,6 @@ class NoisePatterns(object):
     @classmethod
     def getInstance(cls):
         if cls._instance == None:
-            print("AAAAAAAAAA")
             cls._instance = NoisePatterns()
         return cls._instance
     
@@ -156,7 +155,7 @@ class NoisePatterns(object):
              c2=COLORS["wood2"],
              noiseStrength=0.2):
         noise = self.nms[self.noiseId].noise2d(x, y)
-        radius = np.sqrt(x**2 + y**2)
+        radius = np.sqrt(x**2 + y**2) * 10
         value = np.sin(radius + noise * noiseStrength * self.scale)
         # Adjust from [-1, 1] to [0, 1]
         value = (value + 1) / 2
