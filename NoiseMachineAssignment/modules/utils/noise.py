@@ -165,12 +165,13 @@ class NoisePatterns(object):
              c1=COLORS["red"],
              c2=COLORS["yellow"],
              noiseStrength=0.2):
+        y /= 2
         xMiddle = 4
         yMiddle = 3
         noise = self.nms[self.noiseId].noise2d(x*2, y*2)
         color = lerp(c1, c2, noise)
         radius = np.sqrt((x-xMiddle)**2 + (y-yMiddle)**2)/4
         noise2 = self.nms[self.noiseId].noise2d(x + np.sin(y*2) * 0.5, y)
-        radius += (noise - 0.5) * noiseStrength
+        radius += (noise2 - 0.5) * noiseStrength
         s = 1.0 - smerp(0.1, 1.0, radius)
         return color * s
