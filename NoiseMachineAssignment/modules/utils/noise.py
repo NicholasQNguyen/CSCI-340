@@ -164,7 +164,7 @@ class NoisePatterns(object):
     def fire(self, x, y,
              c1=COLORS["red"],
              c2=COLORS["yellow"],
-             noiseStrength=0.2):
+             noiseStrength=0.6):
         y /= 2
         xMiddle = 4
         yMiddle = 3
