@@ -37,7 +37,8 @@ class Camera(object):
 
     def getRay(self, xPercent, yPercent):
         """Returns a ray based on a percentage for the x and y coordinate."""
-        pass
+        r = vec(0, 0, 0)
+        return r
 
     def getPosition(self):
         """Getter method for position."""

@@ -7,7 +7,7 @@ import pygame
 from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
-from modules.utils.vector import vec
+from modules.utils.vector import vec, normalize
 
 class RayTracer(ProgressiveRenderer):
     def __init__(self, width=800, height=600, show=ShowTypes.PerColumn):
@@ -18,17 +18,20 @@ class RayTracer(ProgressiveRenderer):
     def getColorR(self, ray):
         # Start with zero color
         color = np.zeros((3))
-        
-        # Find any objects it collides with and calculate color
 
+        # Normalize the ray
+        nRay = normalize(ray)
+
+        # Find any objects it collides with and calculate color
+        a = kk
         # Return fog if doesn't hit anything
         return self.fog
 
 
     def getColor(self, x, y):
         # Calculate the percentages for x and y
-        xPercent = 0
-        yPercent = 0
+        xPercent = x / self.width
+        yPercent = y / self.height
 
         # Get the ray from the camera
         cameraRay = self.scene.camera.getRay(xPercent, yPercent)
