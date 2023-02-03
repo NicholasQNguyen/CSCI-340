@@ -2,6 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 from ..utils.vector import vec, lerp
+import numpy as np
 
 class Camera(object):
     """Camera object for raytracing.
@@ -20,11 +21,22 @@ class Camera(object):
         """Sets up the camera given the parameters.
            Calculates position, ul, ur, ll, and lr."""
         
-        self.position = vec(0,0,0)
-        self.ul = vec(0,0,0)
-        self.ur = vec(0,0,0)
-        self.ll = vec(0,0,0)
-        self.lr = vec(0,0,0)
+        right = np.cross(up, fwd)
+        self.width = 2 * np.tan(fov/2) * distance
+        self.height = np.reciprocal(aspect)
+        self.position = -fwd * distance
+        self.ul = (fwd * distance + self.position) + \
+                  (up * (self.height / 2)) - \
+                  (right * (self.width / 2))
+        self.ur = (fwd * distance + self.position) + \
+                  (up * (self.height / 2)) + \
+                  (right * (self.width / 2))
+        self.ll = (fwd * distance + self.position) - \
+                  (up * (self.height / 2)) - \
+                  (right * (self.width / 2))
+        self.lr = (fwd * distance + self.position) - \
+                  (up * (self.height / 2)) + \
+                  (right * (self.width / 2))
 
     def __init__(self,
                  focus = vec(0,0,0),
@@ -34,8 +46,6 @@ class Camera(object):
                  distance = 2.5,
                  aspect = 4/3):
         self.set(focus, fwd, up, fov, distance, aspect)
-        self.width = self.ur - self.ul
-        self.height = self.ul - self.ll
 
     def getRay(self, xPercent, yPercent):
         """Returns a ray based on a percentage for the x and y coordinate."""
