@@ -9,3 +9,9 @@ class Scene(object):
 
     def addLight(self, newLight):
         self.lightList.appedn(newLight)
+
+    def nearestObject(self, ray):
+        pass
+
+    def shadowed(self, obj, ray):
+        pass
