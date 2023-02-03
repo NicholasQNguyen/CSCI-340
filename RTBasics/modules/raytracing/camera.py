@@ -34,7 +34,7 @@ class Camera(object):
                  distance = 2.5,
                  aspect = 4/3):
         self.set(focus, fwd, up, fov, distance, aspect)
-        self.width = self.ul - self.ur
+        self.width = self.ur - self.ul
         self.height = self.ul - self.ll
 
     def getRay(self, xPercent, yPercent):
