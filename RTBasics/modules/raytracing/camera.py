@@ -1,7 +1,7 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
-from ..utils.vector import vec
+from ..utils.vector import vec, lerp
 
 class Camera(object):
     """Camera object for raytracing.
@@ -34,11 +34,15 @@ class Camera(object):
                  distance = 2.5,
                  aspect = 4/3):
         self.set(focus, fwd, up, fov, distance, aspect)
+        self.width = self.ul - self.ur
+        self.height = self.ul - self.ll
 
     def getRay(self, xPercent, yPercent):
         """Returns a ray based on a percentage for the x and y coordinate."""
-        r = vec(0, 0, 0)
-        return r
+        p0 = lerp(self.ul, self.ur, xPercent)
+        p1 = lerp(self.ll, self.lr, xPercent)
+        worldPos = lerp(p0, p1, yPercent)
+        return worldPos - self.position
 
     def getPosition(self):
         """Getter method for position."""

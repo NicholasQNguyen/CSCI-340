@@ -23,7 +23,7 @@ class RayTracer(ProgressiveRenderer):
         nRay = normalize(ray)
 
         # Find any objects it collides with and calculate color
-        a = kk
+
         # Return fog if doesn't hit anything
         return self.fog
 
