@@ -43,3 +43,7 @@ class Scene(object):
     def addSphere(self, radius=1, position=vec(0,0,0), ambient=COLORS["blue"],
                   diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Sphere(radius, position, ambient, diffuse, specular, shininess, specCoeff))
+
+    def addPlane(self, normal=vec(0,1,0), position=vec(0,0,0), ambient=COLORS["blue"],
+                  diffuse=0, specular=0, shininess=0, specCoeff=0):
+        self.objects.append(Sphere(radius, position, ambient, diffuse, specular, shininess, specCoeff))
