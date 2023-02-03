@@ -1,13 +1,13 @@
 class Object3D(object):
     def __init__(self, position, castsShadow=True):
         self.position = position
-        self.castsShadow = castShadow
+        self.castsShadow = castsShadow
 
 
 class Sphere(Object3D):
     def __init__(self, radius, position, ambient, diffuse,
                  specular, shininess, specCoeff):
-        super().__init__(self, position, True)
+        super().__init__(position, True)
         self.material = Material(ambient, diffuse, specular, shininess)
         self.radius = radius
 
@@ -16,9 +16,9 @@ class Sphere(Object3D):
         
 
 class Plane(Object3D):
-    def __init__(self, normal, position, ambient, diffusse, specular,
+    def __init__(self, normal, position, ambient, diffuse, specular,
                  shininess, specCoeff):
-        super().__init__(self, position)
+        super().__init__(position, False)
         self.material = Material(ambient, diffuse, specular, shininess)
         self.normal = normal
 

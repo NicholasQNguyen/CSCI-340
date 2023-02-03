@@ -17,7 +17,8 @@ class RayTracer(ProgressiveRenderer):
         self.addObjects()
 
     def addObjects(self):
-        pass
+        self.scene.addSphere()
+        self.scene.addPlane()
 
     def getColorR(self, ray):
         # Start with zero color
