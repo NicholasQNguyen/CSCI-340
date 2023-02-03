@@ -92,3 +92,15 @@ class Material(object):
         self.diffuse = diffuse
         self.specular = specular
         self.shininess = shininess
+
+    def getAmbient(self):
+        return self.ambient
+
+    def getDiffuse(self):
+        return self.diffuse
+
+    def getSpecular(self):
+        return self.specular
+
+    def getShininess(self):
+        return self.shininess
