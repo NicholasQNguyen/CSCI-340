@@ -1,5 +1,3 @@
-from abc import ABC, abstractmethod
-
 class AbstractLight(ABC):
     def __init__(self, color, position):
         self.color = color

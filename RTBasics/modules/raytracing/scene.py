@@ -50,8 +50,8 @@ class Scene(object):
                   diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Plane(normal, position, ambient, diffuse, specular, shininess, specCoeff))
 
-    def addDirectionalLight(self, color=COLORS["white"])
+    def addDirectionalLight(self, color=COLORS["white"], position=vec(0,0,0))
         self.lights.append(DirectionalLight(color))
 
-    def addPointLight(self, color=COLORS["white"])
+    def addPointLight(self, color=COLORS["white"], position=vec(0,0,0))
         self.lights.append(PointLight(color))
