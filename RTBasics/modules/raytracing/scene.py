@@ -3,6 +3,7 @@ Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
 from ..object.objects import Sphere, Plane
+from ..object.lights import Sphere, Plane
 from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
@@ -48,3 +49,5 @@ class Scene(object):
     def addPlane(self, normal=vec(0,1,0), position=vec(0,0,0), ambient=COLORS["blue"],
                   diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Plane(normal, position, ambient, diffuse, specular, shininess, specCoeff))
+
+    def add

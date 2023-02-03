@@ -18,3 +18,10 @@ class AbstractLight(ABC):
         """Returns the distance to the light"""
         pass
         
+
+class PointLight(AbstractLight):
+    pass
+
+
+class DirectionalLight(AbstractLight):
+    pass
