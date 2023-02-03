@@ -14,7 +14,11 @@ class RayTracer(ProgressiveRenderer):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7,0.9,1.0)
         self.scene = Scene(aspect=width/height, fov=45)
-    
+        self.addObjects(self)
+
+    def addObjects(self):
+        pass
+
     def getColorR(self, ray):
         # Start with zero color
         color = np.zeros((3))
@@ -23,6 +27,8 @@ class RayTracer(ProgressiveRenderer):
         nRay = normalize(ray)
 
         # Find any objects it collides with and calculate color
+        for obj in scene.objects:
+            pass
 
         # Return fog if doesn't hit anything
         return self.fog

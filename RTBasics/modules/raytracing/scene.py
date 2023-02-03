@@ -39,3 +39,5 @@ class Scene(object):
         
         return minDistance
         
+    def addSphere(self, radius, position, ambient, diffuse, specular, shininess, specCoeff):
+        self.objects.append(Sphere(radius, position, ambient, diffuse, specular, shininess, specCoeff))

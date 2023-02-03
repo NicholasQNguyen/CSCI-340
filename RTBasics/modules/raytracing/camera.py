@@ -22,6 +22,7 @@ class Camera(object):
            Calculates position, ul, ur, ll, and lr."""
         
         right = np.cross(up, fwd)
+        # From SOHCAHTOA
         self.width = 2 * np.tan(fov/2) * distance
         self.height = np.reciprocal(aspect)
         self.position = -fwd * distance
