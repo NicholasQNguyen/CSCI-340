@@ -1,8 +1,9 @@
 from abc import ABC, abstractmethod
 
 class AbstractLight(ABC):
-    def __init__(self, color):
+    def __init__(self, color, position):
         self.color = color
+        self.position = position
     
     def getColor(self):
         """Returns the color of the light"""
@@ -20,8 +21,25 @@ class AbstractLight(ABC):
         
 
 class PointLight(AbstractLight):
-    pass
+    def __init__(self, color):
+        super().__init__(color, position)
 
+    def getVectorToLight(self, point):
+        """Returns a vector pointing towards the light"""
+        pass
+    
+    def getDistance(self, point):
+        """Returns the distance to the light"""
+        pass
 
 class DirectionalLight(AbstractLight):
-    pass
+    def __init__(self, color):
+        super().__init__(color, position)
+
+    def getVectorToLight(self, point):
+        """Returns a vector pointing towards the light"""
+        pass
+    
+    def getDistance(self, point):
+        """Returns the distance to the light"""
+        pass

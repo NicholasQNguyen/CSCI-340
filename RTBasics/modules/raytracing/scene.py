@@ -3,6 +3,7 @@ Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
 from ..raytracing.objects import Sphere, Plane
+from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
@@ -48,3 +49,9 @@ class Scene(object):
     def addPlane(self, normal=vec(0,1,0), position=vec(0,0,0), ambient=COLORS["blue"],
                   diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Plane(normal, position, ambient, diffuse, specular, shininess, specCoeff))
+
+    def addDirectionalLight(self, color=COLORS["white"])
+        self.lights.append(DirectionalLight(color))
+
+    def addPointLight(self, color=COLORS["white"])
+        self.lights.append(PointLight(color))
