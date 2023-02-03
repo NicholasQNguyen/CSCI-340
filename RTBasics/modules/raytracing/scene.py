@@ -4,6 +4,7 @@ Author: Liz Matthews, Geoff Matthews
 import numpy as np
 from .camera import Camera
 from ..utils.vector import vec
+from ..utils.definitions import COLORS
 
 class Scene(object):
     """A class to contain all items in a scene.
@@ -39,5 +40,6 @@ class Scene(object):
         
         return minDistance
         
-    def addSphere(self, radius, position, ambient, diffuse, specular, shininess, specCoeff):
+    def addSphere(self, radius=1, position=vec(0,0,0), ambient=COLORS["blue"],
+                  diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Sphere(radius, position, ambient, diffuse, specular, shininess, specCoeff))
