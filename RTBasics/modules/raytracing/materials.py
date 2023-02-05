@@ -3,6 +3,7 @@ Author: Liz Matthews, Geoff Matthews
 """
 from ..utils.vector import vec
 
+
 class Material(object):
     """A class to contain all properties of a material.
        Contains ambient, diffuse, specular colors.
