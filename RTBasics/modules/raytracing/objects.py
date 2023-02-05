@@ -74,16 +74,13 @@ class Plane(Object3D):
         self.material = Material(ambient, diffuse, specular, shininess)
         self.normal = normal
 
-    def getNormal(self):
-        return self.normal
-
     def intersect(self, ray):
         """Find the intersection for the given object. Must override."""
         pass
    
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        pass
+        return self.normal
 
 
 class Material(object):

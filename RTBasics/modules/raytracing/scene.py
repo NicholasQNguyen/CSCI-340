@@ -25,7 +25,13 @@ class Scene(object):
         self.camera = Camera(focus, direction, up, fov, distance, aspect)
         
         # Set up lights, spheres,  and planes here
-    
+        self.setup()
+
+    def setup(self):
+        self.addSphere()
+        self.addPlane()
+        self.addDirectionalLight()
+
     def nearestObject(self, ray):
         """Returns the nearest collision object and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]        
@@ -50,8 +56,8 @@ class Scene(object):
                   diffuse=0, specular=0, shininess=0, specCoeff=0):
         self.objects.append(Plane(normal, position, ambient, diffuse, specular, shininess, specCoeff))
 
-    def addDirectionalLight(self, color=COLORS["white"], position=vec(0,0,0))
+    def addDirectionalLight(self, color=COLORS["white"], position=vec(0,0,0)):
         self.lights.append(DirectionalLight(color))
 
-    def addPointLight(self, color=COLORS["white"], position=vec(0,0,0))
+    def addPointLight(self, color=COLORS["white"], position=vec(0,0,0)):
         self.lights.append(PointLight(color))

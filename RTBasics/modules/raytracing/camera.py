@@ -24,7 +24,7 @@ class Camera(object):
         right = np.cross(up, fwd)
         # From SOHCAHTOA
         self.width = 2 * np.tan(fov/2) * distance
-        self.height = np.reciprocal(aspect)
+        self.height = np.reciprocal(aspect) * self.width
         self.position = -fwd * distance
         self.ul = (fwd * distance + self.position) + \
                   (up * (self.height / 2)) - \

@@ -14,11 +14,6 @@ class RayTracer(ProgressiveRenderer):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7,0.9,1.0)
         self.scene = Scene(aspect=width/height, fov=45)
-        self.addObjects()
-
-    def addObjects(self):
-        self.scene.addSphere()
-        self.scene.addPlane()
 
     def getColorR(self, ray):
         # Start with zero color
