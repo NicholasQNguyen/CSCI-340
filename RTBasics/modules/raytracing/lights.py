@@ -34,6 +34,8 @@ class PointLight(AbstractLight):
         """Returns the distance to the light"""
         return magnitude(point - self.position)
 
+    def __repr__(self):
+        return "Point Light"
 
 class DirectionalLight(AbstractLight):
     def __init__(self, color, position=vec(0, 0, 0)):
@@ -47,3 +49,6 @@ class DirectionalLight(AbstractLight):
     def getDistance(self, point):
         """Returns the distance to the light"""
         return magnitude(point - self.position)
+
+    def __repr__(self):
+        return "Directional Light"

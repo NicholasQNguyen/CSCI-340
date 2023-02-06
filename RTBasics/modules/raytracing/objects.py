@@ -80,6 +80,9 @@ class Sphere(Object3D):
         """Find the normal for the given object. Must override."""
         return normalize(2 * self.position)
 
+    def __repr__(self):
+        return "Sphere"
+
 
 class Plane(Object3D):
     def __init__(self, normal, position, ambient, diffuse, specular,
@@ -90,10 +93,14 @@ class Plane(Object3D):
 
     def intersect(self, ray, startPos):
         """Find the intersection for the plane."""
-        t = np.dot((self.position - startPos), self.normal) / \
-                  (np.dot(ray, self.normal))
-        return startPos + ray * t
+        denom = np.dot(ray, self.normal)
+        if denom != 0:
+            t = np.dot((self.position - startPos), self.normal) / denom
+            return startPos + ray * t
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         return self.normal
+
+    def __repr__(self):
+        return "Plane"

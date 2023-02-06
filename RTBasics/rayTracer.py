@@ -16,7 +16,9 @@ class RayTracer(ProgressiveRenderer):
         self.scene = Scene(aspect=width/height, fov=45)
         print("CAM POS:", self.scene.camera.getPosition())
         for obj in self.scene.objects:
-            print("OBJ POS:", obj.position)
+            print(repr(obj) + " POS: " + str(obj.position))
+        for light in self.scene.lights:
+            print(repr(light) + " POS: " + str(light.position))
 
     def getColorR(self, ray):
         # Start with zero color
@@ -50,7 +52,7 @@ class RayTracer(ProgressiveRenderer):
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay,
                                              self.scene.camera.getPosition())
-                return vec(0, 1, 0)
+                # return vec(0, 1, 0)
 
         # Return fog if doesn't hit anything
         return self.fog
