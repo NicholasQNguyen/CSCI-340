@@ -29,7 +29,7 @@ class Scene(object):
         self.setup()
 
     def setup(self):
-        self.addSphere()
+        self.addSphere(position=vec(0, 0, 10))
         self.addPlane()
         self.addDirectionalLight()
 
