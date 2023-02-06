@@ -66,7 +66,8 @@ class Sphere(Object3D):
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         q = startPos - self.position
         # We miss if discriminent is negative
-        discriminent = 2 * np.dot(q, ray) - (4 * np.dot(q, q) - self.radius ** 2)
+        discriminent = 2 * np.dot(q, ray) - \
+            (4 * np.dot(q, q) - self.radius ** 2)
         if discriminent < 0:
             return False
         # 1 b/c normalized
@@ -89,9 +90,9 @@ class Plane(Object3D):
 
     def intersect(self, ray, startPos):
         """Find the intersection for the plane."""
-        t = np.dot((self.position - startPos), self.normal) / (np.dot(ray, self.normal))
-        intersection = startPos + ray * t
-        return intersection
+        t = np.dot((self.position - startPos), self.normal) / \
+                  (np.dot(ray, self.normal))
+        return startPos + ray * t
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""

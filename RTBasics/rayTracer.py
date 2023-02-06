@@ -28,7 +28,8 @@ class RayTracer(ProgressiveRenderer):
         # Find any objects it collides with and calculate color
         for obj in self.scene.objects:
             if type(obj) == Sphere:
-                intersection = obj.intersect(nRay, self.scene.camera.getPosition())
+                intersection = obj.intersect(nRay,
+                                             self.scene.camera.getPosition())
                 if intersection is not False:
                     return vec(1, 0, 0)
                     # TODO make actual color of object
@@ -36,16 +37,19 @@ class RayTracer(ProgressiveRenderer):
                     for light in self.scene.lights:
                         vecToLight = light.getVectorToLight(obj.position)
                         # Finding angle of incidence
-                        i = np.sqrt(np.dot(vecToLight, obj.getNormal()) * obj.getNormal())
+                        i = np.sqrt(np.dot(vecToLight, \
+                                           obj.getNormal()) * obj.getNormal())
                         j = vecToLight - i
                         r = -i + j
-                        angleOfIncidence = np.arccos(np.dot(vecToLight, r) / (magnitude(vecToLight) * magnitude(r)))
+                        angleOfIncidence = np.arccos(np.dot(vecToLight, r) / \
+                                        (magnitude(vecToLight) * magnitude(r)))
                         print("ANGLE OF INCIDENCE:", angleOfIncidence)
                         diffuse = np.cos(angleOfIncidence)
                         return vec(1, 0, 0) * diffuse
                     """
             elif type(obj) == Plane:
-                intersection = obj.intersect(nRay, self.scene.camera.getPosition())
+                intersection = obj.intersect(nRay,
+                                             self.scene.camera.getPosition())
                 return vec(0, 1, 0)
 
         # Return fog if doesn't hit anything

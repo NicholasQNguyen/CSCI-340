@@ -31,6 +31,7 @@ class Scene(object):
     def setup(self):
         self.addSphere(radius=14.5, position=vec(0, 0, 10))
         self.addPlane(position=vec(0, -1, 0))
+        self.addPlane(position=vec(0, 0, 0))
         self.addPointLight(position=vec(1, 3, 0))
 
     def nearestObject(self, ray):
