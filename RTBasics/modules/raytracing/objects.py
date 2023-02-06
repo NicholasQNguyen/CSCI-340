@@ -4,6 +4,7 @@ Author: Liz Matthews, Geoff Matthews
 from abc import ABC, abstractmethod
 import numpy as np
 from .materials import Material
+from ..utils.vector import normalize
 
 
 class Object3D(ABC):
@@ -64,6 +65,7 @@ class Sphere(Object3D):
         """Find the intersection for the sphere."""
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         q = startPos - self.position
+        # We miss if discriminent is negative
         discriminent = 2 * np.dot(q, ray) - (4 * np.dot(q, q) - self.radius ** 2)
         if discriminent < 0:
             return False
@@ -75,7 +77,7 @@ class Sphere(Object3D):
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        pass
+        return normalize(2 * position)
 
 
 class Plane(Object3D):

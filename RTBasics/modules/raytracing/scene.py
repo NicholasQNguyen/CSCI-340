@@ -31,7 +31,7 @@ class Scene(object):
     def setup(self):
         self.addSphere(radius=14.5, position=vec(0, 0, 10))
         self.addPlane()
-        self.addDirectionalLight()
+        self.addPointLight(position=vec(1, 3, 0))
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
@@ -69,9 +69,9 @@ class Scene(object):
     def addDirectionalLight(self,
                             color=COLORS["white"],
                             position=vec(0, 0, 0)):
-        self.lights.append(DirectionalLight(color))
+        self.lights.append(DirectionalLight(color, position))
 
     def addPointLight(self,
                       color=COLORS["white"],
                       position=vec(0, 0, 0)):
-        self.lights.append(PointLight(color))
+        self.lights.append(PointLight(color, position))

@@ -30,7 +30,10 @@ class RayTracer(ProgressiveRenderer):
             if type(obj) == Sphere:
                 intersection = obj.intersect(nRay, self.scene.camera.getPosition())
                 if intersection is not False:
+                    # TODO make actual color of object
                     return np.array((1, 0, 0))
+                    for light in self.scene.lights:
+                        vecToLight = light.getVectorToLight(obj.position)
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay)
 

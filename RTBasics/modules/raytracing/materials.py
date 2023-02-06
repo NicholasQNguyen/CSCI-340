@@ -2,6 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 from ..utils.vector import vec
+from ..utils.definitions import COLORS
 
 
 class Material(object):
