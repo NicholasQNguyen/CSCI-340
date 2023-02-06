@@ -38,10 +38,11 @@ class RayTracer(ProgressiveRenderer):
                     for light in self.scene.lights:
                         vecToLight = light.getVectorToLight(intersection)
                         """
-                        |\     r/|
+                        |\     r//\
                         | \    / |
                       i |  \  /  |-i
                         |   \/   |
+                        \/
                         ----------
                           j    j
                         """
