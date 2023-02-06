@@ -33,22 +33,28 @@ class RayTracer(ProgressiveRenderer):
             if type(obj) == Sphere:
                 intersection = obj.intersect(nRay)
                 if intersection is not False:
-                    return vec(1, 0, 0)
+                    # return vec(1, 0, 0)
                     # TODO make actual color of object
-                    """
                     for light in self.scene.lights:
-                        vecToLight = light.getVectorToLight(obj.position)
+                        vecToLight = light.getVectorToLight(intersection)
+                        """
+                        |\     r/|
+                        | \    / |
+                      i |  \  /  |-i
+                        |   \/   |
+                        ----------
+                          j    j
+                        """
                         # Finding angle of incidence
                         i = np.sqrt(np.dot(vecToLight, \
                                            obj.getNormal()) * obj.getNormal())
                         j = vecToLight - i
                         r = -i + j
                         angleOfIncidence = np.arccos(np.dot(vecToLight, r) / \
-                                        (magnitude(vecToLight) * magnitude(r)))
+                                           magnitude(vecToLight) * magnitude(vec(r)))
                         print("ANGLE OF INCIDENCE:", angleOfIncidence)
                         diffuse = np.cos(angleOfIncidence)
                         return vec(1, 0, 0) * diffuse
-                    """
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay)
                 # return vec(0, 1, 0)
