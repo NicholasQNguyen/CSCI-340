@@ -62,9 +62,15 @@ class Sphere(Object3D):
 
     def intersect(self, ray, startPos):
         """Find the intersection for the sphere."""
+        # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
+        q = startPos - self.position
+        discriminent = 2 * np.dot(q, ray) - (4 * np.dot(q, q) - self.radius ** 2)
+        if discriminent < 0:
+            return False
+        # 1 b/c normalized
         a = 1
-        b = 2 * ray * (startPos - self.position)
-        c = np.abs(startPos - self.position) ** 2 - self.radius ** 2
+        b = 2 * np.dot(q, ray)
+        c = np.dot(q, q) - self.radius ** 2
         return np.array((a, b, c))
 
     def getNormal(self, intersection):
