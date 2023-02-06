@@ -60,14 +60,12 @@ class Sphere(Object3D):
     def getRadius(self):
         return self.radius
 
-    # TODO Make it so we don't need the cam for this step
     def intersect(self, ray, startPos):
         """Find the intersection for the sphere."""
         a = 1
         b = 2 * ray * (startPos - self.position)
         c = np.abs(startPos - self.position) ** 2 - self.radius ** 2
         return np.array((a, b, c))
-        
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
