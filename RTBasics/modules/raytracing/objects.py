@@ -69,12 +69,14 @@ class Sphere(Object3D):
         discriminent = 2 * np.dot(q, ray.direction) - \
             (4 * np.dot(q, q) - self.radius ** 2)
         if discriminent < 0:
-            return False
+            return np.inf
         # 1 b/c normalized
         a = 1
         b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
-        return np.array((a, b, c))
+        t1 = (-b + np.sqrt(b**2 - 4 * c)) / 2
+        t2 = (-b - np.sqrt(b**2 - 4 * c)) / 2
+        return min(t1, t2)
 
     def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
@@ -97,6 +99,8 @@ class Plane(Object3D):
         if denom != 0:
             t = np.dot((self.position - ray.position), self.normal) / denom
             return ray.position + ray.direction * t
+        else:
+            return np.inf
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""

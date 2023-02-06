@@ -38,10 +38,13 @@ class Scene(object):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        nearestObj = None
-        minDistance = np.inf
+        print(distances)
+        if distances:
+            distances.sort()
+            nearestObj = self.objects[0]
+            minDistance = distances[0]
 
-        return nearestObj, minDistance
+            return nearestObj, minDistance
 
     def shadowed(self, obj, ray):
         """Returns the nearest collision object and the distance to the object,
