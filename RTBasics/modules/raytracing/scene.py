@@ -52,16 +52,16 @@ class Scene(object):
 
     def addSphere(self, radius=1,
                   position=vec(0, 0, 0), ambient=COLORS["blue"],
-                  diffuse=0, specular=0,
-                  shininess=0, specCoeff=0):
+                  diffuse=COLORS["black"], specular=COLORS["white"],
+                  shininess=0, specCoeff=100):
         self.objects.append(Sphere(radius, position,
                                    ambient, diffuse,
                                    specular, shininess, specCoeff))
 
     def addPlane(self, normal=vec(0, 1, 0),
                  position=vec(0, 0, 0), ambient=COLORS["blue"],
-                 diffuse=0, specular=0,
-                 shininess=0, specCoeff=0):
+                 diffuse=COLORS["black"], specular=COLORS["white"],
+                 shininess=0, specCoeff=100):
         self.objects.append(Plane(normal, position,
                                   ambient, diffuse,
                                   specular, shininess, specCoeff))
@@ -71,5 +71,7 @@ class Scene(object):
                             position=vec(0, 0, 0)):
         self.lights.append(DirectionalLight(color))
 
-    def addPointLight(self, color=COLORS["white"], position=vec(0, 0, 0)):
+    def addPointLight(self,
+                      color=COLORS["white"],
+                      position=vec(0, 0, 0)):
         self.lights.append(PointLight(color))

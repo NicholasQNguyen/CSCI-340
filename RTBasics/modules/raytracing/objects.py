@@ -3,6 +3,7 @@ Author: Liz Matthews, Geoff Matthews
 """
 from abc import ABC, abstractmethod
 import numpy as np
+from .materials import Material
 
 
 class Object3D(ABC):
@@ -82,23 +83,3 @@ class Plane(Object3D):
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         return self.normal
-
-
-class Material(object):
-    def __init__(self, ambient, diffuse, specular, shininess):
-        self.ambient = ambient
-        self.diffuse = diffuse
-        self.specular = specular
-        self.shininess = shininess
-
-    def getAmbient(self):
-        return self.ambient
-
-    def getDiffuse(self):
-        return self.diffuse
-
-    def getSpecular(self):
-        return self.specular
-
-    def getShininess(self):
-        return self.shininess
