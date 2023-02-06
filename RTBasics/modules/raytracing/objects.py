@@ -87,9 +87,11 @@ class Plane(Object3D):
         self.material = Material(ambient, diffuse, specular, shininess)
         self.normal = normal
 
-    def intersect(self, ray):
+    def intersect(self, ray, startPos):
         """Find the intersection for the plane."""
         intersection = np.zeros(3)
+        t = np.dot((self.position - startPos), self.normal) / (np.dot(ray, self.normal))
+        intersection = startPos + ray * t
         return intersection
 
     def getNormal(self, intersection):
