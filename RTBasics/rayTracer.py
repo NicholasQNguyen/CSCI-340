@@ -1,6 +1,4 @@
-"""
-Author: Liz Matthews, Geoff Matthews
-"""
+""" Author: Liz Matthews, Geoff Matthews """
 import numpy as np
 import pygame
 
@@ -17,7 +15,7 @@ class RayTracer(ProgressiveRenderer):
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
 
-    def getColorR(self, ray):
+    def getColorR(self, ray, cam):
         # Start with zero color
         color = np.zeros((3))
 
@@ -26,10 +24,10 @@ class RayTracer(ProgressiveRenderer):
 
         # Find any objects it collides with and calculate color
         for obj in self.scene.objects:
-            if type(obj) == Sphere: 
-                pass
-            elif type(obj) == Plane: 
-                pass
+            if type(obj) == Sphere:
+                intersection = obj.intersect(nRay, cam)
+            elif type(obj) == Plane:
+                intersection = obj.intersect(nRay)
 
         # Return fog if doesn't hit anything
         return self.fog
@@ -43,7 +41,7 @@ class RayTracer(ProgressiveRenderer):
         cameraRay = self.scene.camera.getRay(xPercent, yPercent)
 
         # Get the color based on the ray
-        color = self.getColorR(cameraRay)
+        color = self.getColorR(cameraRay, self.scene.camera)
 
         # Fixing any NaNs in numpy, clipping to 0, 1.
         color = np.nan_to_num(np.clip(color, 0, 1), 0)

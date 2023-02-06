@@ -60,9 +60,13 @@ class Sphere(Object3D):
     def getRadius(self):
         return self.radius
 
-    def intersect(self, ray):
-        """Find the intersection for the given object. Must override."""
-        pass
+    def intersect(self, ray, cam):
+        """Find the intersection for the sphere."""
+        intersection = np.zeros(3)
+        a = 1
+        b = 2 * ray * (cam.getPosition() - self.position)
+        c = np.abs(cam.getPosition() - self.position) ** 2 - self.radius ** 2
+        return intersection
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
@@ -77,8 +81,9 @@ class Plane(Object3D):
         self.normal = normal
 
     def intersect(self, ray):
-        """Find the intersection for the given object. Must override."""
-        pass
+        """Find the intersection for the plane."""
+        intersection = np.zeros(3)
+        return intersection
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
