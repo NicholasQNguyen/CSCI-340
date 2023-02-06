@@ -31,9 +31,15 @@ class RayTracer(ProgressiveRenderer):
                 intersection = obj.intersect(nRay, self.scene.camera.getPosition())
                 if intersection is not False:
                     # TODO make actual color of object
-                    return np.array((1, 0, 0))
                     for light in self.scene.lights:
                         vecToLight = light.getVectorToLight(obj.position)
+                        # Finding angle of Incidence
+                        i = np.sqrt(np.dot(vecToLight, obj.getNormal()) * obj.getNormal())
+                        j = vecToLight - i
+                        angleOfIncidence = -i + j
+                        print("ANGLE OF INCIDENCE:", angleOfIncidence)
+                        diffuse = np.cos(angleOfIncidence)
+                        return vec(1, 0, 0) * diffuse
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay)
 

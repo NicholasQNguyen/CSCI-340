@@ -75,9 +75,9 @@ class Sphere(Object3D):
         c = np.dot(q, q) - self.radius ** 2
         return np.array((a, b, c))
 
-    def getNormal(self, intersection):
+    def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
-        return normalize(2 * position)
+        return normalize(2 * self.position)
 
 
 class Plane(Object3D):
