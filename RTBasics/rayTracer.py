@@ -7,6 +7,7 @@ import pygame
 from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
+from modules.raytracing.objects import Sphere, Plane
 from modules.utils.vector import vec, normalize
 
 
@@ -25,7 +26,10 @@ class RayTracer(ProgressiveRenderer):
 
         # Find any objects it collides with and calculate color
         for obj in self.scene.objects:
-            pass
+            if type(obj) == Sphere: 
+                pass
+            elif type(obj) == Plane: 
+                pass
 
         # Return fog if doesn't hit anything
         return self.fog
