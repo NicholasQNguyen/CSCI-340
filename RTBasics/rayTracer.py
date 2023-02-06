@@ -46,6 +46,7 @@ class RayTracer(ProgressiveRenderer):
                     """
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay, self.scene.camera.getPosition())
+                return vec(0, 1, 0)
 
         # Return fog if doesn't hit anything
         return self.fog
