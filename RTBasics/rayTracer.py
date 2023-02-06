@@ -5,6 +5,7 @@ import pygame
 from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
+from modules.raytracing.ray import Ray
 from modules.raytracing.objects import Sphere, Plane
 from modules.utils.vector import vec, normalize, magnitude
 
@@ -25,13 +26,12 @@ class RayTracer(ProgressiveRenderer):
         color = np.zeros((3))
 
         # Normalize the ray
-        nRay = normalize(ray)
+        nRay = Ray(ray.position, normalize(ray.direction))
 
         # Find any objects it collides with and calculate color
         for obj in self.scene.objects:
             if type(obj) == Sphere:
-                intersection = obj.intersect(nRay,
-                                             self.scene.camera.getPosition())
+                intersection = obj.intersect(nRay)
                 if intersection is not False:
                     return vec(1, 0, 0)
                     # TODO make actual color of object
@@ -50,8 +50,7 @@ class RayTracer(ProgressiveRenderer):
                         return vec(1, 0, 0) * diffuse
                     """
             elif type(obj) == Plane:
-                intersection = obj.intersect(nRay,
-                                             self.scene.camera.getPosition())
+                intersection = obj.intersect(nRay)
                 # return vec(0, 1, 0)
 
         # Return fog if doesn't hit anything

@@ -2,6 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 from ..utils.vector import vec, lerp
+from .ray import Ray
 import numpy as np
 
 
@@ -54,7 +55,7 @@ class Camera(object):
         p0 = lerp(self.ul, self.ur, xPercent)
         p1 = lerp(self.ll, self.lr, xPercent)
         worldPos = lerp(p0, p1, yPercent)
-        return worldPos - self.position
+        return Ray(self.position, worldPos - self.position)
 
     def getPosition(self):
         """Getter method for position."""

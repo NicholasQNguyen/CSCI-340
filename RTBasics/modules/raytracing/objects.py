@@ -61,18 +61,18 @@ class Sphere(Object3D):
     def getRadius(self):
         return self.radius
 
-    def intersect(self, ray, startPos):
+    def intersect(self, ray):
         """Find the intersection for the sphere."""
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
-        q = startPos - self.position
+        q = ray.position - self.position
         # We miss if discriminent is negative
-        discriminent = 2 * np.dot(q, ray) - \
+        discriminent = 2 * np.dot(q, ray.direction) - \
             (4 * np.dot(q, q) - self.radius ** 2)
         if discriminent < 0:
             return False
         # 1 b/c normalized
         a = 1
-        b = 2 * np.dot(q, ray)
+        b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
         return np.array((a, b, c))
 
@@ -91,12 +91,12 @@ class Plane(Object3D):
         self.material = Material(ambient, diffuse, specular, shininess)
         self.normal = normal
 
-    def intersect(self, ray, startPos):
+    def intersect(self, ray):
         """Find the intersection for the plane."""
-        denom = np.dot(ray, self.normal)
+        denom = np.dot(ray.direction, self.normal)
         if denom != 0:
-            t = np.dot((self.position - startPos), self.normal) / denom
-            return startPos + ray * t
+            t = np.dot((self.position - ray.position), self.normal) / denom
+            return ray.position + ray.direction * t
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
