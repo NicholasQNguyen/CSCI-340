@@ -36,16 +36,15 @@ class RayTracer(ProgressiveRenderer):
                     # return vec(1, 0, 0)
                     # TODO make actual color of object
                     for light in self.scene.lights:
-                        vecToLight = light.getVectorToLight(intersection)
                         """
-                        |\     r//\
+                        |\v2L  r//\
                         | \    / |
                       i |  \  /  |-i
-                        |   \/   |
-                        \/
+                        \/  \/   |
                         ----------
                           j    j
                         """
+                        vecToLight = light.getVectorToLight(intersection)
                         # Finding angle of incidence
                         i = np.sqrt(np.dot(vecToLight, \
                                            obj.getNormal()) * obj.getNormal())
