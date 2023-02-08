@@ -32,6 +32,8 @@ class RayTracer(ProgressiveRenderer):
         for obj in self.scene.objects:
             if type(obj) == Sphere:
                 t = obj.intersect(nRay)
+                if t is None:
+                    return self.fog
                 nearestObj, minDist = self.scene.nearestObject(Ray(nRay.position, nRay.direction * t))
 
                 if nearestObj is not None:

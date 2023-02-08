@@ -65,17 +65,18 @@ class Sphere(Object3D):
         """Find the intersection for the sphere."""
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         q = ray.position - self.position
-        # We miss if discriminent is negative
-        discriminent = 2 * np.dot(q, ray.direction) - \
-            (4 * np.dot(q, q) - self.radius ** 2)
-        if discriminent < 0:
-            return np.inf
-        # 1 b/c normalized
         a = 1
         b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
+        # We miss if discriminent is negative
+        discriminent = b ** 2 - 4 * c
+        if discriminent < 0:
+            return None
+        # 1 b/c normalized
         t1 = (-b + np.sqrt(b**2 - 4 * c)) / 2
         t2 = (-b - np.sqrt(b**2 - 4 * c)) / 2
+        print("t1:", t1)
+        print("t2:", t2)
         return min(t1, t2)
 
     def getNormal(self, intersection=None):

@@ -29,22 +29,32 @@ class Scene(object):
         self.setup()
 
     def setup(self):
-        self.addSphere(ambient=vec(.2, 0, 0), radius=14.5, position=vec(0, 0, 10))
-        self.addPlane(position=vec(0, -1, 0))
-        self.addPlane(position=vec(0, 0, 0))
+        self.addSphere(ambient=vec(.2, 0, 0), radius=.7, position=vec(0, 1, -3))
+        self.addSphere(ambient=vec(.2, 0, 0), radius=.7, position=vec(-1, -0.2, -4))
+        # self.addPlane(position=vec(0, -1, 0))
+        # self.addPlane(position=vec(0, 0, 0))
         self.addPointLight(position=vec(1, 3, 0))
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        print(distances)
-        if distances:
-            distances.sort()
+        print("DISTANCES:", distances)
+        filteredDistances = []
+        for item in distances:
+            if item is not None:
+                filteredDistances.append(item)
+        print("FILTERED DISATNCES:", filteredDistances)
+        if filteredDistances:
+            filteredDistances.sort()
             nearestObj = self.objects[0]
-            minDistance = distances[0]
+            print("NEAREST OBJECT:", repr(nearestObj))
+            minDistance = filteredDistances[0]
 
             return nearestObj, minDistance
+        else:
+            print("NOTHING HIT")
+            return None, None
 
     def shadowed(self, obj, ray):
         """Returns the nearest collision object and the distance to the object,
