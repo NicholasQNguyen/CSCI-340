@@ -37,7 +37,7 @@ class RayTracer(ProgressiveRenderer):
                 nearestObj, minDist = self.scene.nearestObject(Ray(nRay.position, nRay.direction * t))
 
                 if nearestObj is not None:
-                    return vec(1, 0, 0)
+                    return nearestObj.getAmbient()
                 """
                     # TODO make actual color of object
                     for light in self.scene.lights:

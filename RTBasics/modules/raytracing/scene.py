@@ -29,8 +29,12 @@ class Scene(object):
         self.setup()
 
     def setup(self):
-        self.addSphere(ambient=vec(.2, 0, 0), radius=.7, position=vec(0, 1, -3))
-        self.addSphere(ambient=vec(.2, 0, 0), radius=.7, position=vec(-1, -0.2, -4))
+        # self.addSphere(ambient=vec(.2, 0, 0),
+        #                radius=.7,
+        #                position=vec(0, 1, -3))
+        self.addSphere(ambient=vec(.2, 0, 0),
+                       radius=.7,
+                       position=vec(-1, -0.2, -4))
         # self.addPlane(position=vec(0, -1, 0))
         # self.addPlane(position=vec(0, 0, 0))
         self.addPointLight(position=vec(1, 3, 0))
@@ -39,16 +43,14 @@ class Scene(object):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        print("DISTANCES:", distances)
         filteredDistances = []
         for item in distances:
             if item is not None:
                 filteredDistances.append(item)
-        print("FILTERED DISATNCES:", filteredDistances)
         if filteredDistances:
             filteredDistances.sort()
+            # TODO make this actually something
             nearestObj = self.objects[0]
-            print("NEAREST OBJECT:", repr(nearestObj))
             minDistance = filteredDistances[0]
 
             return nearestObj, minDistance
