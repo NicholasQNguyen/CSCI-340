@@ -64,6 +64,7 @@ class Sphere(Object3D):
     def intersect(self, ray):
         """Find the intersection for the sphere."""
         q = ray.position - self.position
+        # 1 b/c normalized
         a = 1
         b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
@@ -72,13 +73,13 @@ class Sphere(Object3D):
         discriminent = b ** 2 - 4 * c
         if discriminent < 0:
             return None
-        # 1 b/c normalized
         t1 = (-b + np.sqrt(discriminent)) / 2
         t2 = (-b - np.sqrt(discriminent)) / 2
         return min(t1, t2)
 
     def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
+        # https://www.youtube.com/watch?v=g1BEkYyGFLc
         return normalize(2 * self.position)
 
     def __repr__(self):

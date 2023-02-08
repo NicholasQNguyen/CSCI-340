@@ -37,30 +37,31 @@ class RayTracer(ProgressiveRenderer):
                 nearestObj, minDist = self.scene.nearestObject(Ray(nRay.position, nRay.direction * t))
 
                 if nearestObj is not None:
-                    return nearestObj.getAmbient()
-                """
+                    # return vec(1, 0, 0)
+                    # return nearestObj.getAmbient()
                     # TODO make actual color of object
-                    for light in self.scene.lights:
-                        
+                    for light in self.scene.lights: 
+                        """
                         |\v2L  r//\
                         | \    / |
                       i |  \  /  |-i
                         \/  \/   |
                         ----------
                           j    j
-                        
-                        vecToLight = light.getVectorToLight(intersection)
+                        """
+                        vecToLight = normalize(light.getVectorToLight(ray.direction * minDist))
+                        vecFromLight = -vecToLight
+                        print("VEC TO LIGHT:", -vecToLight)
                         # Finding angle of incidence
-                        i = np.sqrt(np.dot(vecToLight, \
-                                           obj.getNormal()) * obj.getNormal())
+                        i = np.sqrt(np.dot(vecToLight, nearestObj.getNormal()))
+                        print("i:", i)
                         j = vecToLight - i
+                        print("j:", j)
                         r = -i + j
-                        angleOfIncidence = np.arccos(np.dot(vecToLight, r) / \
-                                           magnitude(vecToLight) * magnitude(vec(r)))
+                        angleOfIncidence = np.arccos(np.dot(vecToLight, r) / magnitude(vec(r)))
                         print("ANGLE OF INCIDENCE:", angleOfIncidence)
                         diffuse = np.cos(angleOfIncidence)
-                        return vec(1, 0, 0) * diffuse
-                    """
+                        return nearestObj.getAmbient() * diffuse
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay)
                 # return vec(0, 1, 0)
