@@ -32,7 +32,11 @@ class Scene(object):
         # self.addSphere(ambient=vec(.2, 0, 0),
         #                radius=.7,
         #                position=vec(0, 1, -3))
-        self.addSphere(ambient=vec(.2, 0, 0),
+        self.addSphere(ambient=vec(0.2, 0.2, 0.4),
+                       diffuse=vec(0.2, 1, 0.2),
+                       specular=vec(0.8, 0.8, 1),
+                       shininess=5,
+                       specCoeff=0.2,
                        radius=.7,
                        position=vec(-1, -0.2, -4))
         # self.addPlane(position=vec(0, -1, 0))
