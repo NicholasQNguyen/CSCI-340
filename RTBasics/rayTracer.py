@@ -15,11 +15,11 @@ class RayTracer(ProgressiveRenderer):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
-        print("CAM POS:", self.scene.camera.getPosition())
+        print("Camera Position:", self.scene.camera.getPosition())
         for obj in self.scene.objects:
-            print(repr(obj) + " POS: " + str(obj.position))
+            print(repr(obj) + " Position: " + str(obj.position))
         for light in self.scene.lights:
-            print(repr(light) + " POS: " + str(light.position))
+            print(repr(light) + " Position: " + str(light.position))
 
     def getColorR(self, ray):
         # Start with zero color
@@ -34,9 +34,6 @@ class RayTracer(ProgressiveRenderer):
                 return self.fog
             nearestObj, minDist = self.scene.nearestObject(
                                   Ray(nRay.position, nRay.direction * t))
-            if nearestObj is None:
-                print("BLAH")
-                return self.fog
             color = nearestObj.getAmbient()
             normal = nearestObj.getNormal()
             for light in self.scene.lights:

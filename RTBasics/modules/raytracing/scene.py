@@ -62,7 +62,9 @@ class Scene(object):
         """Returns the nearest collision object and the distance to the object,
            excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
-        minDistance = np.inf
+        filteredDistances = [dist for dist in distances if dist is not None]
+        filteredDistances.sort()
+        minDistance = filteredDistances[0]
         return minDistance
 
     def addSphere(self, radius=0.5,
