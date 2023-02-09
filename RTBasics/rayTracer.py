@@ -55,8 +55,7 @@ class RayTracer(ProgressiveRenderer):
                         r = -i + j
                         angleOfIncidence = np.arccos(np.dot(vecFromLight, r) / magnitude(vec(r)))
                         diffuse = np.cos(angleOfIncidence)
-                        print("DIFFUSE", diffuse)
-                        color = color * diffuse
+                        color = color + diffuse
                         # 07 Slides, Slide 19
                         reflectionVector = vecToLight - (vecToLight - (np.dot(normal, vecToLight) * normal))
                         return color
