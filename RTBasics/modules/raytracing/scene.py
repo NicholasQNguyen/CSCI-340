@@ -56,7 +56,6 @@ class Scene(object):
         # TODO make this actually something
         nearestObj = self.objects[0]
         minDistance = filteredDistances[0]
-
         return nearestObj, minDistance
 
     def shadowed(self, obj, ray):
@@ -64,7 +63,6 @@ class Scene(object):
            excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
         minDistance = np.inf
-
         return minDistance
 
     def addSphere(self, radius=0.5,

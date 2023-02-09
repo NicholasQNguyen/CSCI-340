@@ -63,6 +63,7 @@ class Sphere(Object3D):
 
     def intersect(self, ray):
         """Find the intersection for the sphere."""
+        # 06 Slides, slide 43
         q = ray.position - self.position
         # 1 b/c normalized
         a = 1
