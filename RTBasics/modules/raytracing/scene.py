@@ -32,36 +32,32 @@ class Scene(object):
         # self.addSphere(ambient=vec(.2, 0, 0),
         #                radius=.7,
         #                position=vec(0, 1, -3))
-        # self.addSphere(ambient=vec(0.2, 0.2, 0.4),
-        #                diffuse=vec(0.2, 1, 0.2),
-        #                specular=vec(0.8, 0.8, 1),
-        #                shininess=5,
-        #                specCoeff=0.2,
-        #                radius=.7,
-        #                position=vec(-1, -0.2, -4))
+        """
+        self.addSphere(ambient=vec(0.2, 0.2, 0.4),
+                       diffuse=vec(0.2, 1, 0.2),
+                       specular=vec(0.8, 0.8, 1),
+                       shininess=5,
+                       specCoeff=0.2,
+                       radius=.7,
+                       position=vec(-1, -0.2, -4))
+        """
         self.addSphere()
         # self.addPlane(position=vec(0, -1, 0))
         # self.addPlane(position=vec(0, 0, 0))
-        self.addPointLight(position=vec(1, 0, 0))
+        self.addPointLight(color=vec(1, 1, 1), position=vec(-1, 3, 0))
+        # self.addPointLight(position=vec(1, 0, 0))
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        filteredDistances = []
-        for item in distances:
-            if item is not None:
-                filteredDistances.append(item)
-        if filteredDistances:
-            filteredDistances.sort()
-            # TODO make this actually something
-            nearestObj = self.objects[0]
-            minDistance = filteredDistances[0]
+        filteredDistances = [dist for dist in distances if dist is not None]
+        filteredDistances.sort()
+        # TODO make this actually something
+        nearestObj = self.objects[0]
+        minDistance = filteredDistances[0]
 
-            return nearestObj, minDistance
-        else:
-            print("NOTHING HIT")
-            return None, None
+        return nearestObj, minDistance
 
     def shadowed(self, obj, ray):
         """Returns the nearest collision object and the distance to the object,
