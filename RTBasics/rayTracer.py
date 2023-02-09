@@ -35,7 +35,8 @@ class RayTracer(ProgressiveRenderer):
                 if t is None:
                     return self.fog
                 nearestObj, minDist = self.scene.nearestObject(Ray(nRay.position, nRay.direction * t))
-
+                color = nearestObj.getAmbient()
+                normal = nearestObj.getNormal()
                 if nearestObj is not None:
                     for light in self.scene.lights: 
                         """
@@ -49,12 +50,14 @@ class RayTracer(ProgressiveRenderer):
                         vecToLight = normalize(light.getVectorToLight(ray.direction * minDist))
                         vecFromLight = -vecToLight
                         # Finding angle of incidence
-                        i = np.dot(vecFromLight, nearestObj.getNormal()) * nearestObj.getNormal()
+                        i = np.dot(vecFromLight, normal) * normal
                         j = vecFromLight - i
                         r = -i + j
                         angleOfIncidence = np.arccos(np.dot(vecFromLight, r) / magnitude(vec(r)))
                         diffuse = np.cos(angleOfIncidence)
-                        return nearestObj.getAmbient() * diffuse
+                        # 07 Slides, Slide 19
+                        reflectionVector = vecToLight - (vecToLight - (np.dot(normal, vecToLight) * normal))
+                        return color * diffuse
             elif type(obj) == Plane:
                 intersection = obj.intersect(nRay)
                 # return vec(0, 1, 0)
