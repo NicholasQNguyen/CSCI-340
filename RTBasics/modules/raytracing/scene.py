@@ -42,7 +42,7 @@ class Scene(object):
         self.addSphere()
         # self.addPlane(position=vec(0, -1, 0))
         # self.addPlane(position=vec(0, 0, 0))
-        self.addPointLight(position=vec(1, 3, 0))
+        self.addPointLight(position=vec(1, 0, -1))
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
