@@ -40,6 +40,7 @@ class RayTracer(ProgressiveRenderer):
                                           (np.dot(normal,
                                            vecToLight) * normal)))
             return np.dot(reflectionVector, cameraRay.direction)
+
         # Start with zero color
         color = np.zeros((3))
         # Normalize the ray
