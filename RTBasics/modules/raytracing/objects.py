@@ -66,7 +66,7 @@ class Sphere(Object3D):
         # 06 Slides, slide 43
         q = ray.position - self.position
         # 1 b/c normalized
-        a = 1
+        # a = 1
         b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html

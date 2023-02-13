@@ -31,12 +31,11 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
-        reflectionVector = normalize(vecToLight - \
-                           (vecToLight - \
-                           (np.dot(normal,
-                            vecToLight) * normal)))
+        reflectionVector = normalize(vecToLight -
+                                     (vecToLight -
+                                      (np.dot(normal,
+                                       vecToLight) * normal)))
         return np.dot(reflectionVector, cameraRay.direction)
-        
 
     def getColorR(self, ray):
         # Start with zero color

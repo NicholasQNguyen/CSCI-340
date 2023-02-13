@@ -37,6 +37,7 @@ class PointLight(AbstractLight):
     def __repr__(self):
         return "Point Light"
 
+
 class DirectionalLight(AbstractLight):
     def __init__(self, color, position=vec(0, 0, 0)):
         super().__init__(color, position)

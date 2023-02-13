@@ -1,14 +1,14 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
-import numpy as np
 from ..raytracing.objects import Sphere, Plane
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
 
-POSITION = vec(1, 3, -5)
+POSITION = vec(1, 3, 0)
+
 
 class Scene(object):
     """A class to contain all items in a scene.
