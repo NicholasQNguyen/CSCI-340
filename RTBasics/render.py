@@ -13,6 +13,7 @@ import time
 # import random
 import numpy as np
 import pygame as pg
+import sys
 from enum import Enum
 from abc import ABC, abstractmethod
 
@@ -76,7 +77,10 @@ class ProgressiveRenderer(ABC):
         else:
             self.startPixelSize = startPixelSize
         if self.show == ShowTypes.NoShow:
-            self.fileName = input("File name?: ")
+            if len(sys.argv) > 1:
+                self.fileName=sys.argv[1]
+            else:
+                self.fileName = input("File name?: ")
         else:
             self.fileName = None
 
