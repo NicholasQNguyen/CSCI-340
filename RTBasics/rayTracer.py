@@ -8,9 +8,14 @@ from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize, magnitude
 
+TARGET_WIDTH = 800
+TARGET_HEIGHT = 600
+TEST_WIDTH = 400
+TEST_HEIGHT = 300
+
 
 class RayTracer(ProgressiveRenderer):
-    def __init__(self, width=800, height=600, show=ShowTypes.PerColumn):
+    def __init__(self, width=TEST_WIDTH, height=TEST_HEIGHT, show=ShowTypes.PerColumn):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
