@@ -31,13 +31,11 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
-        # TODO What is e?
         reflectionVector = normalize(vecToLight - \
                            (vecToLight - \
                            (np.dot(normal,
                             vecToLight) * normal)))
-        specularAngle = np.arccos(np.dot(reflectionVector, cameraRay.direction))
-        return specularAngle
+        return np.dot(reflectionVector, cameraRay.direction)
         
 
     def getColorR(self, ray):
@@ -58,7 +56,7 @@ class RayTracer(ProgressiveRenderer):
             for light in self.scene.lights:
                 # 03 Slides, Slide 32
                 """
-                |\vFL  r//\
+                |\v2L  r//\
                 | \    / |
               i |  \  /  |-i
                 \/  \/   |

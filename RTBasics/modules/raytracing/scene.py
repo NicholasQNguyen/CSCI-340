@@ -8,6 +8,7 @@ from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
 
+POSITION = vec(1, 3, -5)
 
 class Scene(object):
     """A class to contain all items in a scene.
@@ -29,6 +30,8 @@ class Scene(object):
         self.setup()
 
     def setup(self):
+        self.addSphere()
+        self.addPointLight(color=vec(1, 1, 1), position=POSITION)
         # self.addSphere(ambient=vec(.2, 0, 0),
         #                radius=.7,
         #                position=vec(0, 1, -3))
@@ -41,10 +44,8 @@ class Scene(object):
                        radius=.7,
                        position=vec(-1, -0.2, -4))
         """
-        self.addSphere()
         # self.addPlane(position=vec(0, -1, 0))
         # self.addPlane(position=vec(0, 0, 0))
-        self.addPointLight(color=vec(1, 1, 1), position=vec(-1, 3, 0))
         # self.addPointLight(position=vec(1, 0, 0))
 
     def nearestObject(self, ray):
