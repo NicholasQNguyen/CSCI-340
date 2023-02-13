@@ -18,16 +18,19 @@ class RayTracer(ProgressiveRenderer):
         for obj in self.scene.objects:
             print(repr(obj) + " Position: " + str(obj.position))
         for light in self.scene.lights:
-            print(repr(light) + " Position: " + str(light.position))
+            print(repr(light) + " Position: " + str(light.position)) 
 
     def getDiffuse(self, vecToLight, normal):
-        vecFromLight = -vecToLight
+        vecFromLight = vecToLight * -1
         # Finding angle of incidence
-        # 07 Slides, slide 10 + 03 Slides, slide 32
+        # 03 Slides, slide 32
         i = np.dot(vecFromLight, normal) * normal
         j = vecFromLight - i
         r = -i + j
-        return np.dot(vecFromLight, r) / magnitude(vec(r))
+        angleOfIncidence = 90 - np.arctan(magnitude(-i)/magnitude(j))
+        # return np.dot(vecFromLight, r) / magnitude(vec(r))
+        # 07 Slides, slide 10
+        return np.cos(angleOfIncidence)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
@@ -50,12 +53,13 @@ class RayTracer(ProgressiveRenderer):
                 return self.fog
             nearestObj, minDist = self.scene.nearestObject(
                                   Ray(nRay.position, nRay.direction * t))
-            color = nearestObj.getAmbient()
+            color = vec(0, 0, 1)
+            # color = nearestObj.getAmbient()
             normal = nearestObj.getNormal()
             for light in self.scene.lights:
                 # 03 Slides, Slide 32
                 """
-                |\v2L  r//\
+                |\ v2L r//\ 
                 | \    / |
               i |  \  /  |-i
                 \/  \/   |
@@ -66,11 +70,12 @@ class RayTracer(ProgressiveRenderer):
                              light.getVectorToLight(
                                    ray.direction * minDist))
                 diffuse = self.getDiffuse(vecToLight, normal)
-                color = color + diffuse
+                color = color * diffuse
                 specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
                 specularColor = specularAngle * nearestObj.getSpecular()
-                color = color + specularColor
-                return color
+                # color = color + specularColor
+                # color = color + obj.getAmbient()
+            return color
 
     def getColor(self, x, y):
         # Calculate the percentages for x and y

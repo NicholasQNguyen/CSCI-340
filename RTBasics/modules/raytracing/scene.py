@@ -30,11 +30,15 @@ class Scene(object):
         self.setup()
 
     def setup(self):
-        self.addSphere()
+        # self.addSphere()
         self.addPointLight(color=vec(1, 1, 1), position=POSITION)
-        # self.addSphere(ambient=vec(.2, 0, 0),
-        #                radius=.7,
-        #                position=vec(0, 1, -3))
+        self.addSphere(radius=0.7,
+                       position=vec(0, 1, -3),
+                       ambient=vec(.2, 0, 0),
+                       diffuse=vec(0.2, 0.2, 0.4),
+                       specular=vec(0.8, 0.8, 8.1),
+                       shininess=5,
+                       specCoeff=0.1)
         """
         self.addSphere(ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 1, 0.2),
