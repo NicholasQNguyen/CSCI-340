@@ -6,7 +6,6 @@ from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
-from modules.raytracing.objects import Sphere, Plane
 from modules.utils.vector import vec, normalize, magnitude
 
 
@@ -20,6 +19,26 @@ class RayTracer(ProgressiveRenderer):
             print(repr(obj) + " Position: " + str(obj.position))
         for light in self.scene.lights:
             print(repr(light) + " Position: " + str(light.position))
+
+    def getDiffuse(self, vecToLight, normal):
+        vecFromLight = -vecToLight
+        # Finding angle of incidence
+        # 07 Slides, slide 10 + 03 Slides, slide 32
+        i = np.dot(vecFromLight, normal) * normal
+        j = vecFromLight - i
+        r = -i + j
+        return np.dot(vecFromLight, r) / magnitude(vec(r))
+
+    def getSpecularAngle(self, vecToLight, normal, cameraRay):
+        # 07 Slides, Slide 19
+        # TODO What is e?
+        reflectionVector = normalize(vecToLight - \
+                           (vecToLight - \
+                           (np.dot(normal,
+                            vecToLight) * normal)))
+        specularAngle = np.arccos(np.dot(reflectionVector, cameraRay.direction))
+        return specularAngle
+        
 
     def getColorR(self, ray):
         # Start with zero color
@@ -49,26 +68,11 @@ class RayTracer(ProgressiveRenderer):
                 vecToLight = normalize(
                              light.getVectorToLight(
                                    ray.direction * minDist))
-                vecFromLight = -vecToLight
-                # Finding angle of incidence
-                i = np.dot(vecFromLight, normal) * normal
-                j = vecFromLight - i
-                r = -i + j
-                angleOfIncidence = np.arccos(np.dot(vecFromLight, r) /
-                                             magnitude(vec(r)))
-                diffuse = np.cos(angleOfIncidence)
+                diffuse = self.getDiffuse(vecToLight, normal)
                 color = color + diffuse
-                # 07 Slides, Slide 19
-                # TODO What is e?
-                """
-                reflectionVector = normalize(vecToLight - \
-                                   (vecToLight - \
-                                   (np.dot(normal,
-                                    vecToLight) * normal)))
-                """
-                # specularAngle = np.arccos(np.dot(reflectionVector, e))
-                # specColor = specularAngle * nearestObj.getSpecular()
-                # color = color + specColor
+                specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
+                specularColor = specularAngle * nearestObj.getSpecular()
+                color = color + specularColor
                 return color
 
     def getColor(self, x, y):

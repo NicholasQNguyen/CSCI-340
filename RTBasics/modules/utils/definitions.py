@@ -26,8 +26,6 @@ COLORS = {
     "marble2": makeColor("seagreen4"),
     "wood1": makeColor("sienna1"),
     "wood2": makeColor("sienna4")
-
 }
-
 EPSILON = 1e-11
 SHIFT_EPSILON = EPSILON * 100000

@@ -52,6 +52,7 @@ class Scene(object):
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
         filteredDistances = [dist for dist in distances if dist is not None]
+        # Sort so we can get the shortest distance
         filteredDistances.sort()
         # TODO make this actually something
         nearestObj = self.objects[0]
@@ -65,7 +66,10 @@ class Scene(object):
         filteredDistances = [dist for dist in distances if dist is not None]
         filteredDistances.sort()
         minDistance = filteredDistances[0]
-        return minDistance
+        colObj = self.objects[0]
+        if colObj is obj:
+            colObj = None
+        return colObj, minDistance
 
     def addSphere(self, radius=0.5,
                   position=vec(0, 0, 0), ambient=COLORS["blue"],
