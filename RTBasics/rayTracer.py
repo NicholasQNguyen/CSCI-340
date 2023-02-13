@@ -18,7 +18,7 @@ class RayTracer(ProgressiveRenderer):
         for obj in self.scene.objects:
             print(repr(obj) + " Position: " + str(obj.position))
         for light in self.scene.lights:
-            print(repr(light) + " Position: " + str(light.position)) 
+            print(repr(light) + " Position: " + str(light.position))
 
     def getColorR(self, ray):
         def getDiffuse(vecToLight, normal):
@@ -33,6 +33,7 @@ class RayTracer(ProgressiveRenderer):
             # return np.dot(vecFromLight, r) / magnitude(vec(r))
             # 07 Slides, slide 10
             return np.cos(angleOfIncidence)
+
         def getSpecularAngle(vecToLight, normal, cameraRay):
             # 07 Slides, Slide 19
             reflectionVector = normalize(vecToLight -
