@@ -60,6 +60,8 @@ class Sphere(Object3D):
         super().__init__(position, True)
         self.material = Material(ambient, diffuse, specular, shininess)
         self.radius = radius
+        # https://www.youtube.com/watch?v=g1BEkYyGFLc
+        # self.normal = normalize(2 * self.position)
 
     def getRadius(self):
         return self.radius
@@ -81,10 +83,10 @@ class Sphere(Object3D):
         t2 = (-b - np.sqrt(discriminent)) / 2
         return min(t1, t2)
 
-    def getNormal(self, intersection=None):
+    def getNormal(self, surfacePoint, intersection=None):
         """Find the unit normal for the given object. Must override."""
-        # https://www.youtube.com/watch?v=g1BEkYyGFLc
-        return normalize(2 * self.position)
+        # https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/shading-normals.html
+        return normalize(surfacePoint - self.position)
 
     def __repr__(self):
         return "Sphere"

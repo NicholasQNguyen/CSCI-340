@@ -27,28 +27,16 @@ class RayTracer(ProgressiveRenderer):
             print(repr(light) + " Position: " + str(light.position))
 
     def getDiffuse(self, vecToLight, normal):
-        """Gets the diffuse. Expects normalized vectors"""
-        # Finding angle of incidence
-        # 03 Slides, slide 32
-        # vecFromLight = -vecToLight
-        # i = normalize(np.dot(vecFromLight, normal) * normal)
-        # j = normalize(vecFromLight - i)
-        # r = normalize(-i + j)
-        # SOHCAHTOA
-        # angleOfIncidence = 90 - np.arctan(magnitude(i)/magnitude(j))
+        """Gets the diffuse. Expects rays with normalized directions"""
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        # angleOfIncidence = np.dot(vecToLight, normal)
-        # angleOfIncidence = np.arccos(angleOfIncidence)
-        # 07 Slides, slide 10
-        # return np.cos(angleOfIncidence)
-        return np.dot(vecToLight, normal)
+        return np.dot(normal.direction, vecToLight.direction)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
-        reflectionVector = normalize(vecToLight -
-                                     (vecToLight -
-                                      np.dot(normal,
-                                       vecToLight) * normal))
+        reflectionVector = normalize(vecToLight.direction -
+                                     (vecToLight.direction -
+                                      np.dot(normal.direction,
+                                       vecToLight.direction) * normal.direction))
         return np.dot(reflectionVector, cameraRay.direction)
 
     def getColorR(self, ray):
@@ -66,8 +54,11 @@ class RayTracer(ProgressiveRenderer):
                                   Ray(nRay.position, nRay.direction * t))
             color = vec(0, 0, 1)
             # color = nearestObj.getAmbient()
-            normal = nearestObj.getNormal()
+            surfaceHitPoint = nRay.direction * t
+            # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
+            normal = Ray(surfaceHitPoint, nearestObj.getNormal(surfaceHitPoint))
             for light in self.scene.lights:
+                print("NORMAL", normal.direction)
                 # 03 Slides, Slide 32
                 """
                 |\ v2L r//\ 
@@ -77,19 +68,18 @@ class RayTracer(ProgressiveRenderer):
                 ----------
                   j    j
                 """
-                # vecToLight = normalize(
-                #              light.getVectorToLight(
-                #                    ray.direction * minDist))
                 if type(light) == PointLight:
-                    vecToLight = normalize(light.getVectorToLight(obj.getPosition()))
+                    vecToLight = Ray(surfaceHitPoint, light.getVectorToLight(surfaceHitPoint))
+                    print("VEC 2 LIGHT", vecToLight.direction)
+                # It's a directional light
                 else:
-                    vecToLight = normalize(light.getVectorToLight())
+                    vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
                 diffuse = self.getDiffuse(vecToLight, normal)
-                # print("DIFFUSE", diffuse)
+                if diffuse <= 0:
+                    print("DIFFUSE", diffuse)
                 color = color * diffuse
                 specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
                 specularColor = specularAngle * nearestObj.getSpecular()
-                print("SPEC COLOR", specularColor)
                 # color = color + specularColor
                 # color = color + obj.getAmbient()
             return color
@@ -111,3 +101,18 @@ class RayTracer(ProgressiveRenderer):
 if __name__ == '__main__':
     RayTracer.main("Ray Tracer Basics")
     pygame.quit()
+    # TODO figure out if this stuff down here is any good
+    """
+    # Finding angle of incidence
+    # 03 Slides, slide 32
+    # vecFromLight = -vecToLight
+    # i = normalize(np.dot(vecFromLight, normal) * normal)
+    # j = normalize(vecFromLight - i)
+    # r = normalize(-i + j)
+    # SOHCAHTOA
+    # angleOfIncidence = 90 - np.arctan(magnitude(i)/magnitude(j))
+    # angleOfIncidence = np.dot(vecToLight, normal)
+    # angleOfIncidence = np.arccos(angleOfIncidence)
+    # 07 Slides, slide 10
+    # return np.cos(angleOfIncidence)
+    """

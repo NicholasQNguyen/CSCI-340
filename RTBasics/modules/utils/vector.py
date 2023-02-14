@@ -13,9 +13,7 @@ def magnitude(vector):
 def normalize(vector):
     """Normalize a numpy array."""
     mag = magnitude(vector)
-    if mag == 0.0:
-        return vec(1, 0, 0)
-    return vector / mag
+    return vec(1, 0, 0) if mag == 0.0 else vector / mag
 
 
 def lerp(a, b, percent):

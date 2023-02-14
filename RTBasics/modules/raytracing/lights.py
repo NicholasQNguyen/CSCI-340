@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from ..utils.vector import vec, magnitude
+from ..utils.vector import vec, magnitude, normalize
 
 
 class AbstractLight(ABC):
@@ -27,8 +27,8 @@ class PointLight(AbstractLight):
         super().__init__(color, position)
 
     def getVectorToLight(self, point):
-        """Returns a vector pointing towards the light"""
-        return point - self.position
+        """Returns a nomralized vector pointing towards the light"""
+        return normalize(point - self.position)
 
     def getDistance(self, point):
         """Returns the distance to the light"""
