@@ -16,6 +16,9 @@ class Object3D(ABC):
         self.position = np.array(pos)
         self.material = material
 
+    def getPosition(self):
+        return self.position
+
     def getAmbient(self, intersection=None):
         """Getter method for the material's ambient color.
            Intersection parameter is unused for Ray Tracing Basics."""
@@ -79,7 +82,7 @@ class Sphere(Object3D):
         return min(t1, t2)
 
     def getNormal(self, intersection=None):
-        """Find the normal for the given object. Must override."""
+        """Find the unit normal for the given object. Must override."""
         # https://www.youtube.com/watch?v=g1BEkYyGFLc
         return normalize(2 * self.position)
 

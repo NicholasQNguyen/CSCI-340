@@ -6,6 +6,7 @@ from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
+from modules.raytracing.lights import PointLight, DirectionalLight
 from modules.utils.vector import vec, normalize, magnitude
 
 TARGET_WIDTH = 800
@@ -15,7 +16,7 @@ TEST_HEIGHT = 300
 
 
 class RayTracer(ProgressiveRenderer):
-    def __init__(self, width=TEST_WIDTH, height=TEST_HEIGHT, show=ShowTypes.PerColumn):
+    def __init__(self, width=TARGET_WIDTH, height=TARGET_HEIGHT, show=ShowTypes.PerColumn):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
@@ -29,10 +30,10 @@ class RayTracer(ProgressiveRenderer):
         """Gets the diffuse. Expects normalized vectors"""
         # Finding angle of incidence
         # 03 Slides, slide 32
-        vecFromLight = -vecToLight
-        i = normalize(np.dot(vecFromLight, normal) * normal)
-        j = normalize(vecFromLight - i)
-        r = normalize(-i + j)
+        # vecFromLight = -vecToLight
+        # i = normalize(np.dot(vecFromLight, normal) * normal)
+        # j = normalize(vecFromLight - i)
+        # r = normalize(-i + j)
         # SOHCAHTOA
         # angleOfIncidence = 90 - np.arctan(magnitude(i)/magnitude(j))
         # https://www.cuemath.com/geometry/angle-between-vectors/
@@ -40,14 +41,14 @@ class RayTracer(ProgressiveRenderer):
         # angleOfIncidence = np.arccos(angleOfIncidence)
         # 07 Slides, slide 10
         # return np.cos(angleOfIncidence)
-        return np.dot(normal, vecToLight)
+        return np.dot(vecToLight, normal)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
         reflectionVector = normalize(vecToLight -
                                      (vecToLight -
-                                      (np.dot(normal,
-                                       vecToLight) * normal)))
+                                      np.dot(normal,
+                                       vecToLight) * normal))
         return np.dot(reflectionVector, cameraRay.direction)
 
     def getColorR(self, ray):
@@ -65,7 +66,7 @@ class RayTracer(ProgressiveRenderer):
                                   Ray(nRay.position, nRay.direction * t))
             color = vec(0, 0, 1)
             # color = nearestObj.getAmbient()
-            normal = normalize(nearestObj.getNormal())
+            normal = nearestObj.getNormal()
             for light in self.scene.lights:
                 # 03 Slides, Slide 32
                 """
@@ -76,14 +77,19 @@ class RayTracer(ProgressiveRenderer):
                 ----------
                   j    j
                 """
-                vecToLight = normalize(
-                             light.getVectorToLight(
-                                   ray.direction * minDist))
+                # vecToLight = normalize(
+                #              light.getVectorToLight(
+                #                    ray.direction * minDist))
+                if type(light) == PointLight:
+                    vecToLight = normalize(light.getVectorToLight(obj.getPosition()))
+                else:
+                    vecToLight = normalize(light.getVectorToLight())
                 diffuse = self.getDiffuse(vecToLight, normal)
-                print("DIFFUSE", diffuse)
-                # color = color * diffuse
+                # print("DIFFUSE", diffuse)
+                color = color * diffuse
                 specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
                 specularColor = specularAngle * nearestObj.getSpecular()
+                print("SPEC COLOR", specularColor)
                 # color = color + specularColor
                 # color = color + obj.getAmbient()
             return color
