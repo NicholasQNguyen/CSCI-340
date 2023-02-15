@@ -1,7 +1,7 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
-from ..utils.vector import vec, lerp
+from ..utils.vector import vec, lerp, normalize
 from .ray import Ray
 import numpy as np
 
@@ -23,21 +23,26 @@ class Camera(object):
         """Sets up the camera given the parameters.
            Calculates position, ul, ur, ll, and lr."""
 
-        right = np.cross(up, fwd)
+        fwd = normalize(fwd)
+        up = normalize(up)
+        right = np.cross(fwd, up)
+        right = normalize(right)
+        up = np.cross(right, fwd)
+        up = normalize(up)
         # From SOHCAHTOA
         self.width = 2 * np.tan(fov/2) * distance
         self.height = np.reciprocal(aspect) * self.width
-        self.position = -fwd * distance
-        self.ul = (fwd * distance + self.position) + \
+        self.position = focus - fwd * distance
+        self.ul = (focus) + \
                   (up * (self.height / 2)) - \
                   (right * (self.width / 2))
-        self.ur = (fwd * distance + self.position) + \
+        self.ur = (focus) + \
                   (up * (self.height / 2)) + \
                   (right * (self.width / 2))
-        self.ll = (fwd * distance + self.position) - \
+        self.ll = (focus) - \
                   (up * (self.height / 2)) - \
                   (right * (self.width / 2))
-        self.lr = (fwd * distance + self.position) - \
+        self.lr = (focus) - \
                   (up * (self.height / 2)) + \
                   (right * (self.width / 2))
 

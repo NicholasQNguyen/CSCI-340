@@ -34,11 +34,16 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
+        """
         reflectionVector = normalize(vecToLight -
                                      (vecToLight -
                                       np.dot(normal,
                                        vecToLight) * normal))
         return np.dot(reflectionVector, cameraRay.direction)
+        """
+        # 07 Slides, slide 30
+        halfwayVector = normalize(vecToLight + cameraRay.direction)
+        return np.dot(normal, halfwayVector)
 
     def getColorR(self, ray):
         # Start with zero color
@@ -82,7 +87,7 @@ class RayTracer(ProgressiveRenderer):
             color = color * diffuse
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
             specularColor = specularAngle * nearestObj.getSpecular()
-            color = color + specularColor
+            # color = color + specularColor
             color = color + nearestObj.getAmbient()
         return color
 
