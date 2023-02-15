@@ -1,6 +1,7 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
+import numpy as np
 from ..raytracing.objects import Sphere, Plane
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
@@ -36,7 +37,7 @@ class Scene(object):
                        position=vec(0, 1, -3),
                        ambient=vec(.2, 0, 0),
                        diffuse=vec(0.2, 0.2, 0.4),
-                       specular=vec(0.8, 0.8, 8.1),
+                       specular=vec(0.8, 0.8, 1),
                        shininess=5,
                        specCoeff=0.1)
         """
@@ -56,12 +57,15 @@ class Scene(object):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        filteredDistances = [dist for dist in distances if dist is not None]
+        # filteredDistances = [dist for dist in distances if dist is not None]
         # Sort so we can get the shortest distance
-        filteredDistances.sort()
+        nearestObj = None
+        minDistance = np.inf
         # TODO make this actually something
-        nearestObj = self.objects[0]
-        minDistance = filteredDistances[0]
+        for i in range(len(distances)):
+            if distances[i] < minDistance:
+                minDistance = distances[i]
+                nearestObj = self.objects[i]
         return nearestObj, minDistance
 
     def shadowed(self, obj, ray):

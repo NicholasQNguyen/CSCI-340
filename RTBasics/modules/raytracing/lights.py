@@ -28,7 +28,7 @@ class PointLight(AbstractLight):
 
     def getVectorToLight(self, point):
         """Returns a nomralized vector pointing towards the light"""
-        return normalize(point - self.position)
+        return normalize(self.position - point)
 
     def getDistance(self, point):
         """Returns the distance to the light"""

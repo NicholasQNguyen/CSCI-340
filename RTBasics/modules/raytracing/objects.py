@@ -78,7 +78,7 @@ class Sphere(Object3D):
         # We miss if discriminent is negative
         discriminent = b ** 2 - 4 * c
         if discriminent < 0:
-            return None
+            return np.inf
         t1 = (-b + np.sqrt(discriminent)) / 2
         t2 = (-b - np.sqrt(discriminent)) / 2
         return min(t1, t2)

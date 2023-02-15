@@ -46,47 +46,45 @@ class RayTracer(ProgressiveRenderer):
         # Normalize the ray
         nRay = Ray(ray.position, normalize(ray.direction))
         # Find any objects it collides with and calculate color
-        for obj in self.scene.objects:
-            t = obj.intersect(nRay)
-            # We hit nothing
-            if t is None:
-                return self.fog
-            nearestObj, minDist = self.scene.nearestObject(
-                                  Ray(nRay.position, nRay.direction * t))
-            color = vec(0, 0, 1)
-            # color = nearestObj.getAmbient()
-            surfaceHitPoint = nRay.direction * t
-            print("SURFACE HIT", surfaceHitPoint)
-            print("--------------------------------------------------------")
-            # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
-            normal = nearestObj.getNormal(surfaceHitPoint)
-            for light in self.scene.lights:
-                print("NORMAL", normal)
-                # 03 Slides, Slide 32
-                """
-                |\ v2L r//\ 
-                | \    / |
-              i |  \  /  |-i
-                \/  \/   |
-                ----------
-                  j    j
-                """
-                if type(light) == PointLight:
-                    vecToLight = light.getVectorToLight(surfaceHitPoint)
-                    print("VEC 2 LIGHT", vecToLight)
-                    print("--------------------------------------------------------")
-                # It's a directional light
-                else:
-                    vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
-                diffuse = self.getDiffuse(vecToLight, normal)
-                print("DIFFUSE", diffuse)
-                print("-----------------------------------------------------------------------")
-                color = color * diffuse
-                specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
-                specularColor = specularAngle * nearestObj.getSpecular()
-                # color = color + specularColor
-                color = color + obj.getAmbient()
-            return color
+        nearestObj, minDist = self.scene.nearestObject(
+                              Ray(nRay.position, nRay.direction))
+        # We hit nothing
+        if nearestObj is None:
+            return self.fog
+        color = vec(0, 0, 1)
+        # color = nearestObj.getAmbient()
+        surfaceHitPoint =  nRay.getPositionAt(minDist)
+        print("SURFACE HIT", surfaceHitPoint)
+        print("--------------------------------------------------------")
+        # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
+        normal = nearestObj.getNormal(surfaceHitPoint)
+        for light in self.scene.lights:
+            print("NORMAL", normal)
+            # 03 Slides, Slide 32
+            """
+            |\ v2L r//\ 
+            | \    / |
+          i |  \  /  |-i
+            \/  \/   |
+            ----------
+              j    j
+            """
+            if type(light) == PointLight:
+                vecToLight = light.getVectorToLight(surfaceHitPoint)
+                print("VEC 2 LIGHT", vecToLight)
+                print("--------------------------------------------------------")
+            # It's a directional light
+            else:
+                vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
+            diffuse = self.getDiffuse(vecToLight, normal)
+            print("DIFFUSE", diffuse)
+            print("-----------------------------------------------------------------------")
+            color = color * diffuse
+            specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
+            specularColor = specularAngle * nearestObj.getSpecular()
+            color = color + specularColor
+            color = color + nearestObj.getAmbient()
+        return color
 
     def getColor(self, x, y):
         # Calculate the percentages for x and y
