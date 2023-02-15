@@ -1,4 +1,5 @@
 """ Author: Liz Matthews, Geoff Matthews """
+# TODO Fix nearest object (in scene), ifx diffuse, fix specular
 import numpy as np
 import pygame
 
@@ -27,16 +28,16 @@ class RayTracer(ProgressiveRenderer):
             print(repr(light) + " Position: " + str(light.position))
 
     def getDiffuse(self, vecToLight, normal):
-        """Gets the diffuse. Expects rays with normalized directions"""
+        """Gets the diffuse. Expects normalized vectors"""
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return np.dot(normal.direction, vecToLight.direction)
+        return np.dot(normal, vecToLight)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, Slide 19
-        reflectionVector = normalize(vecToLight.direction -
-                                     (vecToLight.direction -
-                                      np.dot(normal.direction,
-                                       vecToLight.direction) * normal.direction))
+        reflectionVector = normalize(vecToLight -
+                                     (vecToLight -
+                                      np.dot(normal,
+                                       vecToLight) * normal))
         return np.dot(reflectionVector, cameraRay.direction)
 
     def getColorR(self, ray):
@@ -55,10 +56,12 @@ class RayTracer(ProgressiveRenderer):
             color = vec(0, 0, 1)
             # color = nearestObj.getAmbient()
             surfaceHitPoint = nRay.direction * t
+            print("SURFACE HIT", surfaceHitPoint)
+            print("--------------------------------------------------------")
             # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
-            normal = Ray(surfaceHitPoint, nearestObj.getNormal(surfaceHitPoint))
+            normal = nearestObj.getNormal(surfaceHitPoint)
             for light in self.scene.lights:
-                print("NORMAL", normal.direction)
+                print("NORMAL", normal)
                 # 03 Slides, Slide 32
                 """
                 |\ v2L r//\ 
@@ -69,19 +72,20 @@ class RayTracer(ProgressiveRenderer):
                   j    j
                 """
                 if type(light) == PointLight:
-                    vecToLight = Ray(surfaceHitPoint, light.getVectorToLight(surfaceHitPoint))
-                    print("VEC 2 LIGHT", vecToLight.direction)
+                    vecToLight = light.getVectorToLight(surfaceHitPoint)
+                    print("VEC 2 LIGHT", vecToLight)
+                    print("--------------------------------------------------------")
                 # It's a directional light
                 else:
                     vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
                 diffuse = self.getDiffuse(vecToLight, normal)
-                if diffuse <= 0:
-                    print("DIFFUSE", diffuse)
+                print("DIFFUSE", diffuse)
+                print("-----------------------------------------------------------------------")
                 color = color * diffuse
                 specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
                 specularColor = specularAngle * nearestObj.getSpecular()
                 # color = color + specularColor
-                # color = color + obj.getAmbient()
+                color = color + obj.getAmbient()
             return color
 
     def getColor(self, x, y):

@@ -2,7 +2,6 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
-# from math import sqrt
 
 
 def magnitude(vector):
@@ -30,10 +29,8 @@ def smerp(a, b, percent):
 
 def vec(x, y=None, z=None):
     """Make a numpy vector of x, y, z."""
-    if not(y is None) and not(z is None):
-        return np.array((x, y, z), dtype=np.float32)
-    else:
-        return np.array(x, dtype=np.float32)
+    return np.array((x, y, z), dtype=np.float32) if (y is not None and z is not None)\
+           else np.array(x, dtype=np.float32)
 
 
 def posDot(v, w):
