@@ -33,14 +33,6 @@ class RayTracer(ProgressiveRenderer):
         return np.dot(normal, vecToLight)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
-        # 07 Slides, Slide 19
-        """
-        reflectionVector = normalize(vecToLight -
-                                     (vecToLight -
-                                      np.dot(normal,
-                                       vecToLight) * normal))
-        return np.dot(reflectionVector, cameraRay.direction)
-        """
         # 07 Slides, slide 30
         halfwayVector = normalize(vecToLight + cameraRay.direction)
         return np.dot(normal, halfwayVector)
@@ -58,12 +50,9 @@ class RayTracer(ProgressiveRenderer):
         color = nearestObj.getColor()
         # color = nearestObj.getAmbient()
         surfaceHitPoint =  nRay.getPositionAt(minDist)
-        print("SURFACE HIT", surfaceHitPoint)
-        print("--------------------------------------------------------")
         # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
         normal = nearestObj.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
-            print("NORMAL", normal)
             # 03 Slides, Slide 32
             """
             |\ v2L r//\ 
@@ -75,14 +64,10 @@ class RayTracer(ProgressiveRenderer):
             """
             if type(light) == PointLight:
                 vecToLight = light.getVectorToLight(surfaceHitPoint)
-                print("VEC 2 LIGHT", vecToLight)
-                print("--------------------------------------------------------")
             # It's a directional light
             else:
                 vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
             diffuse = self.getDiffuse(vecToLight, normal)
-            print("DIFFUSE", diffuse)
-            print("-----------------------------------------------------------------------")
             color = color * diffuse
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
             specularColor = specularAngle * nearestObj.getSpecular()
