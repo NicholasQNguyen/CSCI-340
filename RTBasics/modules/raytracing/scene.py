@@ -67,11 +67,8 @@ class Scene(object):
         """Returns the nearest collision object
            and the distance to the object."""
         distances = [o.intersect(ray) for o in self.objects]
-        # filteredDistances = [dist for dist in distances if dist is not None]
-        # Sort so we can get the shortest distance
         nearestObj = None
         minDistance = np.inf
-        # TODO make this actually something
         for i in range(len(distances)):
             if distances[i] < minDistance:
                 minDistance = distances[i]

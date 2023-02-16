@@ -29,8 +29,10 @@ def smerp(a, b, percent):
 
 def vec(x, y=None, z=None):
     """Make a numpy vector of x, y, z."""
-    return np.array((x, y, z), dtype=np.float32) if (y is not None and z is not None)\
-           else np.array(x, dtype=np.float32)
+    if (y is not None) and (z is not None):
+        return np.array((x, y, z), dtype=np.float32)
+    else:
+        return np.array(x, dtype=np.float32)
 
 
 def posDot(v, w):

@@ -8,7 +8,7 @@ def makeColor(name):
     return npColor
 
 
-def safeMultiply(vector, multiplier):
+def safeMultiply(self, vector, multiplier):
     newVector = vector * multiplier
     for index in range(len(newVector)):
         self[index] = max(0, min(1.0, newVector[index]))

@@ -78,7 +78,7 @@ class ProgressiveRenderer(ABC):
             self.startPixelSize = startPixelSize
         if self.show == ShowTypes.NoShow:
             if len(sys.argv) > 1:
-                self.fileName=sys.argv[1]
+                self.fileName = sys.argv[1]
             else:
                 self.fileName = input("File name?: ")
         else:

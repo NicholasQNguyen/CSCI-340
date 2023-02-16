@@ -6,8 +6,8 @@ from render import ProgressiveRenderer, ShowTypes
 
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
-from modules.raytracing.lights import PointLight, DirectionalLight
-from modules.utils.vector import vec, normalize, magnitude
+from modules.raytracing.lights import PointLight
+from modules.utils.vector import vec, normalize
 
 TARGET_WIDTH = 800
 TARGET_HEIGHT = 600
@@ -16,7 +16,10 @@ TEST_HEIGHT = 300
 
 
 class RayTracer(ProgressiveRenderer):
-    def __init__(self, width=TARGET_WIDTH, height=TARGET_HEIGHT, show=ShowTypes.PerColumn):
+    def __init__(self,
+                 width=TARGET_WIDTH,
+                 height=TARGET_HEIGHT,
+                 show=ShowTypes.PerColumn):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
@@ -39,9 +42,7 @@ class RayTracer(ProgressiveRenderer):
     def getColorR(self, ray):
         # Start with zero color
         color = np.zeros((3))
-        # Normalize the ray
         nRay = Ray(ray.position, normalize(ray.direction))
-        # Find any objects it collides with and calculate color
         nearestObj, minDist = self.scene.nearestObject(nRay)
         # We hit nothing
         if nearestObj is None:
@@ -51,19 +52,10 @@ class RayTracer(ProgressiveRenderer):
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()
         # color = nearestObj.getAmbient()
-        surfaceHitPoint =  nRay.getPositionAt(minDist)
-        # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
+        surfaceHitPoint = nRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
             # 03 Slides, Slide 32
-            """
-            |\ v2L r//\ 
-            | \    / |
-          i |  \  /  |-i
-            \/  \/   |
-            ----------
-              j    j
-            """
             if type(light) == PointLight:
                 vecToLight = light.getVectorToLight(surfaceHitPoint)
             # It's a directional light
@@ -72,8 +64,11 @@ class RayTracer(ProgressiveRenderer):
             diffuse = self.getDiffuse(vecToLight, normal)
             color = color * diffuse
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
+            # 07 Slides, Slide 24
             specularAngle **= nearestObj.getShine()
+            # 07 Slides, Slide 27
             specularAngle *= nearestObj.getSpecularCoefficient()
+            # 07 Slides, Slide 20
             specularColor = specularAngle * nearestObj.getSpecular()
             color = color + specularColor
         return color
