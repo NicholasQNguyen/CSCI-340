@@ -3,7 +3,6 @@ import numpy as np
 import pygame
 
 from render import ProgressiveRenderer, ShowTypes
-
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
@@ -37,6 +36,7 @@ class RayTracer(ProgressiveRenderer):
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, slide 30
         halfwayVector = normalize(vecToLight + cameraRay.direction)
+        print("SPEC ANG", np.dot(normal, halfwayVector))
         return np.dot(normal, halfwayVector)
 
     def getColorR(self, ray):

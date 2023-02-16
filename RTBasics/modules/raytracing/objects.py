@@ -64,8 +64,6 @@ class Sphere(Object3D):
         super().__init__(position, True)
         self.material = Material(color, ambient, diffuse, specular, shininess)
         self.radius = radius
-        # https://www.youtube.com/watch?v=g1BEkYyGFLc
-        # self.normal = normalize(2 * self.position)
 
     def getRadius(self):
         return self.radius

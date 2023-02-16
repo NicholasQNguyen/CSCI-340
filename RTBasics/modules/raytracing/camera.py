@@ -1,9 +1,10 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
+import numpy as np
+
 from ..utils.vector import vec, lerp, normalize
 from .ray import Ray
-import numpy as np
 
 
 class Camera(object):
@@ -22,27 +23,27 @@ class Camera(object):
             aspect=4/3):
         """Sets up the camera given the parameters.
            Calculates position, ul, ur, ll, and lr."""
-
+        # 08 Slides, Slide 17
         fwd = normalize(fwd)
         up = normalize(up)
         right = np.cross(fwd, up)
         right = normalize(right)
         up = np.cross(right, fwd)
         up = normalize(up)
-        # From SOHCAHTOA
-        self.width = 2 * np.tan(fov/2) * distance
+        # 08 Slides, Slides 28
+        self.width = 2 * distance * np.tan(fov/2)
         self.height = np.reciprocal(aspect) * self.width
         self.position = focus - fwd * distance
-        self.ul = (focus) + \
+        self.ul = focus + \
                   (up * (self.height / 2)) - \
                   (right * (self.width / 2))
-        self.ur = (focus) + \
+        self.ur = focus + \
                   (up * (self.height / 2)) + \
                   (right * (self.width / 2))
-        self.ll = (focus) - \
+        self.ll = focus - \
                   (up * (self.height / 2)) - \
                   (right * (self.width / 2))
-        self.lr = (focus) - \
+        self.lr = focus - \
                   (up * (self.height / 2)) + \
                   (right * (self.width / 2))
 
