@@ -51,12 +51,11 @@ class RayTracer(ProgressiveRenderer):
         # Normalize the ray
         nRay = Ray(ray.position, normalize(ray.direction))
         # Find any objects it collides with and calculate color
-        nearestObj, minDist = self.scene.nearestObject(
-                              Ray(nRay.position, nRay.direction))
+        nearestObj, minDist = self.scene.nearestObject(nRay)
         # We hit nothing
         if nearestObj is None:
             return self.fog
-        color = vec(0, 0, 1)
+        color = nearestObj.getColor()
         # color = nearestObj.getAmbient()
         surfaceHitPoint =  nRay.getPositionAt(minDist)
         print("SURFACE HIT", surfaceHitPoint)

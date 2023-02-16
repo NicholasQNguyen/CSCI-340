@@ -35,6 +35,7 @@ class Scene(object):
         self.addPointLight(color=vec(1, 1, 1), position=POSITION)
         self.addSphere(radius=0.7,
                        position=vec(0, 1, -3),
+                       color=vec(0, 0, 1),
                        ambient=vec(.2, 0, 0),
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
@@ -81,18 +82,20 @@ class Scene(object):
         return colObj, minDistance
 
     def addSphere(self, radius=0.5,
-                  position=vec(0, 0, 0), ambient=COLORS["blue"],
+                  position=vec(0, 0, 0), color=COLORS["blue"],
+                  ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
                   shininess=0, specCoeff=100):
-        self.objects.append(Sphere(radius, position,
+        self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
                                    specular, shininess, specCoeff))
 
     def addPlane(self, normal=vec(0, 1, 0),
-                 position=vec(0, 0, 0), ambient=COLORS["blue"],
+                 position=vec(0, 0, 0), color=COLORS["blue"],
+                 ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
                  shininess=0, specCoeff=100):
-        self.objects.append(Plane(normal, position,
+        self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
                                   specular, shininess, specCoeff))
 

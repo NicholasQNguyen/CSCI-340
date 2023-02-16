@@ -9,13 +9,18 @@ class Material(object):
        Contains ambient, diffuse, specular colors.
        Contains shininess property.
        Contains specular coefficient."""
-    def __init__(self, ambient, diffuse, specular,
+    def __init__(self, color, ambient, diffuse, specular,
                  shine=100, specCoeff=1.0):
+        self.color = vec(*color)
         self.ambient = vec(*ambient)
         self.diffuse = vec(*diffuse)
         self.specular = vec(*specular)
         self.shine = shine
         self.specCoeff = specCoeff
+
+    def getColor(self):
+        """Getter method for ambient color."""
+        return self.color
 
     def getAmbient(self):
         """Getter method for ambient color."""

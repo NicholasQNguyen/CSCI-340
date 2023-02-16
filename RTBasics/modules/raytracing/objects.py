@@ -43,6 +43,10 @@ class Object3D(ABC):
            Intersection parameter is unused for Ray Tracing Basics."""
         return self.material.getSpecularCoefficient()
 
+    def getColor(self):
+        """Getter method for the material's color."""
+        return self.material.getColor()
+
     @abstractmethod
     def intersect(self, ray):
         """Find the intersection for the given object. Must override."""
@@ -55,10 +59,10 @@ class Object3D(ABC):
 
 
 class Sphere(Object3D):
-    def __init__(self, radius, position, ambient, diffuse,
+    def __init__(self, radius, position, color, ambient, diffuse,
                  specular, shininess, specCoeff):
         super().__init__(position, True)
-        self.material = Material(ambient, diffuse, specular, shininess)
+        self.material = Material(color, ambient, diffuse, specular, shininess)
         self.radius = radius
         # https://www.youtube.com/watch?v=g1BEkYyGFLc
         # self.normal = normalize(2 * self.position)
@@ -93,10 +97,10 @@ class Sphere(Object3D):
 
 
 class Plane(Object3D):
-    def __init__(self, normal, position, ambient, diffuse, specular,
+    def __init__(self, normal, position, color, ambient, diffuse, specular,
                  shininess, specCoeff):
         super().__init__(position, False)
-        self.material = Material(ambient, diffuse, specular, shininess)
+        self.material = Material(color, ambient, diffuse, specular, shininess)
         self.normal = normal
 
     def intersect(self, ray):
