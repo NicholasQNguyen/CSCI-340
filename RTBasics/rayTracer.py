@@ -1,5 +1,4 @@
 """ Author: Liz Matthews, Geoff Matthews """
-# TODO Fix nearest object (in scene), ifx diffuse, fix specular
 import numpy as np
 import pygame
 
@@ -47,7 +46,10 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
+        # Base color
         color = nearestObj.getColor()
+        # 07 Slides, Slide 16
+        color = color - nearestObj.getAmbient()
         # color = nearestObj.getAmbient()
         surfaceHitPoint =  nRay.getPositionAt(minDist)
         # normal = Ray(surfaceHitPoint, nearestObj.getNormal())
@@ -70,9 +72,10 @@ class RayTracer(ProgressiveRenderer):
             diffuse = self.getDiffuse(vecToLight, normal)
             color = color * diffuse
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
+            specularAngle **= nearestObj.getShine()
+            specularAngle *= nearestObj.getSpecularCoefficient()
             specularColor = specularAngle * nearestObj.getSpecular()
-            # color = color + specularColor
-            color = color + nearestObj.getAmbient()
+            color = color + specularColor
         return color
 
     def getColor(self, x, y):
@@ -92,18 +95,3 @@ class RayTracer(ProgressiveRenderer):
 if __name__ == '__main__':
     RayTracer.main("Ray Tracer Basics")
     pygame.quit()
-    # TODO figure out if this stuff down here is any good
-    """
-    # Finding angle of incidence
-    # 03 Slides, slide 32
-    # vecFromLight = -vecToLight
-    # i = normalize(np.dot(vecFromLight, normal) * normal)
-    # j = normalize(vecFromLight - i)
-    # r = normalize(-i + j)
-    # SOHCAHTOA
-    # angleOfIncidence = 90 - np.arctan(magnitude(i)/magnitude(j))
-    # angleOfIncidence = np.dot(vecToLight, normal)
-    # angleOfIncidence = np.arccos(angleOfIncidence)
-    # 07 Slides, slide 10
-    # return np.cos(angleOfIncidence)
-    """

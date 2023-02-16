@@ -26,13 +26,13 @@ class Scene(object):
         self.lights = []
         self.objects = []
         self.camera = Camera(focus, direction, up, fov, distance, aspect)
-
         # Set up lights, spheres,  and planes here
         self.setup()
 
     def setup(self):
         # self.addSphere()
         self.addPointLight(color=vec(1, 1, 1), position=POSITION)
+        # Blue Sphere
         self.addSphere(radius=0.7,
                        position=vec(0, 1, -3),
                        color=vec(0, 0, 1),
@@ -41,15 +41,24 @@ class Scene(object):
                        specular=vec(0.8, 0.8, 1),
                        shininess=5,
                        specCoeff=0.1)
-        """
-        self.addSphere(ambient=vec(0.2, 0.2, 0.4),
+        # Green Sphere
+        self.addSphere(radius=.7,
+                       position=vec(-1, -0.2, -4),
+                       color=vec(0, 1, 0),
+                       ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 1, 0.2),
                        specular=vec(0.8, 0.8, 1),
-                       shininess=5,
-                       specCoeff=0.2,
-                       radius=.7,
-                       position=vec(-1, -0.2, -4))
-        """
+                       shininess=100,
+                       specCoeff=1)
+        # Red Sphere
+        self.addSphere(radius=.7,
+                       position=vec(1, 0, -2.3),
+                       color=vec(1, 0, 0),
+                       ambient=vec(0.4, 0.2, 0.2),
+                       diffuse=vec(1, 0.2, 0.2),
+                       specular=vec(1, 0.8, 0.8),
+                       shininess=100,
+                       specCoeff=1)
         # self.addPlane(position=vec(0, -1, 0))
         # self.addPlane(position=vec(0, 0, 0))
         # self.addPointLight(position=vec(1, 0, 0))
