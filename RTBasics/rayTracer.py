@@ -46,8 +46,7 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
-        # Base color
-        color = nearestObj.getColor()
+        color = nearestObj.getBaseColor()
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()
         surfaceHitPoint = nRay.getPositionAt(minDist)
