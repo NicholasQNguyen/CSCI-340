@@ -10,8 +10,6 @@ from modules.utils.vector import vec, normalize
 
 TARGET_WIDTH = 800
 TARGET_HEIGHT = 600
-TEST_WIDTH = 400
-TEST_HEIGHT = 300
 
 
 class RayTracer(ProgressiveRenderer):
@@ -68,6 +66,7 @@ class RayTracer(ProgressiveRenderer):
             diffuse = self.getDiffuse(vecToLight, normal)
             # diffuseColor = diffuse * nearestObj.getDiffuse()
             color = color * diffuse
+            color = color + nearestObj.getAmbient() 
             # color = color * diffuseColor
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
             # 07 Slides, Slide 24
@@ -76,10 +75,6 @@ class RayTracer(ProgressiveRenderer):
             specularAngle *= nearestObj.getSpecularCoefficient()
             # 07 Slides, Slide 20
             specularColor = specularAngle * nearestObj.getSpecular()
-            # print(str(nearestObj.getColor()) +\
-            # " " + repr(nearestObj) +\
-            # " SPEC COL " +\
-            # str(specularColor))
             # Prevent black specular spots
             if not (specularColor[0] < 0):
                 # print("SPEC COL", specularColor)
