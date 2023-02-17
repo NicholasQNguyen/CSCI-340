@@ -6,7 +6,7 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
-from modules.utils.vector import vec, normalize
+from modules.utils.vector import vec, normalize, magnitude
 
 TARGET_WIDTH = 800
 TARGET_HEIGHT = 600
@@ -37,7 +37,6 @@ class RayTracer(ProgressiveRenderer):
         # 07 Slides, slide 30
         vecFromLight = -1 * vecToLight
         halfwayVector = normalize(vecFromLight + cameraRay.direction)
-        print("HALF VECTOR", halfwayVector)
         return np.dot(normal, halfwayVector)
 
     def getColorR(self, ray):
@@ -65,7 +64,7 @@ class RayTracer(ProgressiveRenderer):
                 vecToLight = light.getVectorToLight(surfaceHitPoint)
             # It's a directional light
             else:
-                vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
+                vecToLight = light.getVectorToLight()
             diffuse = self.getDiffuse(vecToLight, normal)
             # diffuseColor = diffuse * nearestObj.getDiffuse()
             color = color * diffuse
@@ -76,7 +75,11 @@ class RayTracer(ProgressiveRenderer):
             specularAngle *= nearestObj.getSpecularCoefficient()
             # 07 Slides, Slide 20
             specularColor = specularAngle * nearestObj.getSpecular()
-            color = color + specularColor
+            # print(str(nearestObj.getColor()) + " " + repr(nearestObj) + " SPEC COL " + str(specularColor))
+            # Prevent black specular spots
+            if not (specularColor[0] < 0):
+                # print("SPEC COL", specularColor)
+                color = color + specularColor
         return color
 
     def getColor(self, x, y):
