@@ -31,7 +31,7 @@ class Scene(object):
 
     def setup(self):
         # Example setup
-        # self.addSphere()
+        """
         self.addPointLight(color=vec(1, 1, 1), position=POSITION)
         # Blue Sphere
         self.addSphere(radius=0.7,
@@ -117,7 +117,6 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1)
-        """
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
