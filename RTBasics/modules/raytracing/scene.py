@@ -60,8 +60,6 @@ class Scene(object):
                        shininess=100,
                        specCoeff=1)
         # self.addPlane(position=vec(0, -1, 0))
-        # self.addPlane(position=vec(0, 0, 0))
-        # self.addPointLight(position=vec(1, 0, 0))
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
@@ -75,17 +73,19 @@ class Scene(object):
                 nearestObj = self.objects[i]
         return nearestObj, minDistance
 
-    def shadowed(self, obj, ray):
+    def shadowed(self, ray, obj):
         """Returns the nearest collision object and the distance to the object,
            excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
-        filteredDistances = [dist for dist in distances if dist is not None]
-        filteredDistances.sort()
-        minDistance = filteredDistances[0]
-        colObj = self.objects[0]
-        if colObj is obj:
-            colObj = None
-        return colObj, minDistance
+        colObj = obj
+        distanceToObj = np.inf
+        for i in range(len(distances)):
+            if distances[i] < distanceToObj:
+                distanceToObj = distances[i]
+                colObj = self.objects[i]
+                if colObj is obj:
+                    colObj = None
+        return colObj, distanceToObj 
 
     def addSphere(self, radius=0.5,
                   position=vec(0, 0, 0), color=COLORS["blue"],

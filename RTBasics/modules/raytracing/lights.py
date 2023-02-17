@@ -32,7 +32,7 @@ class PointLight(AbstractLight):
 
     def getDistance(self, point):
         """Returns the distance to the light"""
-        return magnitude(point - self.position)
+        return magnitude(self.position - point)
 
     def __repr__(self):
         return "Point Light"

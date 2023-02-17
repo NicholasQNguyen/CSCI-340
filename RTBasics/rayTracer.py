@@ -35,8 +35,9 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, slide 30
-        halfwayVector = normalize(vecToLight + cameraRay.direction)
-        print("SPEC ANG", np.dot(normal, halfwayVector))
+        vecFromLight = -1 * vecToLight
+        halfwayVector = normalize(vecFromLight + cameraRay.direction)
+        print("HALF VECTOR", halfwayVector)
         return np.dot(normal, halfwayVector)
 
     def getColorR(self, ray):
@@ -47,11 +48,15 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
+        """
+        shadowedObj, shadowMinDist = self.scene.shadowed(nRay, nearestObj)
+        if shadowedObj is not None:
+            return shadowedObj.getAmbient()
+        """
         # Base color
         color = nearestObj.getColor()
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()
-        # color = nearestObj.getAmbient()
         surfaceHitPoint = nRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
@@ -62,6 +67,7 @@ class RayTracer(ProgressiveRenderer):
             else:
                 vecToLight = Ray(surfaceHitPoint, light.getVectorToLight())
             diffuse = self.getDiffuse(vecToLight, normal)
+            # diffuseColor = diffuse * nearestObj.getDiffuse()
             color = color * diffuse
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
             # 07 Slides, Slide 24
