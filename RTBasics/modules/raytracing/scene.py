@@ -88,7 +88,7 @@ class Scene(object):
         colObj = None
         distanceToObj = np.inf
         for i in range(len(distances)):
-            if distances[i] < distanceToObj:
+            if distances[i] < distanceToObj and self.objects[i] is not obj:
                 distanceToObj = distances[i]
                 colObj = self.objects[i]
         return colObj, distanceToObj

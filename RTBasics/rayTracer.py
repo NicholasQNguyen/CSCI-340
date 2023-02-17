@@ -45,11 +45,6 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
-        shadowedObj, shadowMinDist = self.scene.shadowed(nRay, nearestObj)
-        if shadowedObj is not None:
-            pass
-            # return vec(0, 1, 0)
-            # return shadowedObj.getAmbient()
         # Base color
         color = nearestObj.getColor()
         # 07 Slides, Slide 16
@@ -63,6 +58,9 @@ class RayTracer(ProgressiveRenderer):
             # It's a directional light
             else:
                 vecToLight = light.getVectorToLight()
+            shadowedObj, shadowMinDist = self.scene.shadowed(Ray(surfaceHitPoint, vecToLight), nearestObj)
+            if shadowedObj is not None:
+                return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
             # diffuseColor = diffuse * nearestObj.getDiffuse()
             color = color * diffuse
