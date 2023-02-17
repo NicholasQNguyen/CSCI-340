@@ -91,7 +91,7 @@ class Sphere(Object3D):
         return normalize(surfacePoint - self.position)
 
     def __repr__(self):
-        return "Sphere"
+        return str(self.getColor()) + " Sphere"
 
 
 class Plane(Object3D):
