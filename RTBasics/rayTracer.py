@@ -9,8 +9,8 @@ from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
 from modules.utils.vector import vec, normalize
 
-TARGET_WIDTH = 800
-TARGET_HEIGHT = 600
+TARGET_WIDTH = 800 * 2
+TARGET_HEIGHT = 600 * 2
 
 
 class RayTracer(ProgressiveRenderer):
@@ -59,6 +59,7 @@ class RayTracer(ProgressiveRenderer):
             # It's a directional light
             else:
                 vecToLight = light.getVectorToLight()
+            # Check if shadowed
             shadowedObj, shadowMinDist = self.scene.shadowed(Ray(surfaceHitPoint, vecToLight), nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()

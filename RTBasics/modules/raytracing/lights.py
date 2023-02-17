@@ -39,17 +39,17 @@ class PointLight(AbstractLight):
 
 
 class DirectionalLight(AbstractLight):
-    def __init__(self, color, position=vec(0, 0, 0)):
+    def __init__(self, color, position=vec(0, 0, 0), lightVector=vec(0, 0, 0)):
         super().__init__(color, position)
-        self.lightVec = self.position - vec(0, 0, 0)
+        self.lightVector = lightVector
 
     def getVectorToLight(self):
         """Returns a vector pointing towards the light"""
-        return self.lightVec
+        return self.lightVector
 
     def getDistance(self, point):
         """Returns the distance to the light"""
-        return magnitude(point - self.position)
+        return np.inf
 
     def __repr__(self):
         return "Directional Light"
