@@ -108,7 +108,8 @@ class Plane(Object3D):
         if denom == 0:
             return np.inf
         q = self.position - ray.position
-        return (np.dot(q, self.normal)) / denom
+        t = (np.dot(q, self.normal)) / denom
+        return np.inf if t < 0 else t
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""

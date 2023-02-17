@@ -60,7 +60,6 @@ class Scene(object):
                        shininess=100,
                        specCoeff=1)
         # Gray Plane
-        """
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0), 
                       color=COLORS["gray"],
@@ -69,7 +68,6 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1)
-        """
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
