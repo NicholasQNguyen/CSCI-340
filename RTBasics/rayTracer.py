@@ -13,7 +13,7 @@ TARGET_WIDTH = 800 * 2
 TARGET_HEIGHT = 600 * 2
 
 
-class RayTracer(ProgressiveRenderer):
+class RayTracer(QuiltRenderer):
     def __init__(self,
                  width=TARGET_WIDTH,
                  height=TARGET_HEIGHT,
