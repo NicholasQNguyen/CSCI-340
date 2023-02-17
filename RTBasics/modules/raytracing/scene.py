@@ -73,6 +73,7 @@ class Scene(object):
                       specCoeff=0.1)
         """
         self.addPointLight(color=vec(1, 1, 1), position=vec(1,5, 2))
+        self.addDirectionalLight(color=vec(1, 1, 1), lightVector=vec(1, 1, 1))
         # Big Purple Sphere
         self.addSphere(radius=0.9,
                        position=vec(-1.5, 0.3, -0.3),
@@ -100,6 +101,15 @@ class Scene(object):
                        specular=vec(1, 1, 0.8),
                        shininess=100,
                        specCoeff=1)
+        # Medium Red Sphere
+        self.addSphere(radius=0.7,
+                       position=vec(1.5, .2, -2.5),
+                       color=vec(1, 0, 0),
+                       ambient=vec(0.4, 0.2, 0.2),
+                       diffuse=vec(1, 0.2, 0.2),
+                       specular=vec(1, 0.8, 0.8),
+                       shininess=150,
+                       specCoeff=.75)
         # Green Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0), 
@@ -156,7 +166,9 @@ class Scene(object):
                             color=COLORS["white"],
                             position=vec(0, 0, 0),
                             lightVector=vec(0, 0, 0)):
-        self.lights.append(DirectionalLight(color, position, lightVector))
+        self.lights.append(DirectionalLight(color=color,
+                                            position=position,
+                                            lightVector=lightVector))
 
     def addPointLight(self,
                       color=COLORS["white"],
