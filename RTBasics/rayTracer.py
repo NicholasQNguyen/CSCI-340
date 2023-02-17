@@ -9,8 +9,8 @@ from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
 from modules.utils.vector import vec, normalize
 
-TARGET_WIDTH = 800 * 2
-TARGET_HEIGHT = 600 * 2
+TARGET_WIDTH = 800
+TARGET_HEIGHT = 600
 
 
 class RayTracer(ProgressiveRenderer):
@@ -30,7 +30,6 @@ class RayTracer(ProgressiveRenderer):
     def getDiffuse(self, vecToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        print("ANGLE OF INCIDENCE", np.dot(normal, vecToLight))
         return np.dot(normal, vecToLight)
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
