@@ -35,17 +35,17 @@ class Camera(object):
         self.height = np.reciprocal(aspect) * self.width
         self.position = focus - fwd * distance
         self.ul = focus + \
-                  (up * (self.height / 2)) - \
-                  (right * (self.width / 2))
+            (up * (self.height / 2)) - \
+            (right * (self.width / 2))
         self.ur = focus + \
-                  (up * (self.height / 2)) + \
-                  (right * (self.width / 2))
+            (up * (self.height / 2)) + \
+            (right * (self.width / 2))
         self.ll = focus - \
-                  (up * (self.height / 2)) - \
-                  (right * (self.width / 2))
+            (up * (self.height / 2)) - \
+            (right * (self.width / 2))
         self.lr = focus - \
-                  (up * (self.height / 2)) + \
-                  (right * (self.width / 2))
+            (up * (self.height / 2)) + \
+            (right * (self.width / 2))
 
     def __init__(self,
                  focus=vec(0, 0, 0),

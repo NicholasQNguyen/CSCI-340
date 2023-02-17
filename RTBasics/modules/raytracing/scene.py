@@ -85,7 +85,7 @@ class Scene(object):
                 colObj = self.objects[i]
                 if colObj is obj:
                     colObj = None
-        return colObj, distanceToObj 
+        return colObj, distanceToObj
 
     def addSphere(self, radius=0.5,
                   position=vec(0, 0, 0), color=COLORS["blue"],
