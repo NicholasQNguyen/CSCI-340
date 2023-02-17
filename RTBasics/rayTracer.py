@@ -3,7 +3,7 @@ import numpy as np
 import pygame
 
 from render import ProgressiveRenderer, ShowTypes
-from quilt import QuiltRenderer
+# from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
@@ -13,7 +13,7 @@ TARGET_WIDTH = 800 * 2
 TARGET_HEIGHT = 600 * 2
 
 
-class RayTracer(QuiltRenderer):
+class RayTracer(ProgressiveRenderer):
     def __init__(self,
                  width=TARGET_WIDTH,
                  height=TARGET_HEIGHT,
@@ -60,12 +60,13 @@ class RayTracer(QuiltRenderer):
             else:
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
-            shadowedObj, shadowMinDist = self.scene.shadowed(Ray(surfaceHitPoint, vecToLight), nearestObj)
+            shadowRay = Ray(surfaceHitPoint, vecToLight)
+            shadowedObj, _ = self.scene.shadowed(shadowRay, nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
             color = color * diffuse
-            color = color + nearestObj.getAmbient() 
+            color = color + nearestObj.getAmbient()
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
             # 07 Slides, Slide 24
             specularAngle **= nearestObj.getShine()
