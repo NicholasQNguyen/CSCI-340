@@ -62,7 +62,11 @@ class Sphere(Object3D):
     def __init__(self, radius, position, baseColor, ambient, diffuse,
                  specular, shininess, specCoeff):
         super().__init__(position, True)
-        self.material = Material(baseColor, ambient, diffuse, specular, shininess)
+        self.material = Material(baseColor,
+                                 ambient,
+                                 diffuse,
+                                 specular,
+                                 shininess)
         self.radius = radius
 
     def getRadius(self):
