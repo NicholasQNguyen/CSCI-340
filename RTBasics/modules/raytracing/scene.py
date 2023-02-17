@@ -59,7 +59,17 @@ class Scene(object):
                        specular=vec(1, 0.8, 0.8),
                        shininess=100,
                        specCoeff=1)
-        # self.addPlane(position=vec(0, -1, 0))
+        # Gray Plane
+        """
+        self.addPlane(normal=vec(0, 1, 0),
+                      position=vec(0, -1, 0), 
+                      color=COLORS["gray"],
+                      ambient=vec(0.3, 0.3, 0.3),
+                      diffuse=vec(0.7, 0.7, 0.7),
+                      specular=vec(1, 1, 1),
+                      shininess=5,
+                      specCoeff=0.1)
+        """
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
@@ -77,14 +87,12 @@ class Scene(object):
         """Returns the nearest collision object and the distance to the object,
            excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
-        colObj = obj
+        colObj = None
         distanceToObj = np.inf
         for i in range(len(distances)):
             if distances[i] < distanceToObj:
                 distanceToObj = distances[i]
                 colObj = self.objects[i]
-                if colObj is obj:
-                    colObj = None
         return colObj, distanceToObj
 
     def addSphere(self, radius=0.5,
@@ -97,7 +105,7 @@ class Scene(object):
                                    specular, shininess, specCoeff))
 
     def addPlane(self, normal=vec(0, 1, 0),
-                 position=vec(0, 0, 0), color=COLORS["blue"],
+                 position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
                  shininess=0, specCoeff=100):

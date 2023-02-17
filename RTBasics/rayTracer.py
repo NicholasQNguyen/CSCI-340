@@ -47,11 +47,11 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
-        """
         shadowedObj, shadowMinDist = self.scene.shadowed(nRay, nearestObj)
         if shadowedObj is not None:
-            return shadowedObj.getAmbient()
-        """
+            pass
+            # return vec(0, 1, 0)
+            # return shadowedObj.getAmbient()
         # Base color
         color = nearestObj.getColor()
         # 07 Slides, Slide 16

@@ -103,12 +103,12 @@ class Plane(Object3D):
 
     def intersect(self, ray):
         """Find the intersection for the plane."""
+        # 10 Slides, slide 16
         denom = np.dot(ray.direction, self.normal)
-        if denom != 0:
-            t = np.dot((self.position - ray.position), self.normal) / denom
-            return ray.position + ray.direction * t
-        else:
+        if denom == 0:
             return np.inf
+        q = self.position - ray.position
+        return (np.dot(q, self.normal)) / denom
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""

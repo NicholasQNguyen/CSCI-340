@@ -27,7 +27,7 @@ class PointLight(AbstractLight):
         super().__init__(color, position)
 
     def getVectorToLight(self, point):
-        """Returns a nomralized vector pointing towards the light"""
+        """Returns a normalized vector pointing towards the light"""
         return normalize(self.position - point)
 
     def getDistance(self, point):
@@ -43,7 +43,7 @@ class DirectionalLight(AbstractLight):
         super().__init__(color, position)
         self.lightVec = self.position - vec(0, 0, 0)
 
-    def getVectorToLight(self, point):
+    def getVectorToLight(self):
         """Returns a vector pointing towards the light"""
         return self.lightVec
 
