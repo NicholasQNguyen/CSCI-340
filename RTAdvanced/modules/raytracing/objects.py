@@ -85,8 +85,9 @@ class Sphere(Object3D):
         discriminent = b ** 2 - 4 * c
         if discriminent < 0:
             return np.inf
-        t1 = (-b + np.sqrt(discriminent)) / 2
-        t2 = (-b - np.sqrt(discriminent)) / 2
+        sqrtTerm = np.sqrt(discriminent)
+        t1 = (-b + sqrtTerm) / 2
+        t2 = (-b - sqrtTerm) / 2
         return min(t1, t2)
 
     def getNormal(self, surfacePoint, intersection=None):
