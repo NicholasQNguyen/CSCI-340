@@ -7,6 +7,7 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
+from modules.raytracing.objects import Ellipsoid
 from modules.utils.vector import vec, normalize
 
 TARGET_WIDTH = 800
@@ -46,6 +47,9 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
+        # TODO Remove this tester
+        if type(nearestObj) == Ellipsoid:
+            return vec(0, 0, 1)
         color = nearestObj.getBaseColor()
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()

@@ -2,7 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
-from ..raytracing.objects import Sphere, Plane
+from ..raytracing.objects import Sphere, Plane, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
 from ..utils.vector import vec
@@ -39,24 +39,18 @@ class Scene(object):
                        specular=vec(0.8, 0.8, 1),
                        shininess=5,
                        specCoeff=0.1)
-        # Green Sphere
-        self.addSphere(radius=.7,
-                       position=vec(-1, -0.2, -4),
-                       color=vec(0, 1, 0),
-                       ambient=vec(0.2, 0.4, 0.2),
-                       diffuse=vec(0.2, 1, 0.2),
-                       specular=vec(0.8, 0.8, 1),
-                       shininess=100,
-                       specCoeff=1)
-        # Red Sphere
-        self.addSphere(radius=.7,
-                       position=vec(1, 0, -2.3),
-                       color=vec(1, 0, 0),
-                       ambient=vec(0.4, 0.2, 0.2),
-                       diffuse=vec(1, 0.2, 0.2),
-                       specular=vec(1, 0.8, 0.8),
-                       shininess=100,
-                       specCoeff=1)
+        # Red Ellipsoid
+        self.addEllipsoid(a=3,
+                          b=2,
+                          c=1,
+                          position=vec(0, 1, -3),
+                          color=vec(1, 0, 0),
+                          ambient=vec(0.4, 0.2, 0.2),
+                          diffuse=vec(0.4, 0.2, 0.2),
+                          specular=vec(1, 0.8, 0.8),
+                          shininess=100,
+                          specCoeff=1)
+            
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -66,55 +60,6 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1)
-        """
-        self.addPointLight(color=vec(1, 1, 1), position=vec(1, 5, 2))
-        self.addDirectionalLight(color=vec(1, 1, 1), lightVector=vec(1, 1, 1))
-        # Big Purple Sphere
-        self.addSphere(radius=0.9,
-                       position=vec(-1.5, 0.3, -0.3),
-                       color=vec(1, 0, 1),
-                       ambient=vec(0.4, 0.2, 0.4),
-                       diffuse=vec(1, 0.2, 1),
-                       specular=vec(1, 0.8, 1),
-                       shininess=10,
-                       specCoeff=.5)
-        # Medium Cyan Sphere
-        self.addSphere(radius=0.45,
-                       position=vec(0, 0, 0),
-                       color=vec(0, 1, 1),
-                       ambient=vec(0.2, 0.4, 0.4),
-                       diffuse=vec(0.2, 1, 1),
-                       specular=vec(0.8, 1, 1),
-                       shininess=1000,
-                       specCoeff=.1)
-        # Small Yellow Sphere
-        self.addSphere(radius=0.2,
-                       position=vec(1, .2, -1.3),
-                       color=vec(1, 1, 0),
-                       ambient=vec(0.4, 0.4, 0.2),
-                       diffuse=vec(1, 1, 0.2),
-                       specular=vec(1, 1, 0.8),
-                       shininess=100,
-                       specCoeff=1)
-        # Medium Red Sphere
-        self.addSphere(radius=0.7,
-                       position=vec(1.5, .2, -2.5),
-                       color=vec(1, 0, 0),
-                       ambient=vec(0.4, 0.2, 0.2),
-                       diffuse=vec(1, 0.2, 0.2),
-                       specular=vec(1, 0.8, 0.8),
-                       shininess=150,
-                       specCoeff=.75)
-        # Green Plane
-        self.addPlane(normal=vec(0, 1, 0),
-                      position=vec(0, -1, 0),
-                      color=vec(0, 1, 0),
-                      ambient=vec(0.0, 0.3, 0.0),
-                      diffuse=vec(0.2, 0.7, 0.2),
-                      specular=vec(1, 1, 1),
-                      shininess=5,
-                      specCoeff=0.1)
-        """
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
@@ -157,6 +102,15 @@ class Scene(object):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
                                   specular, shininess, specCoeff))
+
+    def addEllipsoid(self, a=1, b=1, c=1,
+                     position=vec(0, 0, 0), color=COLORS["red"],
+                     ambient=COLORS["red"],
+                     diffuse=COLORS["black"], specular=COLORS["white"],
+                     shininess=0, specCoeff=100):
+        self.objects.append(Ellipsoid(a, b, c, position, color,
+                                      ambient, diffuse,
+                                      specular, shininess, specCoeff))
 
     def addDirectionalLight(self,
                             color=COLORS["white"],

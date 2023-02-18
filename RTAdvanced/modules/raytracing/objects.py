@@ -82,10 +82,10 @@ class Sphere(Object3D):
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
-        discriminent = b ** 2 - 4 * c
-        if discriminent < 0:
+        discriminant = b ** 2 - 4 * c
+        if discriminant < 0:
             return np.inf
-        sqrtTerm = np.sqrt(discriminent)
+        sqrtTerm = np.sqrt(discriminant)
         t1 = (-b + sqrtTerm) / 2
         t2 = (-b - sqrtTerm) / 2
         return max(0, min(t1, t2))
@@ -137,7 +137,7 @@ class Cube(Object3D):
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"
 
-class Ellipsoids(Object3D):
+class Ellipsoid(Object3D):
     def __init__(self, a, b, c, position, color, ambient, diffuse, specular,
                  shininess, specCoeff):
         super().__init__(position, False)
@@ -148,9 +148,20 @@ class Ellipsoids(Object3D):
 
     def intersect(self, ray):
         """Find the intersection for the ellipsoids."""
-        s = (a, b, c)
-        
-        pass
+        # 10 Slides, Slide 21
+        q = ray.position - self.position
+        v = ray.direction
+        s = (self.a, self.b, self.c)
+        a = np.dot((v / s), (v / s))
+        b = 2 * (np.dot((v / s), (q / s)))
+        c = (np.dot((q / s), (q / s))) - 1
+        discriminant = b ** 2 - 4 * a * c
+        if discriminant < 0:
+            return np.inf
+        sqrtTerm = np.sqrt(discriminant)
+        t1 = (-b + sqrtTerm) / (2 * a)
+        t2 = (-b - sqrtTerm) / (2 * a)
+        return max(0, min(t1, t2))
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
