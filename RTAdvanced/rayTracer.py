@@ -30,7 +30,7 @@ class RayTracer(ProgressiveRenderer):
     def getDiffuse(self, vecToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return np.dot(normal, vecToLight)
+        return max(0, np.dot(normal, vecToLight))
 
     def getSpecularAngle(self, vecToLight, normal, cameraRay):
         # 07 Slides, slide 30

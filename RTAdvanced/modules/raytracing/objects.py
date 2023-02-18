@@ -88,7 +88,7 @@ class Sphere(Object3D):
         sqrtTerm = np.sqrt(discriminent)
         t1 = (-b + sqrtTerm) / 2
         t2 = (-b - sqrtTerm) / 2
-        return min(t1, t2)
+        return max(0, min(t1, t2))
 
     def getNormal(self, surfacePoint, intersection=None):
         """Find the unit normal for the given object. Must override."""
@@ -122,3 +122,39 @@ class Plane(Object3D):
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Plane"
+
+class Cube(Object3D):
+    def __init__(self, length, position, color, ambient, diffuse, specular,
+                 shininess, specCoeff):
+        super().__init__(position, False)
+        self.material = Material(color, ambient, diffuse, specular, shininess)
+        self.length = length
+
+    def intersect(self, ray):
+        """Find the intersection for the cube."""
+        pass
+
+    def __repr__(self):
+        return str(self.getBaseColor()) + " Cube"
+
+class Ellipsoids(Object3D):
+    def __init__(self, a, b, c, position, color, ambient, diffuse, specular,
+                 shininess, specCoeff):
+        super().__init__(position, False)
+        self.material = Material(color, ambient, diffuse, specular, shininess)
+        self.a = a
+        self.b = b
+        self.c = c
+
+    def intersect(self, ray):
+        """Find the intersection for the ellipsoids."""
+        s = (a, b, c)
+        
+        pass
+
+    def getNormal(self, intersection):
+        """Find the normal for the given object. Must override."""
+        pass
+
+    def __repr__(self):
+        return str(self.getBaseColor()) + " Ellipsoid"
