@@ -52,6 +52,8 @@ class RayTracer(ProgressiveRenderer):
         color = color - nearestObj.getAmbient()
         surfaceHitPoint = nRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
+        if type(nearestObj) is Ellipsoid:
+            print("NORMAL", normal)
         for light in self.scene.lights:
             # 03 Slides, Slide 32
             if type(light) == PointLight:
@@ -65,6 +67,8 @@ class RayTracer(ProgressiveRenderer):
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
+            if type(nearestObj) is Ellipsoid:
+                print("DIFFUSE", diffuse)
             color = color * diffuse
             color = color + nearestObj.getAmbient()
             specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)

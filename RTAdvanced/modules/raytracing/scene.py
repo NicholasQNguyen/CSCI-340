@@ -45,13 +45,15 @@ class Scene(object):
         self.addEllipsoid(a=1.5,
                           b=0.7,
                           c=0.5,
-                          position=vec(0, 1, -3),
+                          position=vec(0, 1, -2.3),
                           color=vec(1, 0, 0),
                           ambient=vec(0.4, 0.2, 0.2),
-                          diffuse=vec(0.4, 0.2, 0.2),
+                          diffuse=vec(1, 0.2, 0.2),
                           specular=vec(1, 0.8, 0.8),
-                          shininess=60,
+                          shininess=100,
                           specCoeff=1)
+            
+        # Gray Plane
             
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),

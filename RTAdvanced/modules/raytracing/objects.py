@@ -166,9 +166,11 @@ class Ellipsoid(Object3D):
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         # https://math.stackexchange.com/questions/2931909/normal-of-a-point-on-the-surface-of-an-ellipsoid
-        return normalize(2 * vec(intersection[0] / (self.a ** 2),
-                                 intersection[1] / (self.b ** 2),
-                                 intersection[2] / (self.c ** 2)))
+        # 10 Slides, Slide 26
+        # TODO Fix this
+        return normalize(vec(2 * intersection[0] / self.a ** 2,
+                             2 * intersection[1] / self.b ** 2,
+                             2 * intersection[2] / self.c ** 2))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
