@@ -9,6 +9,8 @@ from ..utils.vector import vec
 from ..utils.definitions import COLORS
 
 
+LIGHT_POSITION = vec(-1, 2, 2)
+
 class Scene(object):
     """A class to contain all items in a scene.
        Contains a camera.
@@ -29,26 +31,26 @@ class Scene(object):
 
     def setup(self):
         # Example setup
-        self.addPointLight(color=vec(1, 1, 1), position=vec(1, 3, 0))
+        self.addPointLight(color=vec(1, 1, 1), position=LIGHT_POSITION)
         # Blue Sphere
-        self.addSphere(radius=0.7,
-                       position=vec(0, 1, -3),
+        self.addSphere(radius=0.5,
+                       position=vec(1, 0, 0),
                        color=vec(0, 0, 1),
                        ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
-                       shininess=5,
-                       specCoeff=0.1)
+                       shininess=50,
+                       specCoeff=.6)
         # Red Ellipsoid
-        self.addEllipsoid(a=3,
-                          b=2,
-                          c=1,
+        self.addEllipsoid(a=1.5,
+                          b=0.7,
+                          c=0.5,
                           position=vec(0, 1, -3),
                           color=vec(1, 0, 0),
                           ambient=vec(0.4, 0.2, 0.2),
                           diffuse=vec(0.4, 0.2, 0.2),
                           specular=vec(1, 0.8, 0.8),
-                          shininess=100,
+                          shininess=60,
                           specCoeff=1)
             
         # Gray Plane

@@ -4,7 +4,7 @@ Author: Liz Matthews, Geoff Matthews
 from abc import ABC, abstractmethod
 import numpy as np
 from .materials import Material
-from ..utils.vector import normalize
+from ..utils.vector import normalize, vec
 
 
 class Object3D(ABC):
@@ -91,7 +91,7 @@ class Sphere(Object3D):
         return max(0, min(t1, t2))
 
     def getNormal(self, surfacePoint, intersection=None):
-        """Find the unit normal for the given object. Must override."""
+        """Find the unit normal for the sphere . Must override."""
         # https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/shading-normals.html
         return normalize(surfacePoint - self.position)
 
@@ -148,7 +148,7 @@ class Ellipsoid(Object3D):
 
     def intersect(self, ray):
         """Find the intersection for the ellipsoids."""
-        # 10 Slides, Slide 21
+        # 10 Slides, Slide 22
         q = ray.position - self.position
         v = ray.direction
         s = (self.a, self.b, self.c)
@@ -165,7 +165,10 @@ class Ellipsoid(Object3D):
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        pass
+        # https://math.stackexchange.com/questions/2931909/normal-of-a-point-on-the-surface-of-an-ellipsoid
+        return normalize(2 * vec(intersection[0] / (self.a ** 2),
+                                 intersection[1] / (self.b ** 2),
+                                 intersection[2] / (self.c ** 2)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
