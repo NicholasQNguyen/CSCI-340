@@ -13,7 +13,6 @@ class Object3D(ABC):
        Has abstract methods intersect and getNormal."""
     def __init__(self, pos, material):
         self.position = np.array(pos)
-        self.material = material
 
     def getPosition(self):
         return self.position

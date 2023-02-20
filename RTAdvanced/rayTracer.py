@@ -33,11 +33,23 @@ class RayTracer(ProgressiveRenderer):
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return max(0, np.dot(normal, vecToLight))
 
-    def getSpecularAngle(self, vecToLight, normal, cameraRay):
+    def getSpecularAngle(self, vecToLight, normal,
+                         cameraRay, obj):
         # 07 Slides, slide 30
         vecFromLight = vecToLight * (-1)
         halfwayVector = normalize(vecFromLight + cameraRay.direction)
-        return np.dot(normal, halfwayVector)
+        specularAngle = np.dot(normal, halfwayVector)
+        # 07 Slides, Slide 24
+        specularAngle **= obj.getShine()
+        # 07 Slides, Slide 27
+        specularAngle *= obj.getSpecularCoefficient()
+        return specularAngle
+
+    def getSpecularColor(self, specularAngle, objSpecularColor):
+        # 07 Slides, Slide 20
+        specularColor = specularAngle * objSpecularColor
+        # Prevent black specular spots
+        return specularColor if specularColor[0] > 0 else vec(0, 0, 0)
 
     def getColorR(self, ray):
         # Start with zero color
@@ -71,16 +83,11 @@ class RayTracer(ProgressiveRenderer):
                 print("DIFFUSE", diffuse)
             color = color * diffuse
             color = color + nearestObj.getAmbient()
-            specularAngle = self.getSpecularAngle(vecToLight, normal, nRay)
-            # 07 Slides, Slide 24
-            specularAngle **= nearestObj.getShine()
-            # 07 Slides, Slide 27
-            specularAngle *= nearestObj.getSpecularCoefficient()
-            # 07 Slides, Slide 20
-            specularColor = specularAngle * nearestObj.getSpecular()
-            # Prevent black specular spots
-            if not (specularColor[0] < 0):
-                color = color + specularColor
+            specularAngle = self.getSpecularAngle(vecToLight, normal,
+                                                  nRay, nearestObj)
+            specularColor = self.getSpecularColor(specularAngle,
+                                                  nearestObj.getSpecular())
+            color = color + specularColor
         return color
 
     def getColor(self, x, y):
