@@ -11,7 +11,7 @@ class Object3D(ABC):
        Has a position, material.
        Has getter methods for all material properties.
        Has abstract methods intersect and getNormal."""
-    def __init__(self, pos, material):
+    def __init__(self, pos):
         self.position = np.array(pos)
 
     def getPosition(self):
@@ -55,14 +55,12 @@ class Object3D(ABC):
         """Find the normal for the given object. Must override."""
         pass
 
+    def positiveOnly(self, t):
+        """Returns t or infinity if t is negative."""
+        return t if t > 0 else np.inf
 
-class Plane(Object3D):
-    def __init__(self, normal, position, color, ambient, diffuse, specular,
-                 shininess, specCoeff):
-        super().__init__(position, False)
-        self.material = Material(color, ambient, diffuse, specular, shininess)
-        self.normal = normal
 
+class Planar(Object3D):
     def intersect(self, ray):
         """Find the intersection for the plane."""
         # 10 Slides, slide 16
@@ -71,7 +69,15 @@ class Plane(Object3D):
             return np.inf
         q = self.position - ray.position
         t = (np.dot(q, self.normal)) / denom
-        return t if t > 0 else np.inf
+        return self.positiveOnly(t)
+
+
+class Plane(Planar):
+    def __init__(self, normal, position, color, ambient, diffuse, specular,
+                 shininess, specCoeff):
+        super().__init__(position)
+        self.material = Material(color, ambient, diffuse, specular, shininess)
+        self.normal = normal
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
@@ -81,7 +87,7 @@ class Plane(Object3D):
         return str(self.getBaseColor()) + " Plane"
 
 
-class Cube(Object3D):
+class Cube(Planar):
     def __init__(self, length, position, color, ambient,
                  diffuse, specular, shininess, specCoeff):
         super().__init__(position, False)
@@ -90,7 +96,8 @@ class Cube(Object3D):
 
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        pass
+        t = 1.0;
+        return self.positiveOnly(t)
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"

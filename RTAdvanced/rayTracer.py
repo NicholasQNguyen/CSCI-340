@@ -10,7 +10,7 @@ from modules.raytracing.lights import PointLight
 from modules.raytracing.spherical import Ellipsoid
 from modules.utils.vector import vec, normalize
 
-SCREEN_MULTIPLIER = 2
+SCREEN_MULTIPLIER = 1
 WIDTH = 800
 HEIGHT = 600
 
