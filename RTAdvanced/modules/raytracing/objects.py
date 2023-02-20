@@ -132,6 +132,7 @@ class Plane(Object3D):
     def __repr__(self):
         return str(self.getBaseColor()) + " Plane"
 
+
 class Cube(Object3D):
     def __init__(self, length, position, color, ambient,
                  diffuse, specular, shininess, specCoeff):
@@ -145,6 +146,7 @@ class Cube(Object3D):
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"
+
 
 class Ellipsoid(Object3D):
     def __init__(self, a, b, c, position, color, ambient, diffuse, specular,

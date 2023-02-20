@@ -11,6 +11,7 @@ from ..utils.definitions import COLORS
 
 LIGHT_POSITION = vec(-1, 2, 2)
 
+
 class Scene(object):
     """A class to contain all items in a scene.
        Contains a camera.
@@ -52,9 +53,6 @@ class Scene(object):
                           specular=vec(1, 0.8, 0.8),
                           shininess=100,
                           specCoeff=1)
-            
-        # Gray Plane
-            
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
