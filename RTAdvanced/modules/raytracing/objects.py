@@ -88,8 +88,8 @@ class Sphere(Object3D):
         sqrtTerm = np.sqrt(discriminant)
         t1 = (-b + sqrtTerm) / 2
         t2 = (-b - sqrtTerm) / 2
-        returnedT = min(t1, t2)
-        return returnedT if returnedT > 0 else np.inf
+        t = min(t1, t2)
+        return t if t > 0 else np.inf
 
     def getNormal(self, surfacePoint, intersection=None):
         """Find the unit normal for the sphere . Must override."""
@@ -125,8 +125,8 @@ class Plane(Object3D):
         return str(self.getBaseColor()) + " Plane"
 
 class Cube(Object3D):
-    def __init__(self, length, position, color, ambient, diffuse, specular,
-                 shininess, specCoeff):
+    def __init__(self, length, position, color, ambient,
+                 diffuse, specular, shininess, specCoeff):
         super().__init__(position, False)
         self.material = Material(color, ambient, diffuse, specular, shininess)
         self.length = length
@@ -155,16 +155,16 @@ class Ellipsoid(Object3D):
         vOverS = ray.direction / s
         qOverS = q / s
         a = np.dot(vOverS, vOverS)
-        b = 2 * (np.dot(vOverS, qOverS))
-        c = (np.dot(qOverS, qOverS)) - 1
+        b = np.dot(vOverS, qOverS) * 2
+        c = np.dot(qOverS, qOverS) - 1
         discriminant = b ** 2 - 4 * a * c
         if discriminant < 0:
             return np.inf
         sqrtTerm = np.sqrt(discriminant)
         t1 = (-b + sqrtTerm) / (2 * a)
         t2 = (-b - sqrtTerm) / (2 * a)
-        returnedT = min(t1, t2)
-        return returnedT if returnedT > 0 else np.inf
+        t = min(t1, t2)
+        return t if t > 0 else np.inf
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
