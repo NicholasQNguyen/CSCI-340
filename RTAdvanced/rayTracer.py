@@ -7,7 +7,6 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
-from modules.raytracing.spherical import Ellipsoid
 from modules.utils.vector import vec, normalize
 
 SCREEN_MULTIPLIER = 1
@@ -64,9 +63,6 @@ class RayTracer(ProgressiveRenderer):
         color = color - nearestObj.getAmbient()
         surfaceHitPoint = normalizedRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
-        # TODO remove this testing only
-        if type(nearestObj) is Ellipsoid:
-            print("NORMAL", normal)
         for light in self.scene.lights:
             # 03 Slides, Slide 32
             if type(light) == PointLight:
@@ -81,9 +77,6 @@ class RayTracer(ProgressiveRenderer):
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
-            # TODO remove this testing only
-            if type(nearestObj) is Ellipsoid:
-                print("DIFFUSE", diffuse)
             # 07 Slides, Slide 16
             color = color * diffuse
             # 07 Slides, Slide 16

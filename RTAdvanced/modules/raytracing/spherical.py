@@ -53,12 +53,9 @@ class Sphere(Spherical):
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
-        discriminant = self.getDiscriminant(a, b, c)
-        if discriminant < 0:
+        if self.getDiscriminant(a, b, c) < 0:
             return np.inf
-        ts = self.quadraticFormula(a, b, c)
-        t = min(ts)
-        return self.positiveOnly(t)
+        return self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Sphere"
@@ -85,12 +82,9 @@ class Ellipsoid(Spherical):
         a = np.dot(vOverS, vOverS)
         b = np.dot(vOverS, qOverS) * 2
         c = np.dot(qOverS, qOverS) - 1
-        discriminant = self.getDiscriminant(a, b, c)
-        if discriminant < 0:
+        if self.getDiscriminant(a, b, c) < 0:
             return np.inf
-        ts = self.quadraticFormula(a, b, c)
-        t = min(ts)
-        return self.positiveOnly(t)
+        return self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
