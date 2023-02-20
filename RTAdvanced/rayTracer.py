@@ -10,15 +10,15 @@ from modules.raytracing.lights import PointLight
 from modules.raytracing.spherical import Ellipsoid
 from modules.utils.vector import vec, normalize
 
-SCREEN_MULTIPLIER = 1
-TARGET_WIDTH = 800
-TARGET_HEIGHT = 600
+SCREEN_MULTIPLIER = 2
+WIDTH = 800
+HEIGHT = 600
 
 
 class RayTracer(ProgressiveRenderer):
     def __init__(self,
-                 width=TARGET_WIDTH * SCREEN_MULTIPLIER,
-                 height=TARGET_HEIGHT * SCREEN_MULTIPLIER,
+                 width=WIDTH * SCREEN_MULTIPLIER,
+                 height=HEIGHT * SCREEN_MULTIPLIER,
                  show=ShowTypes.PerColumn):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
