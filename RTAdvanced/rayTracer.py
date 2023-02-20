@@ -1,6 +1,6 @@
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
-import pygame
+import pygame as pg
 
 from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
@@ -10,14 +10,15 @@ from modules.raytracing.lights import PointLight
 from modules.raytracing.spherical import Ellipsoid
 from modules.utils.vector import vec, normalize
 
+SCREEN_MULTIPLIER = 1
 TARGET_WIDTH = 800
 TARGET_HEIGHT = 600
 
 
 class RayTracer(ProgressiveRenderer):
     def __init__(self,
-                 width=TARGET_WIDTH,
-                 height=TARGET_HEIGHT,
+                 width=TARGET_WIDTH * SCREEN_MULTIPLIER,
+                 height=TARGET_HEIGHT * SCREEN_MULTIPLIER,
                  show=ShowTypes.PerColumn):
         super().__init__(width, height, show=show)
         self.fog = vec(0.7, 0.9, 1.0)
@@ -63,6 +64,7 @@ class RayTracer(ProgressiveRenderer):
         color = color - nearestObj.getAmbient()
         surfaceHitPoint = normalizedRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
+        # TODO remove this testing only
         if type(nearestObj) is Ellipsoid:
             print("NORMAL", normal)
         for light in self.scene.lights:
@@ -73,19 +75,23 @@ class RayTracer(ProgressiveRenderer):
             else:
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
-            shadowRay = Ray(surfaceHitPoint, vecToLight)
-            shadowedObj, _ = self.scene.shadowed(shadowRay, nearestObj)
+            rayFromSurfaceToLight = Ray(surfaceHitPoint, vecToLight)
+            shadowedObj, _ = self.scene.shadowed(rayFromSurfaceToLight, nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
+            # TODO remove this testing only
             if type(nearestObj) is Ellipsoid:
                 print("DIFFUSE", diffuse)
+            # 07 Slides, Slide 16
             color = color * diffuse
+            # 07 Slides, Slide 16
             color = color + nearestObj.getAmbient()
             specularAngle = self.getSpecularAngle(vecToLight, normal,
                                                   normalizedRay, nearestObj)
             specularColor = self.getSpecularColor(specularAngle,
                                                   nearestObj.getSpecular())
+            # 07 Slides, Slide 23
             color = color + specularColor
         return color
 
@@ -103,4 +109,4 @@ class RayTracer(ProgressiveRenderer):
 # Calls the 'main' function when this script is executed
 if __name__ == '__main__':
     RayTracer.main("Ray Tracer Basics")
-    pygame.quit()
+    pg.quit()
