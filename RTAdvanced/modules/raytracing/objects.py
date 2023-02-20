@@ -88,7 +88,8 @@ class Sphere(Object3D):
         sqrtTerm = np.sqrt(discriminant)
         t1 = (-b + sqrtTerm) / 2
         t2 = (-b - sqrtTerm) / 2
-        return max(0, min(t1, t2))
+        returnedT = min(t1, t2)
+        return returnedT if returnedT > 0 else np.inf
 
     def getNormal(self, surfacePoint, intersection=None):
         """Find the unit normal for the sphere . Must override."""
@@ -161,11 +162,11 @@ class Ellipsoid(Object3D):
         sqrtTerm = np.sqrt(discriminant)
         t1 = (-b + sqrtTerm) / (2 * a)
         t2 = (-b - sqrtTerm) / (2 * a)
-        return max(0, min(t1, t2))
+        returnedT = min(t1, t2)
+        return returnedT if returnedT > 0 else np.inf
 
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        # https://math.stackexchange.com/questions/2931909/normal-of-a-point-on-the-surface-of-an-ellipsoid
         # 10 Slides, Slide 26
         # TODO Fix this
         return normalize(vec(2 * intersection[0] / self.a ** 2,

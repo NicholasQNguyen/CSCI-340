@@ -71,9 +71,9 @@ class Scene(object):
         distances = [o.intersect(ray) for o in self.objects]
         nearestObj = None
         minDistance = np.inf
-        for i in range(len(distances)):
-            if distances[i] < minDistance:
-                minDistance = distances[i]
+        for i, distance in enumerate(distances):
+            if distance < minDistance:
+                minDistance = distance
                 nearestObj = self.objects[i]
         return nearestObj, minDistance
 
@@ -83,9 +83,9 @@ class Scene(object):
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
         colObj = None
         distanceToObj = np.inf
-        for i in range(len(distances)):
-            if distances[i] < distanceToObj and self.objects[i] is not obj:
-                distanceToObj = distances[i]
+        for i, distance in enumerate(distances):
+            if distance < distanceToObj and self.objects[i] is not obj:
+                distanceToObj = distance
                 colObj = self.objects[i]
         return colObj, distanceToObj
 
