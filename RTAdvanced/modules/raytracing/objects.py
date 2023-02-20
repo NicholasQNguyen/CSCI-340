@@ -3,7 +3,6 @@ Author: Liz Matthews, Geoff Matthews
 """
 from abc import ABC, abstractmethod
 import numpy as np
-from .materials import Material
 
 
 class Object3D(ABC):

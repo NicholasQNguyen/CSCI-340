@@ -2,7 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
-from ..raytracing.planar import Plane, Cube
+from ..raytracing.planar import Plane
 from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera

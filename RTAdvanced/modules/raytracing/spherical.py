@@ -2,7 +2,7 @@ import numpy as np
 
 from .objects import Object3D
 from .materials import Material
-from ..utils.vector import normalize, vec
+from ..utils.vector import normalize
 
 
 class Spherical(Object3D):
@@ -16,9 +16,14 @@ class Spherical(Object3D):
 
     def getDiscriminant(self, a, b, c):
         """Calulates the discriminent (term under the
-           sqrt in the quadratic formula.
+           sqrt in the quadratic formula).
            Returns a float."""
         return b ** 2 - 4 * a * c
+
+    def getNormal(self, surfacePoint, intersection=None):
+        """Find the unit normal."""
+        # https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/shading-normals.html
+        return normalize(surfacePoint - self.position)
 
 
 class Sphere(Spherical):
@@ -55,11 +60,6 @@ class Sphere(Spherical):
         t = min(ts)
         return self.positiveOnly(t)
 
-    def getNormal(self, surfacePoint, intersection=None):
-        """Find the unit normal for the sphere . Must override."""
-        # https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/shading-normals.html
-        return normalize(surfacePoint - self.position)
-
     def __repr__(self):
         return str(self.getBaseColor()) + " Sphere"
 
@@ -91,17 +91,6 @@ class Ellipsoid(Spherical):
         ts = self.quadraticFormula(a, b, c)
         t = min(ts)
         return self.positiveOnly(t)
-
-    def getNormal(self, intersection):
-        """Find the normal of the ellipsoid. Must override."""
-        # 10 Slides, Slide 26
-        # TODO Fix this
-        x = intersection[0]
-        y = intersection[1]
-        z = intersection[2]
-        return normalize(vec((2 * x) / self.a ** 2,
-                             (2 * y) / self.b ** 2,
-                             (2 * z) / self.c ** 2))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"

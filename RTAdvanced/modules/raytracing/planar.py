@@ -37,10 +37,12 @@ class Cube(Planar):
         super().__init__(position, False)
         self.material = Material(color, ambient, diffuse, specular, shininess)
         self.length = length
+        self.sides = []
+        self.setSides()
 
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        t = 1.0;
+        t = 1.0
         return self.positiveOnly(t)
 
     def __repr__(self):
