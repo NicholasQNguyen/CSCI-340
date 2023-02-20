@@ -7,6 +7,12 @@ from .materials import Material
 from ..utils.vector import normalize, vec
 
 
+def quadraticFormula(a, b, c):
+    plusB = (-b + np.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
+    minusB = (-b - np.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
+    return (plusB, minusB)
+
+
 class Object3D(ABC):
     """Abstract base class for all objects in the raytraced scene.
        Has a position, material.
@@ -77,7 +83,7 @@ class Sphere(Object3D):
         # 06 Slides, slide 43
         q = ray.position - self.position
         # 1 b/c normalized
-        # a = 1
+        a = 1
         b = 2 * np.dot(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
@@ -85,10 +91,8 @@ class Sphere(Object3D):
         discriminant = b ** 2 - 4 * c
         if discriminant < 0:
             return np.inf
-        sqrtTerm = np.sqrt(discriminant)
-        t1 = (-b + sqrtTerm) / 2
-        t2 = (-b - sqrtTerm) / 2
-        t = min(t1, t2)
+        ts = quadraticFormula(a, b, c)
+        t = min(ts)
         return t if t > 0 else np.inf
 
     def getNormal(self, surfacePoint, intersection=None):
@@ -160,10 +164,8 @@ class Ellipsoid(Object3D):
         discriminant = b ** 2 - 4 * a * c
         if discriminant < 0:
             return np.inf
-        sqrtTerm = np.sqrt(discriminant)
-        t1 = (-b + sqrtTerm) / (2 * a)
-        t2 = (-b - sqrtTerm) / (2 * a)
-        t = min(t1, t2)
+        ts = quadraticFormula(a, b, c)
+        t = min(ts)
         return t if t > 0 else np.inf
 
     def getNormal(self, intersection):
