@@ -80,7 +80,6 @@ class RayTracer(ProgressiveRenderer):
             specularColor = specularAngle * nearestObj.getSpecular()
             # Prevent black specular spots
             if not (specularColor[0] < 0):
-                pass
                 color = color + specularColor
         return color
 
