@@ -151,11 +151,12 @@ class Ellipsoid(Object3D):
         """Find the intersection for the ellipsoids."""
         # 10 Slides, Slide 22
         q = ray.position - self.position
-        v = ray.direction
         s = (self.a, self.b, self.c)
-        a = np.dot((v / s), (v / s))
-        b = 2 * (np.dot((v / s), (q / s)))
-        c = (np.dot((q / s), (q / s))) - 1
+        vOverS = ray.direction / s
+        qOverS = q / s
+        a = np.dot(vOverS, vOverS)
+        b = 2 * (np.dot(vOverS, qOverS))
+        c = (np.dot(qOverS, qOverS)) - 1
         discriminant = b ** 2 - 4 * a * c
         if discriminant < 0:
             return np.inf
