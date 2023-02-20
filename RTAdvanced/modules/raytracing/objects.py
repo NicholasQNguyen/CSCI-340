@@ -13,6 +13,10 @@ def quadraticFormula(a, b, c):
     return (plusB, minusB)
 
 
+def getDiscriminant(a, b, c):
+    return b ** 2 - 4 * a * c
+
+
 class Object3D(ABC):
     """Abstract base class for all objects in the raytraced scene.
        Has a position, material.
@@ -88,7 +92,7 @@ class Sphere(Object3D):
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
-        discriminant = b ** 2 - 4 * c
+        discriminant = getDiscriminant(a, b, c)
         if discriminant < 0:
             return np.inf
         ts = quadraticFormula(a, b, c)
@@ -161,7 +165,7 @@ class Ellipsoid(Object3D):
         a = np.dot(vOverS, vOverS)
         b = np.dot(vOverS, qOverS) * 2
         c = np.dot(qOverS, qOverS) - 1
-        discriminant = b ** 2 - 4 * a * c
+        discriminant = getDiscriminant(a, b, c)
         if discriminant < 0:
             return np.inf
         ts = quadraticFormula(a, b, c)
