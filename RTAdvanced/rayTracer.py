@@ -52,17 +52,16 @@ class RayTracer(ProgressiveRenderer):
         return specularColor if specularColor[0] > 0 else vec(0, 0, 0)
 
     def getColorR(self, ray):
-        # Start with zero color
-        color = np.zeros((3))
-        nRay = Ray(ray.position, normalize(ray.direction))
-        nearestObj, minDist = self.scene.nearestObject(nRay)
+        normalizedRay = Ray(ray.position, normalize(ray.direction))
+        nearestObj, minDist = self.scene.nearestObject(normalizedRay)
         # We hit nothing
         if nearestObj is None:
             return self.fog
+        # Start with base color of object
         color = nearestObj.getBaseColor()
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()
-        surfaceHitPoint = nRay.getPositionAt(minDist)
+        surfaceHitPoint = normalizedRay.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
         if type(nearestObj) is Ellipsoid:
             print("NORMAL", normal)
@@ -84,7 +83,7 @@ class RayTracer(ProgressiveRenderer):
             color = color * diffuse
             color = color + nearestObj.getAmbient()
             specularAngle = self.getSpecularAngle(vecToLight, normal,
-                                                  nRay, nearestObj)
+                                                  normalizedRay, nearestObj)
             specularColor = self.getSpecularColor(specularAngle,
                                                   nearestObj.getSpecular())
             color = color + specularColor
