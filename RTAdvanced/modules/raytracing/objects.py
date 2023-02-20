@@ -4,7 +4,6 @@ Author: Liz Matthews, Geoff Matthews
 from abc import ABC, abstractmethod
 import numpy as np
 from .materials import Material
-from ..utils.vector import normalize, vec
 
 
 class Object3D(ABC):
@@ -56,8 +55,6 @@ class Object3D(ABC):
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         pass
-
-
 
 
 class Plane(Object3D):
