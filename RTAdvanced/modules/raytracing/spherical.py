@@ -2,7 +2,7 @@ import numpy as np
 
 from .objects import Object3D
 from .materials import Material
-from ..utils.vector import normalize
+from ..utils.vector import normalize, magnitude
 
 
 class Spherical(Object3D):
@@ -25,6 +25,14 @@ class Spherical(Object3D):
         # https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/shading-normals.html
         return normalize(surfacePoint - self.position)
 
+    def getA(self, vector):
+        """Returns the dot product of a vector by itself."""
+        return 1 if magnitude(vector) == 1 else np.dot(vector, vector)
+
+    def getB(self, vector1, vector2):
+        """Expects normalized vectors.
+           Returns the dot product of 2 vectors times 2."""
+        return np.dot(vector1, vector2) * 2
 
 class Sphere(Spherical):
     def __init__(self, radius, position, baseColor, ambient,
@@ -48,8 +56,8 @@ class Sphere(Spherical):
         # 06 Slides, slide 43
         q = ray.position - self.position
         # 1 b/c normalized
-        a = 1
-        b = 2 * np.dot(q, ray.direction)
+        a = self.getA(ray.direction)
+        b = self.getB(q, ray.direction)
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
@@ -79,8 +87,8 @@ class Ellipsoid(Spherical):
         s = (self.a, self.b, self.c)
         vOverS = ray.direction / s
         qOverS = q / s
-        a = np.dot(vOverS, vOverS)
-        b = np.dot(vOverS, qOverS) * 2
+        a = self.getA(vOverS)
+        b = self.getB(vOverS, qOverS)
         c = np.dot(qOverS, qOverS) - 1
         if self.getDiscriminant(a, b, c) < 0:
             return np.inf
