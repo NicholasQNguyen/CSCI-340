@@ -2,7 +2,8 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
-from ..raytracing.objects import Sphere, Plane, Ellipsoid
+from ..raytracing.objects import Plane
+from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
 from ..utils.vector import vec

@@ -7,7 +7,7 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
-from modules.raytracing.objects import Ellipsoid
+from modules.raytracing.spherical import Ellipsoid
 from modules.utils.vector import vec, normalize
 
 TARGET_WIDTH = 800
