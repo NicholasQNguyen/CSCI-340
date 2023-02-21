@@ -6,6 +6,7 @@ from .objects import Object3D
 from .materials import Material
 from ..utils.vector import vec
 
+
 class Side(Enum):
     """Each side of the cube."""
     Top = 0
@@ -16,11 +17,7 @@ class Side(Enum):
     Back = 5
 
 
-class Planar(Object3D):
-    pass
-
-
-class Plane(Planar):
+class Plane(Object3D):
     def __init__(self, normal, position, color, ambient, diffuse, specular,
                  shininess, specCoeff):
         super().__init__(position)
@@ -45,7 +42,7 @@ class Plane(Planar):
         return str(self.getBaseColor()) + " Plane"
 
 
-class Cube(Planar):
+class Cube(Object3D):
     def __init__(self, length, position, color, ambient,
                  diffuse, specular, shininess, specCoeff):
         super().__init__(position)
@@ -54,7 +51,7 @@ class Cube(Planar):
         self.sides = []
         self.setSides()
 
-    def setSides(self): 
+    def setSides(self):
         self.addSide(Side.Top)
         self.addSide(Side.Bottom)
         self.addSide(Side.Left)
@@ -110,10 +107,7 @@ class Cube(Planar):
 
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        ts = [side.intersect(ray) for side in self.sides]
-        filteredTs = [t for t in ts if t is not np.inf]
-        filteredTs = [t for t in filteredTs if not t < 0]
-        return min(filteredTs)
+        return min([side.intersect(ray) for side in self.sides])
 
     # TODO actually get this working
     def getNormal(self, intersection):

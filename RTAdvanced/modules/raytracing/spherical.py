@@ -34,6 +34,7 @@ class Spherical(Object3D):
            Returns the dot product of 2 vectors times 2."""
         return np.dot(vector1, vector2) * 2
 
+
 class Sphere(Spherical):
     def __init__(self, radius, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff):

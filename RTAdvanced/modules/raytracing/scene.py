@@ -9,7 +9,6 @@ from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
 
-
 LIGHT_POSITION = vec(-1, 2, 2)
 
 
@@ -125,14 +124,13 @@ class Scene(object):
                                   specular, shininess, specCoeff))
 
     def addCube(self, length=1,
-                 position=vec(0, 0, 0), color=COLORS["gray"],
-                 ambient=COLORS["blue"],
-                 diffuse=COLORS["black"], specular=COLORS["white"],
-                 shininess=0, specCoeff=100):
+                position=vec(0, 0, 0), color=COLORS["gray"],
+                ambient=COLORS["blue"],
+                diffuse=COLORS["black"], specular=COLORS["white"],
+                shininess=0, specCoeff=100):
         self.objects.append(Cube(length, position, color,
                                  ambient, diffuse,
                                  specular, shininess, specCoeff))
-
 
     def addDirectionalLight(self,
                             color=COLORS["white"],
