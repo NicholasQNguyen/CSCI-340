@@ -4,15 +4,16 @@ from enum import Enum
 
 from .objects import Object3D
 from .materials import Material
+from ..utils.vector import vec
 
 class Side(Enum):
     """Each side of the cube."""
     Top = 0
-    Botton = 1
+    Bottom = 1
     Left = 2
     Right = 3
     Front = 4
-    Bottom = 5
+    Back = 5
 
 
 class Planar(Object3D):
@@ -47,25 +48,19 @@ class Plane(Planar):
 class Cube(Planar):
     def __init__(self, length, position, color, ambient,
                  diffuse, specular, shininess, specCoeff):
-        super().__init__(position, False)
+        super().__init__(position)
         self.material = Material(color, ambient, diffuse, specular, shininess)
         self.length = length
         self.sides = []
         self.setSides()
 
     def setSides(self): 
-        addSide(Side.Top)
-        addSide(Side.Bottom)
-        addSide(Side.Left)
-        addSide(Side.Right)
-        addSide(Side.Front)
-        addSide(Side.Back)
-
-    def intersect(self, ray):
-        """Find the intersection for the cube."""
-        ts = [side.intersect(ray) for side in self.sides]
-        filteredTs = [t for t in ts if t is not np.inf]
-        return self.positiveOnly(t)
+        self.addSide(Side.Top)
+        self.addSide(Side.Bottom)
+        self.addSide(Side.Left)
+        self.addSide(Side.Right)
+        self.addSide(Side.Front)
+        self.addSide(Side.Back)
 
     def addSide(self, side):
         distance = self.length / 2
@@ -104,15 +99,26 @@ class Cube(Planar):
                 print("OH GOD")
                 sys.exit(1)
 
-        self.sides.append(normal=normal,
-                          position=position,
-                          color=self.color,
-                          ambient=self.ambient,
-                          diffuse=self.diffuse,
-                          specular=self.specular,
-                          shininess=self.shininess,
-                          specCoeff=self.specularCoefficient)
-        
+        self.sides.append(Plane(normal=normal,
+                                position=position,
+                                color=self.getBaseColor(),
+                                ambient=self.getAmbient(),
+                                diffuse=self.getDiffuse(),
+                                specular=self.getSpecular(),
+                                shininess=self.getShine(),
+                                specCoeff=self.getSpecularCoefficient()))
+
+    def intersect(self, ray):
+        """Find the intersection for the cube."""
+        ts = [side.intersect(ray) for side in self.sides]
+        filteredTs = [t for t in ts if t is not np.inf]
+        filteredTs = [t for t in filteredTs if not t < 0]
+        return min(filteredTs)
+
+    # TODO actually get this working
+    def getNormal(self, intersection):
+        """Find the normal for the given object. Must override."""
+        return self.normal
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"

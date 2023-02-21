@@ -2,7 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
-from ..raytracing.planar import Plane
+from ..raytracing.planar import Plane, Cube
 from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
@@ -63,6 +63,15 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1)
+        # Blue Cube
+        self.addCube(length=1,
+                     position=vec(0, 0, 0),
+                     color=COLORS["blue"],
+                     ambient=vec(0.3, 0.3, 0.7),
+                     diffuse=vec(0.3, 0.3, 0.7),
+                     specular=COLORS["white"],
+                     shininess=0,
+                     specCoeff=100)
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
@@ -97,6 +106,15 @@ class Scene(object):
                                    ambient, diffuse,
                                    specular, shininess, specCoeff))
 
+    def addEllipsoid(self, a=1, b=1, c=1,
+                     position=vec(0, 0, 0), color=COLORS["red"],
+                     ambient=COLORS["red"],
+                     diffuse=COLORS["black"], specular=COLORS["white"],
+                     shininess=0, specCoeff=100):
+        self.objects.append(Ellipsoid(a, b, c, position, color,
+                                      ambient, diffuse,
+                                      specular, shininess, specCoeff))
+
     def addPlane(self, normal=vec(0, 1, 0),
                  position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
@@ -106,14 +124,15 @@ class Scene(object):
                                   ambient, diffuse,
                                   specular, shininess, specCoeff))
 
-    def addEllipsoid(self, a=1, b=1, c=1,
-                     position=vec(0, 0, 0), color=COLORS["red"],
-                     ambient=COLORS["red"],
-                     diffuse=COLORS["black"], specular=COLORS["white"],
-                     shininess=0, specCoeff=100):
-        self.objects.append(Ellipsoid(a, b, c, position, color,
-                                      ambient, diffuse,
-                                      specular, shininess, specCoeff))
+    def addCube(self, length=1,
+                 position=vec(0, 0, 0), color=COLORS["gray"],
+                 ambient=COLORS["blue"],
+                 diffuse=COLORS["black"], specular=COLORS["white"],
+                 shininess=0, specCoeff=100):
+        self.objects.append(Cube(length, position, color,
+                                 ambient, diffuse,
+                                 specular, shininess, specCoeff))
+
 
     def addDirectionalLight(self,
                             color=COLORS["white"],

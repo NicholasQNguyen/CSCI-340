@@ -7,6 +7,7 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
+from modules.raytracing.planar import Cube
 from modules.utils.vector import vec, normalize
 
 SCREEN_MULTIPLIER = 1
@@ -57,6 +58,9 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
+        # TODO temp testing
+        if type(nearestObj) is Cube:
+            return vec(0, 0, 1)
         # Start with base color of object
         color = nearestObj.getBaseColor()
         # 07 Slides, Slide 16
