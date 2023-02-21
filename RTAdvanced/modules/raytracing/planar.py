@@ -17,7 +17,17 @@ class Side(Enum):
     Back = 5
 
 
-class Plane(Object3D):
+class Planar(Object3D):
+   def intersectPart1(self, ray): 
+        # 10 Slides, slide 16
+        denom = np.dot(ray.direction, self.normal)
+        if denom == 0:
+            return np.inf
+        q = self.position - ray.position
+        return (np.dot(q, self.normal)) / denom
+
+
+class Plane(Planar):
     def __init__(self, normal, position, color, ambient, diffuse, specular,
                  shininess, specCoeff):
         super().__init__(position)
@@ -29,20 +39,20 @@ class Plane(Object3D):
         return self.normal
 
     def intersect(self, ray):
-        """Find the intersection for the plane."""
-        # 10 Slides, slide 16
-        denom = np.dot(ray.direction, self.normal)
-        if denom == 0:
-            return np.inf
-        q = self.position - ray.position
-        t = (np.dot(q, self.normal)) / denom
-        return self.positiveOnly(t)
+        """Find the intersection for the plane.
+           Returns a signed t"""
+        return self.positiveOnly(self.intersectPart1(ray))
+
+    def signedIntersect(self, ray):
+        """Find the intersection for the plane.
+           Returns a t only if it's positive."""
+        return self.intersectPart1(ray)
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Plane"
 
 
-class Cube(Object3D):
+class Cube(Planar):
     def __init__(self, length, position, color, ambient,
                  diffuse, specular, shininess, specCoeff):
         super().__init__(position)
@@ -105,9 +115,10 @@ class Cube(Object3D):
                                 shininess=self.getShine(),
                                 specCoeff=self.getSpecularCoefficient()))
 
+    # TODO get this working
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        return min([side.intersect(ray) for side in self.sides])
+        return min([side.signedIntersect(ray) for side in self.sides])
 
     # TODO actually get this working
     def getNormal(self, intersection):

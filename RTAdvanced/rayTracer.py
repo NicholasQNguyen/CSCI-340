@@ -60,6 +60,7 @@ class RayTracer(ProgressiveRenderer):
             return self.fog
         # TODO temp testing
         if type(nearestObj) is Cube:
+            print("CUBE MIN DIST", minDist)
             return vec(0, 0, 1)
         # Start with base color of object
         color = nearestObj.getBaseColor()

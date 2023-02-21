@@ -62,6 +62,7 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1)
+        """
         # Blue Cube
         self.addCube(length=1,
                      position=vec(0, 0, 0),
@@ -71,6 +72,7 @@ class Scene(object):
                      specular=COLORS["white"],
                      shininess=0,
                      specCoeff=100)
+        """
 
     def nearestObject(self, ray):
         """Returns the nearest collision object
