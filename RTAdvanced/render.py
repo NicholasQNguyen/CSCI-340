@@ -10,7 +10,6 @@ override getColor().
 import os
 import pygame
 import time
-# import random
 import numpy as np
 import pygame as pg
 import sys
@@ -130,15 +129,12 @@ class ProgressiveRenderer(ABC):
 
         else:
             self.screen = None
-
         # Create the image
         self.image = pygame.Surface((self.width,
                                      self.height))
         self.image.fill(self.fillColor)
-
         # Prepare Game Objects
         self.clock = pygame.time.Clock()
-
         # Start rendering
         self.restartRender()
 
@@ -163,59 +159,40 @@ class ProgressiveRenderer(ABC):
         """The main loop of rendering the image.
         Will create pixels of progressively smaller sizes. Stops rendering
         when the pixel size is 0."""
-
         startTime = time.time()
-
         # First progress is to fill entire image with one color
         color = self.getColor(0, 0)
         self.image.fill(color, ((0, 0), (self.width, self.height)))
-
         # Show the progress
         self.showProgress()
-
         yield
-
         # Until the pixel size gets too small
         while self.pixelSize > self.minimumPixel:
             print(f"Pixel Size: {self.pixelSize:3}")
-
             # For each pixel in the image, jumping by pixel size
             for x in range(0, self.width, self.pixelSize):
                 for y in range(0, self.height, self.pixelSize):
                     # Get color
                     color = self.getColor(x, y) * 255
-
                     self.image.fill(color, ((x, y), (self.pixelSize,
                                                      self.pixelSize)))
-
                     if self.show == ShowTypes.PerPixel:
                         self.showProgress(256 * 60 // self.pixelSize)
-
                     yield
-
                 if self.show == ShowTypes.PerColumn:
                     self.showProgress(60)
-
             # Reduce pixel size
             self.pixelSize //= 2
-
             if self.show == ShowTypes.PerImage:
                 self.showProgress(30)
-
         # Done rendering
         self.done = True
-
         endTime = time.time()
-
         print()
-
         print(f"Completed in {(endTime - startTime):.4f} seconds", flush=True)
-
         if self.show == ShowTypes.FinalShow:
             self.showProgress(30)
-
         elif self.show == ShowTypes.NoShow:
             pygame.image.save(self.image,
                               os.path.join("images", self.fileName))
-
         yield
