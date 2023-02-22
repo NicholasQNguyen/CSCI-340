@@ -21,7 +21,6 @@ class ShowTypes(Enum):
     """Control for how the progressive pixel renderer shows images.
     More showing will be slower, NoShow doesn't show the image until
     done."""
-
     PerPixel = 0
     PerColumn = 1
     PerImage = 2
@@ -35,15 +34,12 @@ class ProgressiveRenderer(ABC):
     def main(cls, caption="Renderer"):
         """General main loop for the progressive renderer.
         Sets up pygame and everything necessary."""
-
         # Initialize Pygame
         pygame.init()
-
         # Set up renderer
         cls.renderer = cls()
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
-
         # Main loop
         while cls.renderer.isRunning():
             # If the renderer has work to do, let it
@@ -61,16 +57,13 @@ class ProgressiveRenderer(ABC):
                  show=ShowTypes.PerColumn,
                  minimumPixel=0,
                  startPixelSize=256):
-
         self.width = width
         self.height = height
         self.showTime = showTime
         self.minimumPixel = minimumPixel
         self.screen = None
         self.fillColor = (64, 128, 255)
-
         self.show = show
-
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
             self.startPixelSize = max(1, minimumPixel * 2)
         else:
@@ -112,7 +105,6 @@ class ProgressiveRenderer(ABC):
             exitRender = self.handleExitInput(event)
             if exitRender:
                 return True
-
             self.handleSaveInput(event)
             self.handleOtherInput(event)
 
