@@ -34,6 +34,11 @@ class Spherical(Object3D):
            Returns the dot product of 2 vectors times 2."""
         return np.dot(vector1, vector2) * 2
 
+    def getC(self, vector, subtractedTerm):
+        """Returns the dot product of a vector by itself
+           minus a term."""
+        return np.dot(vector, vector) - subtractedTerm
+
 
 class Sphere(Spherical):
     def __init__(self, radius, position, baseColor, ambient,
@@ -59,7 +64,7 @@ class Sphere(Spherical):
         # 1 b/c normalized
         a = self.getA(ray.direction)
         b = self.getB(q, ray.direction)
-        c = np.dot(q, q) - self.radius ** 2
+        c = self.getC(q, self.radius ** 2)
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
@@ -89,7 +94,7 @@ class Ellipsoid(Spherical):
         qOverS = q / s
         a = self.getA(vOverS)
         b = self.getB(vOverS, qOverS)
-        c = np.dot(qOverS, qOverS) - 1
+        c = self.getC(qOverS, 1)
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
             self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
