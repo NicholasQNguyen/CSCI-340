@@ -41,7 +41,9 @@ class RayTracer(ProgressiveRenderer):
         vecFromLight = vecToLight * (-1)
         halfwayVector = normalize(vecFromLight + cameraRay.direction)
         # 07 Slides, Slide 24 + Slide 27
-        return np.dot(normal, halfwayVector) ** obj.getShine() * obj.getSpecularCoefficient()
+        return np.dot(normal, halfwayVector) ** \
+            obj.getShine() * \
+            obj.getSpecularCoefficient()
 
     def getSpecularColor(self, specularAngle, objSpecularColor):
         # 07 Slides, Slide 20
@@ -73,7 +75,11 @@ class RayTracer(ProgressiveRenderer):
             else:
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
-            shadowedObj, _ = self.scene.nearestObject(Ray(surfaceHitPoint, vecToLight),
+            shadowedObj, _ = self.scene.nearestObject(Ray
+                                                      (
+                                                          surfaceHitPoint,
+                                                          vecToLight
+                                                      ),
                                                       nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
@@ -82,10 +88,13 @@ class RayTracer(ProgressiveRenderer):
             # 07 Slides, Slide 16
             color = color + nearestObj.getAmbient()
             # 07 Slides, Slide 23
-            color = color + self.getSpecularColor(self.getSpecularAngle(vecToLight,
-                                                                        normal,
-                                                                        ray,
-                                                                        nearestObj),
+            color = color + self.getSpecularColor(self.getSpecularAngle
+                                                  (
+                                                      vecToLight,
+                                                      normal,
+                                                      ray,
+                                                      nearestObj
+                                                  ),
                                                   nearestObj.getSpecular())
         return color
 
