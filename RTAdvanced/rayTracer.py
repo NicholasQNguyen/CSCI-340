@@ -6,7 +6,6 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
-from modules.raytracing.lights import PointLight
 from modules.utils.vector import vec, normalize
 
 SCREEN_MULTIPLIER = 1
@@ -62,11 +61,7 @@ class RayTracer(ProgressiveRenderer):
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
-            if type(light) == PointLight:
-                vectorToLight = light.getVectorToLight(surfaceHitPoint)
-            # It's a directional light
-            else:
-                vectorToLight = light.getVectorToLight()
+            vectorToLight = light.getVectorToLight(surfaceHitPoint)
             # Check if shadowed
             shadowedObject, _ = self.scene.nearestObject(Ray(
                                                              surfaceHitPoint,

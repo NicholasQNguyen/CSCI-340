@@ -45,7 +45,7 @@ class DirectionalLight(AbstractLight):
         super().__init__(color, position)
         self.lightVector = lightVector
 
-    def getVectorToLight(self):
+    def getVectorToLight(self, point):
         """Returns a vector pointing towards the light"""
         return self.lightVector
 
