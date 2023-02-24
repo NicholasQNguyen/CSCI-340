@@ -7,7 +7,6 @@ from render import ProgressiveRenderer, ShowTypes
 from modules.raytracing.scene import Scene
 from modules.raytracing.ray import Ray
 from modules.raytracing.lights import PointLight
-from modules.raytracing.planar import Cube
 from modules.utils.vector import vec, normalize
 
 SCREEN_MULTIPLIER = 1
@@ -57,14 +56,9 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObj is None:
             return self.fog
-        # TODO temp testing
-        if type(nearestObj) is Cube:
-            print("CUBE MIN DIST", minDist)
-            return vec(0, 0, 1)
-        # Start with base color of object
-        color = nearestObj.getBaseColor()
-        # 07 Slides, Slide 16
-        color = color - nearestObj.getAmbient()
+        # Start with base color of object + ambient difference
+        color = nearestObj.getBaseColor() - \
+            nearestObj.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
@@ -74,11 +68,9 @@ class RayTracer(ProgressiveRenderer):
             else:
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
-            shadowedObj, _ = self.scene.nearestObject(Ray
-                                                      (
+            shadowedObj, _ = self.scene.nearestObject(Ray(
                                                           surfaceHitPoint,
-                                                          vecToLight
-                                                      ),
+                                                          vecToLight),
                                                       nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
@@ -86,25 +78,22 @@ class RayTracer(ProgressiveRenderer):
             color = color * \
                 self.getDiffuse(vecToLight, normal) + \
                 nearestObj.getAmbient() + \
-                self.getSpecularColor(self.getSpecularAngle  # Slide 23
-                                      (
+                self.getSpecularColor(self.getSpecularAngle(  # Slide 23
                                           vecToLight,
                                           normal,
                                           ray,
-                                          nearestObj
-                                      ),
+                                          nearestObj),
                                       nearestObj.getSpecular())
         return color
 
     def getColor(self, x, y):
-        xPercent = x / self.width
-        yPercent = y / self.height
-        cameraRay = self.scene.camera.getRay(xPercent, yPercent)
-        # Get the color based on the ray
-        color = self.getColorR(cameraRay)
-        # Fixing any NaNs in numpy, clipping to 0, 1.
-        color = np.nan_to_num(np.clip(color, 0, 1), 0)
-        return color
+        return np.nan_to_num(  # Fixing any NaNs in numpy, clipping to 0, 1.
+            np.clip(
+                self.getColorR(  # Get the color based on the ray
+                    self.scene.camera.getRay(x/self.width,
+                                             y / self.height)),
+                0, 1),
+            0)
 
 
 # Calls the 'main' function when this script is executed
