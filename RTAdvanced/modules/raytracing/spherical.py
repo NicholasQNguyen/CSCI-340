@@ -10,8 +10,8 @@ class Spherical(Object3D):
         """Calulates the quadratic formula.
            Returns a tuple with -b plus and minus
            in the 0th and 1st index respectively."""
-        plusB = (-b + np.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
-        minusB = (-b - np.sqrt(b ** 2 - 4 * a * c)) / (2 * a)
+        plusB = (-b + np.sqrt(self.getDiscriminant(a, b, c))) / (2 * a)
+        minusB = (-b - np.sqrt(self.getDiscriminant(a, b, c))) / (2 * a)
         return (plusB, minusB)
 
     def getDiscriminant(self, a, b, c):
@@ -62,9 +62,8 @@ class Sphere(Spherical):
         c = np.dot(q, q) - self.radius ** 2
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
-        if self.getDiscriminant(a, b, c) < 0:
-            return np.inf
-        return self.positiveOnly(min(self.quadraticFormula(a, b, c)))
+        return np.inf if self.getDiscriminant(a, b, c) < 0 else \
+               self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Sphere"
@@ -91,9 +90,8 @@ class Ellipsoid(Spherical):
         a = self.getA(vOverS)
         b = self.getB(vOverS, qOverS)
         c = np.dot(qOverS, qOverS) - 1
-        if self.getDiscriminant(a, b, c) < 0:
-            return np.inf
-        return self.positiveOnly(min(self.quadraticFormula(a, b, c)))
+        return np.inf if self.getDiscriminant(a, b, c) < 0 else \
+               self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
