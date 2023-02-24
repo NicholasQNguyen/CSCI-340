@@ -74,19 +74,7 @@ class Scene(object):
                      specCoeff=100)
         """
 
-    def nearestObject(self, ray):
-        """Returns the nearest collision object
-           and the distance to the object."""
-        distances = [o.intersect(ray) for o in self.objects]
-        nearestObj = None
-        minDistance = np.inf
-        for i, distance in enumerate(distances):
-            if distance < minDistance:
-                minDistance = distance
-                nearestObj = self.objects[i]
-        return nearestObj, minDistance
-
-    def shadowed(self, ray, obj):
+    def nearestObject(self, ray, obj=None):
         """Returns the nearest collision object and the distance to the object,
            excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]

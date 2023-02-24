@@ -54,7 +54,7 @@ class RayTracer(ProgressiveRenderer):
 
     def getColorR(self, ray):
         normalizedRay = Ray(ray.position, normalize(ray.direction))
-        nearestObj, minDist = self.scene.nearestObject(normalizedRay)
+        nearestObj, minDist = self.scene.nearestObject(normalizedRay, None)
         # We hit nothing
         if nearestObj is None:
             return self.fog
@@ -77,8 +77,8 @@ class RayTracer(ProgressiveRenderer):
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
             rayFromSurfaceToLight = Ray(surfaceHitPoint, vecToLight)
-            shadowedObj, _ = self.scene.shadowed(rayFromSurfaceToLight,
-                                                 nearestObj)
+            shadowedObj, _ = self.scene.nearestObject(rayFromSurfaceToLight,
+                                                      nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             diffuse = self.getDiffuse(vecToLight, normal)
