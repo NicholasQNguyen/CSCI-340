@@ -38,8 +38,7 @@ class RayTracer(ProgressiveRenderer):
     def getSpecularAngle(self, vecToLight, normal,
                          cameraRay, obj):
         # 07 Slides, slide 30
-        vecFromLight = vecToLight * (-1)
-        halfwayVector = normalize(vecFromLight + cameraRay.direction)
+        halfwayVector = normalize(-vecToLight + cameraRay.direction)
         # 07 Slides, Slide 24 + Slide 27
         return np.dot(normal, halfwayVector) ** \
             obj.getShine() * \
@@ -84,18 +83,17 @@ class RayTracer(ProgressiveRenderer):
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
             # 07 Slides, Slide 16
-            color = color * self.getDiffuse(vecToLight, normal)
-            # 07 Slides, Slide 16
-            color = color + nearestObj.getAmbient()
-            # 07 Slides, Slide 23
-            color = color + self.getSpecularColor(self.getSpecularAngle
-                                                  (
-                                                      vecToLight,
-                                                      normal,
-                                                      ray,
-                                                      nearestObj
-                                                  ),
-                                                  nearestObj.getSpecular())
+            color = color * \
+                self.getDiffuse(vecToLight, normal) + \
+                nearestObj.getAmbient() + \
+                self.getSpecularColor(self.getSpecularAngle  # Slide 23
+                                      (
+                                          vecToLight,
+                                          normal,
+                                          ray,
+                                          nearestObj
+                                      ),
+                                      nearestObj.getSpecular())
         return color
 
     def getColor(self, x, y):
