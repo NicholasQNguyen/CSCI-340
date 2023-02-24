@@ -42,9 +42,9 @@ class RayTracer(ProgressiveRenderer):
             obj.getShine() * \
             obj.getSpecularCoefficient()
 
-    def getSpecularColor(self, specularAngle, objSpecularColor):
+    def getSpecularColor(self, specularAngle, objectSpecularColor):
         # 07 Slides, Slide 20
-        specularColor = specularAngle * objSpecularColor
+        specularColor = specularAngle * objectSpecularColor
         # Prevent black specular spots
         return specularColor if specularColor[0] > 0 else vec(0, 0, 0)
 
@@ -55,9 +55,6 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
-        # Start with base color of object + ambient difference
-        color = nearestObject.getBaseColor() - \
-            nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
@@ -69,6 +66,9 @@ class RayTracer(ProgressiveRenderer):
                                                          nearestObject)
             if shadowedObject is not None:
                 return nearestObject.getAmbient()
+            # Start with base color of object + ambient difference
+            color = nearestObject.getBaseColor() - \
+                nearestObject.getAmbient()  # 07 Slides, Slide 16
             # 07 Slides, Slide 16
             color = color * \
                 self.getDiffuse(vectorToLight, normal) + \
