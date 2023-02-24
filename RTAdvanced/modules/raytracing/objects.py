@@ -56,4 +56,4 @@ class Object3D(ABC):
 
     def positiveOnly(self, t):
         """Returns t or infinity if t is negative."""
-        return t if t > 0 else np.inf
+        return t if t >= 0 else np.inf

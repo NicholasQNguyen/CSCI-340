@@ -2,6 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
+
 from ..raytracing.planar import Plane, Cube
 from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
@@ -75,8 +76,8 @@ class Scene(object):
         """
 
     def nearestObject(self, ray, obj=None):
-        """Returns the nearest collision object and the distance to the object,
-           excluding obj."""
+        """Returns the nearest collision object
+           and the distance to the object, excluding obj."""
         distances = [o.intersect(ray) for o in self.objects if o is not obj]
         colObj = None
         distanceToObj = np.inf
