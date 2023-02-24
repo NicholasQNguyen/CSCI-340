@@ -63,7 +63,7 @@ class Sphere(Spherical):
         # https://www.csee.umbc.edu/~olano/class/435-02-8/ray-sphere.html
         # We miss if discriminent is negative
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
-               self.positiveOnly(min(self.quadraticFormula(a, b, c)))
+            self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Sphere"
@@ -91,7 +91,7 @@ class Ellipsoid(Spherical):
         b = self.getB(vOverS, qOverS)
         c = np.dot(qOverS, qOverS) - 1
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
-               self.positiveOnly(min(self.quadraticFormula(a, b, c)))
+            self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
