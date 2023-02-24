@@ -55,6 +55,9 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
+        # Start with base color of object + ambient difference
+        color = nearestObject.getBaseColor() - \
+            nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
@@ -66,9 +69,6 @@ class RayTracer(ProgressiveRenderer):
                                                          nearestObject)
             if shadowedObject is not None:
                 return nearestObject.getAmbient()
-            # Start with base color of object + ambient difference
-            color = nearestObject.getBaseColor() - \
-                nearestObject.getAmbient()  # 07 Slides, Slide 16
             # 07 Slides, Slide 16
             color = color * \
                 self.getDiffuse(vectorToLight, normal) + \
