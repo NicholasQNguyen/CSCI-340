@@ -40,12 +40,12 @@ class Plane(Planar):
 
     def intersect(self, ray):
         """Find the intersection for the plane.
-           Returns a signed t"""
+           Returns a t only if it's positive."""
         return self.positiveOnly(self.intersectPart1(ray))
 
     def signedIntersect(self, ray):
         """Find the intersection for the plane.
-           Returns a t only if it's positive."""
+           Returns a signed t."""
         return self.intersectPart1(ray)
 
     def __repr__(self):

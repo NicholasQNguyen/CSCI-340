@@ -39,7 +39,6 @@ class Spherical(Object3D):
            minus a term."""
         return np.dot(vector, vector) - subtractedTerm
 
-
 class Sphere(Spherical):
     def __init__(self, radius, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff):

@@ -31,6 +31,7 @@ class RayTracer(ProgressiveRenderer):
 
     def getDiffuse(self, vecToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
+        # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return max(0, np.dot(normal, vecToLight))
 
@@ -39,12 +40,8 @@ class RayTracer(ProgressiveRenderer):
         # 07 Slides, slide 30
         vecFromLight = vecToLight * (-1)
         halfwayVector = normalize(vecFromLight + cameraRay.direction)
-        specularAngle = np.dot(normal, halfwayVector)
-        # 07 Slides, Slide 24
-        specularAngle **= obj.getShine()
-        # 07 Slides, Slide 27
-        specularAngle *= obj.getSpecularCoefficient()
-        return specularAngle
+        # 07 Slides, Slide 24 + Slide 27
+        return np.dot(normal, halfwayVector) ** obj.getShine() * obj.getSpecularCoefficient()
 
     def getSpecularColor(self, specularAngle, objSpecularColor):
         # 07 Slides, Slide 20
@@ -53,8 +50,9 @@ class RayTracer(ProgressiveRenderer):
         return specularColor if specularColor[0] > 0 else vec(0, 0, 0)
 
     def getColorR(self, ray):
-        normalizedRay = Ray(ray.position, normalize(ray.direction))
-        nearestObj, minDist = self.scene.nearestObject(normalizedRay, None)
+        """Gets the color with diffuse and specualr attached.
+           Expects a normalized ray."""
+        nearestObj, minDist = self.scene.nearestObject(ray, None)
         # We hit nothing
         if nearestObj is None:
             return self.fog
@@ -66,32 +64,29 @@ class RayTracer(ProgressiveRenderer):
         color = nearestObj.getBaseColor()
         # 07 Slides, Slide 16
         color = color - nearestObj.getAmbient()
-        surfaceHitPoint = normalizedRay.getPositionAt(minDist)
+        surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObj.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
-            # 03 Slides, Slide 32
             if type(light) == PointLight:
                 vecToLight = light.getVectorToLight(surfaceHitPoint)
             # It's a directional light
             else:
                 vecToLight = light.getVectorToLight()
             # Check if shadowed
-            rayFromSurfaceToLight = Ray(surfaceHitPoint, vecToLight)
-            shadowedObj, _ = self.scene.nearestObject(rayFromSurfaceToLight,
+            shadowedObj, _ = self.scene.nearestObject(Ray(surfaceHitPoint, vecToLight),
                                                       nearestObj)
             if shadowedObj is not None:
                 return nearestObj.getAmbient()
-            diffuse = self.getDiffuse(vecToLight, normal)
             # 07 Slides, Slide 16
-            color = color * diffuse
+            color = color * self.getDiffuse(vecToLight, normal)
             # 07 Slides, Slide 16
             color = color + nearestObj.getAmbient()
-            specularAngle = self.getSpecularAngle(vecToLight, normal,
-                                                  normalizedRay, nearestObj)
-            specularColor = self.getSpecularColor(specularAngle,
-                                                  nearestObj.getSpecular())
             # 07 Slides, Slide 23
-            color = color + specularColor
+            color = color + self.getSpecularColor(self.getSpecularAngle(vecToLight,
+                                                                        normal,
+                                                                        ray,
+                                                                        nearestObj),
+                                                  nearestObj.getSpecular())
         return color
 
     def getColor(self, x, y):
