@@ -1,6 +1,9 @@
 import pygame as pg
 import numpy as np
 
+EPSILON = 1e-11
+SHIFT_EPSILON = EPSILON * 100000
+
 
 def makeColor(name):
     pyColor = pg.Color(name)
@@ -27,5 +30,3 @@ COLORS = {
     "wood2": makeColor("sienna4"),
     "gray": makeColor("gray")
 }
-EPSILON = 1e-11
-SHIFT_EPSILON = EPSILON * 100000
