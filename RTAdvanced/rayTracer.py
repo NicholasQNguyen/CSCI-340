@@ -52,15 +52,15 @@ class RayTracer(ProgressiveRenderer):
     def getColorR(self, ray):
         """Returns color with diffuse and specualr attached.
            Expects a normalized ray."""
-        nearestObj, minDist = self.scene.nearestObject(ray, None)
+        nearestObject, minDist = self.scene.nearestObject(ray, None)
         # We hit nothing
-        if nearestObj is None:
+        if nearestObject is None:
             return self.fog
         # Start with base color of object + ambient difference
-        color = nearestObj.getBaseColor() - \
-            nearestObj.getAmbient()  # 07 Slides, Slide 16
+        color = nearestObject.getBaseColor() - \
+            nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
-        normal = nearestObj.getNormal(surfaceHitPoint)
+        normal = nearestObject.getNormal(surfaceHitPoint)
         for light in self.scene.lights:
             if type(light) == PointLight:
                 vectorToLight = light.getVectorToLight(surfaceHitPoint)
@@ -68,22 +68,22 @@ class RayTracer(ProgressiveRenderer):
             else:
                 vectorToLight = light.getVectorToLight()
             # Check if shadowed
-            shadowedObj, _ = self.scene.nearestObject(Ray(
-                                                          surfaceHitPoint,
-                                                          vectorToLight),
-                                                      nearestObj)
-            if shadowedObj is not None:
-                return nearestObj.getAmbient()
+            shadowedObject, _ = self.scene.nearestObject(Ray(
+                                                             surfaceHitPoint,
+                                                             vectorToLight),
+                                                         nearestObject)
+            if shadowedObject is not None:
+                return nearestObject.getAmbient()
             # 07 Slides, Slide 16
             color = color * \
                 self.getDiffuse(vectorToLight, normal) + \
-                nearestObj.getAmbient() + \
+                nearestObject.getAmbient() + \
                 self.getSpecularColor(self.getSpecularAngle(  # Slide 23
                                           vectorToLight,
                                           normal,
                                           ray,
-                                          nearestObj),
-                                      nearestObj.getSpecular())
+                                          nearestObject),
+                                      nearestObject.getSpecular())
         return color
 
     def getColor(self, x, y):
