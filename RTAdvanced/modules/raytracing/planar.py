@@ -20,11 +20,8 @@ class Side(Enum):
 class Planar(Object3D):
     def intersectPart1(self, ray):
         # 10 Slides, slide 16
-        denom = np.dot(ray.direction, self.normal)
-        if denom == 0:
-            return np.inf
-        q = self.position - ray.position
-        return (np.dot(q, self.normal)) / denom
+        return np.inf if (denom := np.dot(ray.direction, self.normal)) == 0 else \
+            np.dot(self.position - ray.position, self.normal) / denom
 
 
 class Plane(Planar):
