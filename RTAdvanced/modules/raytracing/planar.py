@@ -60,8 +60,8 @@ class Cube(Planar):
         self.setSides()
 
     def setSides(self):
-        sides = [Side.Top, Side.Bottom, Side.Left, Side.Right, Side.Front, Side.Bottom]
-        for side in sides:
+        for side in [Side.Top, Side.Bottom, Side.Left,
+                     Side.Right, Side.Front, Side.Bottom]:
             self.sides.append(self.generateSide(side))
 
     def generateSide(self, side):
