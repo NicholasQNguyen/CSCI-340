@@ -60,14 +60,11 @@ class Cube(Planar):
         self.setSides()
 
     def setSides(self):
-        self.addSide(Side.Top)
-        self.addSide(Side.Bottom)
-        self.addSide(Side.Left)
-        self.addSide(Side.Right)
-        self.addSide(Side.Front)
-        self.addSide(Side.Back)
+        sides = [Side.Top, Side.Bottom, Side.Left, Side.Right, Side.Front, Side.Bottom]
+        for side in sides:
+            self.sides.append(self.generateSide(side))
 
-    def addSide(self, side):
+    def generateSide(self, side):
         distance = self.length / 2
         match side:
             case Side.Top:
@@ -104,14 +101,14 @@ class Cube(Planar):
                 print("OH GOD")
                 sys.exit(1)
 
-        self.sides.append(Plane(normal=normal,
-                                position=position,
-                                color=self.getBaseColor(),
-                                ambient=self.getAmbient(),
-                                diffuse=self.getDiffuse(),
-                                specular=self.getSpecular(),
-                                shininess=self.getShine(),
-                                specCoeff=self.getSpecularCoefficient()))
+        return Plane(normal=normal,
+                     position=position,
+                     color=self.getBaseColor(),
+                     ambient=self.getAmbient(),
+                     diffuse=self.getDiffuse(),
+                     specular=self.getSpecular(),
+                     shininess=self.getShine(),
+                     specCoeff=self.getSpecularCoefficient())
 
     # TODO get this working
     def intersect(self, ray):

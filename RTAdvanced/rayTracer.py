@@ -1,3 +1,4 @@
+# TODO ask about cubes, and updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
 import pygame as pg
@@ -5,6 +6,7 @@ import pygame as pg
 from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
+from modules.raytracing.planar import Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
 
@@ -44,10 +46,9 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularColor(self, specularAngle, objectSpecularColor):
         # 07 Slides, Slide 20
-        # Prevent black specular spots
         return specularColor if \
             (specularColor := specularAngle * objectSpecularColor)[0] > 0 \
-            else vec(0, 0, 0)
+            else vec(0, 0, 0)  # Prevent black specular spots
 
     def getColorR(self, ray):
         """Returns color with diffuse and specualr attached.
@@ -56,6 +57,8 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
+        if type(nearestObject) is Cube:
+            return vec(0, 1, 0)
         # Start with base color of object + ambient difference
         color = nearestObject.getBaseColor() - \
             nearestObject.getAmbient()  # 07 Slides, Slide 16
