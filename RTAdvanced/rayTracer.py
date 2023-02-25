@@ -44,9 +44,10 @@ class RayTracer(ProgressiveRenderer):
 
     def getSpecularColor(self, specularAngle, objectSpecularColor):
         # 07 Slides, Slide 20
-        specularColor = specularAngle * objectSpecularColor
         # Prevent black specular spots
-        return specularColor if specularColor[0] > 0 else vec(0, 0, 0)
+        return specularColor if \
+            (specularColor := specularAngle * objectSpecularColor)[0] > 0 \
+            else vec(0, 0, 0)
 
     def getColorR(self, ray):
         """Returns color with diffuse and specualr attached.
