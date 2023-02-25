@@ -18,7 +18,7 @@ class Side(Enum):
 
 
 class Planar(Object3D):
-    def intersectPart1(self, ray):
+    def signedIntersect(self, ray):
         # 10 Slides, slide 16
         return np.inf if \
             (denom := np.dot(ray.direction, self.normal)) == 0 else \
@@ -39,12 +39,7 @@ class Plane(Planar):
     def intersect(self, ray):
         """Find the intersection for the plane.
            Returns a t only if it's positive."""
-        return self.positiveOnly(self.intersectPart1(ray))
-
-    def signedIntersect(self, ray):
-        """Find the intersection for the plane.
-           Returns a signed t."""
-        return self.intersectPart1(ray)
+        return self.positiveOnly(self.signedIntersect(ray))
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Plane"
