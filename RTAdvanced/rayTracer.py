@@ -44,9 +44,7 @@ class RayTracer(ProgressiveRenderer):
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        i = np.dot(vector, normal)
-        j = vector - i
-        return -i + j
+        return (i := np.dot(vector, normal)) + (vector - i)
 
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
