@@ -28,10 +28,11 @@ class Planar(Object3D):
 class Plane(Planar):
     def __init__(self, normal, position, baseColor,
                  ambient, diffuse, specular,
-                 shininess, specCoeff, reflective):
+                 shininess, specCoeff, reflective,
+                 image):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
-                         specCoeff, reflective)
+                         specCoeff, reflective, image)
         self.normal = normal
 
     def getNormal(self, intersection):
@@ -49,9 +50,11 @@ class Plane(Planar):
 
 class Cube(Planar):
     def __init__(self, length, position, color, ambient,
-                 diffuse, specular, shininess, specCoeff):
-        super().__init__(position)
-        self.material = Material(color, ambient, diffuse, specular, shininess)
+                 diffuse, specular, shininess, specCoeff,
+                 image):
+        super().__init__(position, baseColor, ambient,
+                         diffuse, specular, shininess,
+                         specCoeff, reflective, image)
         self.length = length
         self.sides = []
         self.setSides()

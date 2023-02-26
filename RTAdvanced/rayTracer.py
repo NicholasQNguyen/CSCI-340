@@ -48,7 +48,7 @@ class RayTracer(ProgressiveRenderer):
 
     def returnImage(self, obj):
         """Returns the color of the image we hit."""
-        pass
+        image = obj.getImage()
 
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
