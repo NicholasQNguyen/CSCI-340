@@ -1,4 +1,7 @@
-# TODO ask about cubes, textures on planes and updating the machines to python3 3.10
+# TODO ask about cubes,
+# textures on planes,
+# reflection, and
+# updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
 import pygame as pg
@@ -60,8 +63,10 @@ class RayTracer(ProgressiveRenderer):
             u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
             v = np.arccos(d[Y]) / np.pi
             # 11 Slides, Slide 21
-            px = int(u * obj.getImage().get_width()) % obj.getImage().get_width()
-            py = int(v * obj.getImage().get_height()) % obj.getImage().get_height()
+            px = int(u * obj.getImage().get_width()) % \
+                obj.getImage().get_width()
+            py = int(v * obj.getImage().get_height()) % \
+                obj.getImage().get_height()
             return twoFiftyFiveToOnePointO(obj.getImage().get_at((px, py)))
         # TODO get working for cubes
         elif type(obj) is Plane:
@@ -73,8 +78,9 @@ class RayTracer(ProgressiveRenderer):
             p = normalize(surfaceHitPoint - obj.getPosition())
             coordinateU = int(np.dot(u, p)) % obj.getImage().get_width()
             coordinateV = int(np.dot(v, p)) % obj.getImage().get_height()
-            return twoFiftyFiveToOnePointO(obj.getImage().get_at((coordinateU, coordinateV)))
-            
+            return twoFiftyFiveToOnePointO(obj.getImage().get_at(
+                (coordinateU, coordinateV)))
+
         color = obj.getImage().get_at((0, 0))
         return twoFiftyFiveToOnePointO(color)
 
@@ -150,7 +156,8 @@ class RayTracer(ProgressiveRenderer):
         # Get the color based on the ray
         cameraRay = self.scene.camera.getRay(x / self.width, y / self.height)
         if antiAliasing == 1:
-            return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
+            return np.nan_to_num(np.clip(
+                self.getColorR(cameraRay, 0), 0, 1), 0)
         return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
 
 
