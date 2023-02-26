@@ -81,7 +81,7 @@ class RayTracer(ProgressiveRenderer):
         normal = nearestObject.getNormal(surfaceHitPoint)
         # TODO fix this
         # Reflect if it's reflective
-        if nearestObject.getReflective() and \
+        if nearestObject.isReflective() and \
            recursionCount < MAX_RECURSION_DEPTH:
             return color + \
                 self.getColorR(Ray(surfaceHitPoint,

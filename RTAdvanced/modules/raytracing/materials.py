@@ -1,7 +1,15 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
+import pygame as pg
+import pathlib
+
 from ..utils.vector import vec
+
+# Will only work if running rayTracer.py from source folder
+IMAGE_FOLDER = pathlib.Path("resources/images/")
+BROWN_STONE_IMAGE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
+GRAY_STONE_IMAGE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
 
 
 class Material(object):
@@ -10,7 +18,8 @@ class Material(object):
        Contains shininess property.
        Contains specular coefficient."""
     def __init__(self, baseColor, ambient, diffuse, specular,
-                 shine=100, specCoeff=1.0, reflective=False):
+                 shine=100, specCoeff=1.0, reflective=False,
+                 image=None):
         self.baseColor = vec(*baseColor)
         self.ambient = vec(*ambient)
         self.diffuse = vec(*diffuse)
@@ -18,6 +27,7 @@ class Material(object):
         self.shine = shine
         self.specCoeff = specCoeff
         self.reflective = reflective
+        self.image = image
 
     def getBaseColor(self):
         """Getter method for ambient color."""
@@ -43,6 +53,10 @@ class Material(object):
         """Getter method for specular coefficient."""
         return self.specCoeff
 
-    def getReflective(self):
+    def isReflective(self):
         """Getter method for reflective."""
         return self.reflective
+
+    def getImage(self):
+        """Getter method for image"""
+        return self.image
