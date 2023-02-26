@@ -63,7 +63,10 @@ class ProgressiveRenderer(ABC):
         self.minimumPixel = minimumPixel
         self.screen = None
         self.fillColor = (64, 128, 255)
-        self.show = show
+        if len(sys.argv) > 1:
+            self.show = ShowTypes.NoShow
+        else:
+            self.show = show
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
             self.startPixelSize = max(1, minimumPixel * 2)
         else:

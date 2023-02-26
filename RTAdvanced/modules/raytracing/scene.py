@@ -4,7 +4,6 @@ Author: Liz Matthews, Geoff Matthews
 import numpy as np
 import pygame as pg
 import pathlib
-
 from ..raytracing.planar import Plane, Cube
 from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
@@ -63,7 +62,6 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
-        """
         # Sphere with Brown Stone
         self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
@@ -74,7 +72,7 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=False,
-                       image=BROWN_STONE)
+                       image=GRAY_STONE)
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -87,7 +85,7 @@ class Scene(object):
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=GRAY_STONE)
+                          image=BROWN_STONE)
         """
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
@@ -112,7 +110,6 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=False,
                       image=CHECKERBOARD)
-        """
         # Blue Cube
         self.addCube(length=1,
                      position=vec(0, 0, 0),
