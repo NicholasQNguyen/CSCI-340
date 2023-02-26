@@ -4,6 +4,7 @@ import numpy as np
 EPSILON = 1e-11
 SHIFT_EPSILON = EPSILON * 100000
 
+
 def twoFiftyFiveToOnePointO(color):
     """Expects a 4-tuple with RGB Alpha.
        Returns a numpy array without alpha

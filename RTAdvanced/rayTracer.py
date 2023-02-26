@@ -81,7 +81,7 @@ class RayTracer(ProgressiveRenderer):
             return self.fog
         if nearestObject.getImage() is not None:
             return self.returnImage(nearestObject)
-        # TODO TEMP TESITNG 
+        # TODO TEMP TESITNG
         if type(nearestObject) is Cube:
             return vec(0, 1, 0)
         # Start with base color of object + ambient difference

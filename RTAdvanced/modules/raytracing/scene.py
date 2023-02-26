@@ -143,7 +143,7 @@ class Scene(object):
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
                 shininess=0, specCoeff=100, reflective=False,
-                 image=None):
+                image=None):
         self.objects.append(Cube(length, position, color,
                                  ambient, diffuse,
                                  specular, shininess,

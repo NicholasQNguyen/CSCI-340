@@ -3,7 +3,6 @@ import numpy as np
 from enum import Enum
 
 from .objects import Object3D
-from .materials import Material
 from ..utils.vector import vec
 
 
@@ -49,9 +48,9 @@ class Plane(Planar):
 
 
 class Cube(Planar):
-    def __init__(self, length, position, color, ambient,
+    def __init__(self, length, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 image):
+                 reflective, image):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
                          specCoeff, reflective, image)
