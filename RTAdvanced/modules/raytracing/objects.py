@@ -4,14 +4,23 @@ Author: Liz Matthews, Geoff Matthews
 from abc import ABC, abstractmethod
 import numpy as np
 
+from .materials import Material
+
 
 class Object3D(ABC):
     """Abstract base class for all objects in the raytraced scene.
        Has a position, material.
        Has getter methods for all material properties.
        Has abstract methods intersect and getNormal."""
-    def __init__(self, pos):
-        self.position = np.array(pos)
+    def __init__(self, position, baseColor, ambient,
+                 diffuse, specular, shininess, specCoeff):
+        self.position = np.array(position)
+        self.material = Material(baseColor,
+                                 ambient,
+                                 diffuse,
+                                 specular,
+                                 shininess,
+                                 specCoeff)
 
     def getPosition(self):
         return self.position

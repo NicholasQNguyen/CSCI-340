@@ -40,6 +40,7 @@ class RayTracer(ProgressiveRenderer):
         # 07 Slides, slide 30
         halfwayVector = normalize(-vectorToLight + cameraRay.direction)
         # 07 Slides, Slide 24 + Slide 27
+        print("SPEC COEFF", obj.getSpecularCoefficient())
         return np.dot(normal, halfwayVector) ** \
             obj.getShine() * \
             obj.getSpecularCoefficient()

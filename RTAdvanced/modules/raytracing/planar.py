@@ -26,10 +26,11 @@ class Planar(Object3D):
 
 
 class Plane(Planar):
-    def __init__(self, normal, position, color, ambient, diffuse, specular,
+    def __init__(self, normal, position, baseColor,
+                 ambient, diffuse, specular,
                  shininess, specCoeff):
-        super().__init__(position)
-        self.material = Material(color, ambient, diffuse, specular, shininess)
+        super().__init__(position, baseColor, ambient,
+                         diffuse, specular, shininess, specCoeff)
         self.normal = normal
 
     def getNormal(self, intersection):
