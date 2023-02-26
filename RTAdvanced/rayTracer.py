@@ -133,15 +133,13 @@ class RayTracer(ProgressiveRenderer):
                                       nearestObject.getSpecular())
         return color
 
-    def getColor(self, x, y):
-        return np.nan_to_num(  # Fixing any NaNs in numpy, clipping to 0, 1.
-            np.clip(
-                self.getColorR(  # Get the color based on the ray
-                    self.scene.camera.getRay(x / self.width,
-                                             y / self.height),
-                    0),
-                0, 1),
-            0)
+    def getColor(self, x, y, antiAliasing=1):
+        # Fixing any NaNs in numpy, clipping to 0, 1.
+        # Get the color based on the ray
+        cameraRay = self.scene.camera.getRay(x / self.width, y / self.height)
+        if antiAliasing == 1:
+            return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
+        return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
 
 
 # Calls the 'main' function when this script is executed
