@@ -1,6 +1,5 @@
 # TODO ask about cubes,
 # textures on planes,
-# reflection, and
 # updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
