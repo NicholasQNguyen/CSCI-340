@@ -46,6 +46,10 @@ class RayTracer(ProgressiveRenderer):
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return (i := np.dot(vector, normal)) + (vector - i)
 
+    def returnImage(self, obj):
+        """Returns the color of the image we hit."""
+        pass
+
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
         return max(0, self.getReflectionAngle(vectorToLight, normal))
@@ -72,6 +76,9 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
+        if nearestObject.getImage() is not None:
+            return self.returnImage(nearestObject)
+        # TODO TEMP TESITNG 
         if type(nearestObject) is Cube:
             return vec(0, 1, 0)
         # Start with base color of object + ambient difference

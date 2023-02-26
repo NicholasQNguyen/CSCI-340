@@ -59,7 +59,7 @@ class Object3D(ABC):
         """Getter method for the material's color."""
         return self.material.isReflective()
 
-    def isReflective(self):
+    def getImage(self):
         """Getter method for the material's image."""
         return self.material.getImage()
 
