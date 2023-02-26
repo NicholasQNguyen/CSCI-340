@@ -16,6 +16,9 @@ SCREEN_MULTIPLIER = 1
 WIDTH = 800
 HEIGHT = 600
 MAX_RECURSION_DEPTH = 3
+X = 0
+Y = 1
+Z = 2
 
 
 class RayTracer(ProgressiveRenderer):
@@ -54,8 +57,8 @@ class RayTracer(ProgressiveRenderer):
         if type(obj) is Sphere or \
            type(obj) is Ellipsoid:
             d = obj.getPosition() - surfaceHitPoint
-            u = 0.5 + ((np.arctan2(d[2], d[0])) / (2 * np.pi))
-            v = np.arccos(d[1]) / np.pi
+            u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
+            v = np.arccos(d[Y]) / np.pi
             px = int(u * obj.getImage().get_width())
             py = int(v * obj.getImage().get_height())
             return twoFiftyFiveToOnePointO(obj.getImage().get_at((px, py)))
@@ -79,7 +82,7 @@ class RayTracer(ProgressiveRenderer):
     def getSpecularColor(self, specularAngle, objectSpecularColor):
         # 07 Slides, Slide 20
         return specularColor if \
-            (specularColor := specularAngle * objectSpecularColor)[0] > 0 \
+            (specularColor := specularAngle * objectSpecularColor)[X] > 0 \
             else vec(0, 0, 0)  # Prevent black specular spots
 
     def getColorR(self, ray, recursionCount):
@@ -92,13 +95,14 @@ class RayTracer(ProgressiveRenderer):
         # TODO TEMP TESITNG
         if type(nearestObject) is Cube:
             return vec(0, 1, 0)
-        # Start with base color of object + ambient difference
-        color = nearestObject.getBaseColor() - \
-            nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
+        else:
+            # Start with base color of object + ambient difference
+            color = nearestObject.getBaseColor() - \
+                nearestObject.getAmbient()  # 07 Slides, Slide 16
         # TODO fix this
         # Reflect if it's reflective
         if nearestObject.isReflective() and \

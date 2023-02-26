@@ -54,7 +54,7 @@ class Scene(object):
         """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
-                       position=vec(0, 0, 0),
+                       position=vec(-1, 0, -0.5),
                        color=vec(1, 0, 1),
                        ambient=vec(0.4, 0.2, 0.4),
                        diffuse=vec(0.4, 0.2, 0.4),
