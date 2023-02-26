@@ -44,6 +44,7 @@ class Scene(object):
                        shininess=50,
                        specCoeff=.6,
                        reflective=False)
+        """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
@@ -54,6 +55,7 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
+        """
         # Red Ellipsoid
         self.addEllipsoid(a=1.5,
                           b=0.7,

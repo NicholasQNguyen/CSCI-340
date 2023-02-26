@@ -83,9 +83,13 @@ class RayTracer(ProgressiveRenderer):
         normal = nearestObject.getNormal(surfaceHitPoint)
         # TODO fix this
         # Reflect if it's reflective
-        if nearestObject.getReflective() and recursionCount < MAX_RECURSION_DEPTH:
-            return color + self.getColorR(Ray(surfaceHitPoint, self.getReflectionVector(ray.direction, normal)),
-                                           recursionCount + 1)
+        if nearestObject.getReflective() and \
+           recursionCount < MAX_RECURSION_DEPTH:
+            return color + \
+                self.getColorR(Ray(surfaceHitPoint,
+                                   self.getReflectionVector(ray.direction,
+                                                            normal)),
+                               recursionCount + 1)
         for light in self.scene.lights:
             vectorToLight = light.getVectorToLight(surfaceHitPoint)
             # Check if shadowed
