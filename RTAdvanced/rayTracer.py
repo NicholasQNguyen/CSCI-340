@@ -9,6 +9,7 @@ from modules.raytracing.scene import Scene
 from modules.raytracing.planar import Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
+from modules.utils.definitions import twoFiftyFiveToOnePointO
 
 SCREEN_MULTIPLIER = 1
 WIDTH = 800
@@ -48,7 +49,9 @@ class RayTracer(ProgressiveRenderer):
 
     def returnImage(self, obj):
         """Returns the color of the image we hit."""
-        image = obj.getImage()
+        # 11 Slides, Slide 20
+        # TODO Implement a px and py
+        return twoFiftyFiveToOnePointO(obj.getImage.get_at(0, 0))
 
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""

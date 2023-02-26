@@ -4,11 +4,15 @@ import numpy as np
 EPSILON = 1e-11
 SHIFT_EPSILON = EPSILON * 100000
 
+def twoFiftyFiveToOnePointO(color):
+    """Expects a 4-tuple with RGB Alpha.
+       Returns a numpy array without alpha
+       in 1.0 mode."""
+    return np.array(color[:-1]) / 255
+
 
 def makeColor(name):
-    pyColor = pg.Color(name)
-    # Convert from 255 to 1.0 colors
-    return np.array(pyColor[:-1]) / 255
+    return twoFiftyFiveToOnePointO(pg.Color(name))
 
 
 def safeMultiply(self, vector, multiplier):
