@@ -63,30 +63,30 @@ class Scene(object):
                        specCoeff=.8,
                        reflective=True)
         """
-        # Sphere with Image
+        # Sphere with Brown Stone
         self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
-                       color=vec(1, 0, 1),
-                       ambient=vec(0.4, 0.2, 0.4),
-                       diffuse=vec(0.4, 0.2, 0.4),
-                       specular=vec(1, 0.8, 1),
+                       color=vec(0, 0, 0),
+                       ambient=vec(0.0, 0.0, 0.0),
+                       diffuse=vec(0.0, 0.0, 0.0),
+                       specular=vec(1, 1, 1),
                        shininess=25,
                        specCoeff=.8,
                        reflective=False,
                        image=BROWN_STONE)
-        # Red Ellipsoid
+        # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
                           c=0.5,
                           position=vec(0, 1, -2.3),
-                          color=vec(1, 0, 0),
-                          ambient=vec(0.4, 0.2, 0.2),
-                          diffuse=vec(1, 0.2, 0.2),
-                          specular=vec(1, 0.8, 0.8),
+                          color=vec(0, 0, 0),
+                          ambient=vec(0.0, 0.0, 0.0),
+                          diffuse=vec(0, 0.0, 0.0),
+                          specular=vec(1, 1.0, 1.0),
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=None)
+                          image=GRAY_STONE)
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),

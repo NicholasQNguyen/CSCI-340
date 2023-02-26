@@ -1,8 +1,6 @@
 """
 Author: Liz Matthews, Geoff Matthews
 """
-import pygame as pg
-
 from ..utils.vector import vec
 
 

@@ -6,7 +6,7 @@ import pygame as pg
 from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
-from modules.raytracing.spherical import Sphere
+from modules.raytracing.spherical import Sphere, Ellipsoid
 from modules.raytracing.planar import Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
@@ -50,15 +50,16 @@ class RayTracer(ProgressiveRenderer):
 
     def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
-        # TODO Implement a px and py
         # 11 Slides, Slide 20
-        if type(obj) is Sphere:
+        if type(obj) is Sphere or \
+           type(obj) is Ellipsoid:
             d = obj.getPosition() - surfaceHitPoint
             u = 0.5 + ((np.arctan2(d[2], d[0])) / (2 * np.pi))
             v = np.arccos(d[1]) / np.pi
             px = int(u * obj.getImage().get_width())
             py = int(v * obj.getImage().get_height())
             return twoFiftyFiveToOnePointO(obj.getImage().get_at((px, py)))
+        # TODO get working for cubes
         color = obj.getImage().get_at((0, 0))
         return twoFiftyFiveToOnePointO(color)
 
@@ -97,7 +98,7 @@ class RayTracer(ProgressiveRenderer):
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         if nearestObject.getImage() is not None:
-            return self.returnImage(nearestObject, surfaceHitPoint)
+            color = self.returnImage(nearestObject, surfaceHitPoint)
         # TODO fix this
         # Reflect if it's reflective
         if nearestObject.isReflective() and \
