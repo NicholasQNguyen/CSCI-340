@@ -29,11 +29,17 @@ class RayTracer(ProgressiveRenderer):
         for light in self.scene.lights:
             print(repr(light) + " Position: " + str(light.position))
 
-    def getDiffuse(self, vectorToLight, normal):
-        """Gets the diffuse. Expects normalized vectors"""
+    def getReflectionAngle(self, vector1, vector2):
+        """Returns a vector that is the product of the
+           reflection of vector1 and vector2.
+           Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return max(0, np.dot(normal, vectorToLight))
+        return np.dot(vector1, vector2)
+
+    def getDiffuse(self, vectorToLight, normal):
+        """Gets the diffuse. Expects normalized vectors"""
+        return max(0, self.getReflectionAngle(vectorToLight, normal))
 
     def getSpecularAngle(self, vectorToLight, normal,
                          cameraRay, obj):
