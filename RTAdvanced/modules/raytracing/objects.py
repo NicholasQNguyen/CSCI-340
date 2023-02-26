@@ -27,6 +27,10 @@ class Object3D(ABC):
     def getPosition(self):
         return self.position
 
+    def getBaseColor(self):
+        """Getter method for the material's color."""
+        return self.material.getBaseColor()
+
     def getAmbient(self, intersection=None):
         """Getter method for the material's ambient color.
            Intersection parameter is unused for Ray Tracing Basics."""
@@ -51,9 +55,9 @@ class Object3D(ABC):
            Intersection parameter is unused for Ray Tracing Basics."""
         return self.material.getSpecularCoefficient()
 
-    def getBaseColor(self):
+    def getReflective(self):
         """Getter method for the material's color."""
-        return self.material.getBaseColor()
+        return self.material.getReflective()
 
     @abstractmethod
     def intersect(self, ray):

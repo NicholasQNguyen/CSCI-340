@@ -13,6 +13,7 @@ from modules.utils.vector import vec, normalize
 SCREEN_MULTIPLIER = 1
 WIDTH = 800
 HEIGHT = 600
+MAX_RECURSION_DEPTH = 3
 
 
 class RayTracer(ProgressiveRenderer):
@@ -30,12 +31,22 @@ class RayTracer(ProgressiveRenderer):
             print(repr(light) + " Position: " + str(light.position))
 
     def getReflectionAngle(self, vector1, vector2):
-        """Returns a vector that is the product of the
+        """Returns an angle that is the product of the
            reflection of vector1 and vector2.
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return np.dot(vector1, vector2)
+
+    def getReflectionVector(self, vector, normal):
+        """Returns the vector that is the reflection
+           of the vector off of a surface.
+           Expects normalized vectors."""
+        # 03 Slides, Slide 32
+        # https://www.cuemath.com/geometry/angle-between-vectors/
+        i = np.dot(vector, normal)
+        j = vector - i
+        return -i + j
 
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
@@ -46,8 +57,7 @@ class RayTracer(ProgressiveRenderer):
         # 07 Slides, slide 30
         halfwayVector = normalize(-vectorToLight + cameraRay.direction)
         # 07 Slides, Slide 24 + Slide 27
-        print("SPEC COEFF", obj.getSpecularCoefficient())
-        return np.dot(normal, halfwayVector) ** \
+        return self.getReflectionAngle(normal, halfwayVector) ** \
             obj.getShine() * \
             obj.getSpecularCoefficient()
 
@@ -57,7 +67,7 @@ class RayTracer(ProgressiveRenderer):
             (specularColor := specularAngle * objectSpecularColor)[0] > 0 \
             else vec(0, 0, 0)  # Prevent black specular spots
 
-    def getColorR(self, ray):
+    def getColorR(self, ray, recursionCount):
         """Returns color with diffuse and specualr attached.
            Expects a normalized ray."""
         nearestObject, minDist = self.scene.nearestObject(ray, None)
@@ -71,6 +81,11 @@ class RayTracer(ProgressiveRenderer):
             nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
+        # TODO fix this
+        # Reflect if it's reflective
+        if nearestObject.getReflective() and recursionCount < MAX_RECURSION_DEPTH:
+            return color + self.getColorR(Ray(surfaceHitPoint, self.getReflectionVector(ray.direction, normal)),
+                                           recursionCount + 1)
         for light in self.scene.lights:
             vectorToLight = light.getVectorToLight(surfaceHitPoint)
             # Check if shadowed
@@ -97,7 +112,8 @@ class RayTracer(ProgressiveRenderer):
             np.clip(
                 self.getColorR(  # Get the color based on the ray
                     self.scene.camera.getRay(x / self.width,
-                                             y / self.height)),
+                                             y / self.height),
+                    0),
                 0, 1),
             0)
 
