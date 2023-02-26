@@ -52,7 +52,7 @@ class RayTracer(ProgressiveRenderer):
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return (i := np.dot(vector, normal)) + (vector - i)
+        return -(i := np.dot(vector, normal)) + (vector - i)
 
     def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
