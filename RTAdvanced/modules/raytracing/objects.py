@@ -70,7 +70,7 @@ class Object3D(ABC):
         pass
 
     @abstractmethod
-    def getNormal(self, intersection):
+    def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
         pass
 

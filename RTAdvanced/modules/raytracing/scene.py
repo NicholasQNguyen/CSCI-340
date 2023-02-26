@@ -17,6 +17,7 @@ LIGHT_POSITION = vec(-1, 2, 2)
 IMAGE_FOLDER = pathlib.Path("resources/images/")
 BROWN_STONE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
 GRAY_STONE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
+CHECKERBOARD = pg.image.load(IMAGE_FOLDER / "checkerboard.png")
 
 
 class Scene(object):
@@ -87,6 +88,7 @@ class Scene(object):
                           specCoeff=1,
                           reflective=False,
                           image=GRAY_STONE)
+        """
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -98,6 +100,18 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=False,
                       image=None)
+        """
+        # Plane with Image
+        self.addPlane(normal=vec(0, 1, 0),
+                      position=vec(0, -1, 0),
+                      color=vec(0, 0, 0),
+                      ambient=vec(0.0, 0.0, 0.0),
+                      diffuse=vec(0.0, 0.0, 0.0),
+                      specular=vec(1, 1, 1),
+                      shininess=5,
+                      specCoeff=0.1,
+                      reflective=False,
+                      image=CHECKERBOARD)
         """
         # Blue Cube
         self.addCube(length=1,

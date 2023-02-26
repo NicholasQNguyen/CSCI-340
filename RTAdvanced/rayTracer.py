@@ -1,4 +1,4 @@
-# TODO ask about cubes, and updating the machines to python3 3.10
+# TODO ask about cubes, infinite textures and updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
 import pygame as pg
@@ -7,7 +7,7 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Cube
+from modules.raytracing.planar import Plane, Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
 from modules.utils.definitions import twoFiftyFiveToOnePointO
@@ -59,10 +59,22 @@ class RayTracer(ProgressiveRenderer):
             d = obj.getPosition() - surfaceHitPoint
             u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
             v = np.arccos(d[Y]) / np.pi
-            px = int(u * obj.getImage().get_width())
-            py = int(v * obj.getImage().get_height())
+            # 11 Slides, Slide 21
+            px = int(u * obj.getImage().get_width()) % obj.getImage().get_width()
+            py = int(v * obj.getImage().get_height()) % obj.getImage().get_height()
             return twoFiftyFiveToOnePointO(obj.getImage().get_at((px, py)))
         # TODO get working for cubes
+        elif type(obj) is Plane:
+            normal = obj.getNormal()
+            forward = self.scene.camera.getForward()
+            u = np.cross(normal, forward)
+            v = np.cross(normal, u)
+            # 11 Slides, Slide 24
+            p = normalize(surfaceHitPoint - obj.getPosition())
+            coordinateU = int(np.dot(u, p))
+            coordinateV = int(np.dot(u, p))
+            return twoFiftyFiveToOnePointO(obj.getImage().get_at((coordinateU, coordinateV)))
+            
         color = obj.getImage().get_at((0, 0))
         return twoFiftyFiveToOnePointO(color)
 

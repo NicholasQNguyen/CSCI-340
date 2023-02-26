@@ -34,7 +34,7 @@ class Plane(Planar):
                          specCoeff, reflective, image)
         self.normal = normal
 
-    def getNormal(self, intersection):
+    def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
         return self.normal
 

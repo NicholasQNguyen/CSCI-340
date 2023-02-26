@@ -24,28 +24,28 @@ class Camera(object):
         """Sets up the camera given the parameters.
            Calculates position, ul, ur, ll, and lr."""
         # 08 Slides, Slide 17
-        fwd = normalize(fwd)
-        up = normalize(up)
-        right = np.cross(fwd, up)
-        right = normalize(right)
-        up = np.cross(right, fwd)
-        up = normalize(up)
+        self.fwd = normalize(fwd)
+        self.up = normalize(up)
+        self.right = np.cross(self.fwd, self.up)
+        self.right = normalize(self.right)
+        self.up = np.cross(self.right, self.fwd)
+        self.up = normalize(self.up)
         # 08 Slides, Slides 28
         self.width = 2 * distance * np.tan(fov/2)
         self.height = np.reciprocal(aspect) * self.width
         self.position = focus - fwd * distance
         self.ul = focus + \
-            (up * (self.height / 2)) - \
-            (right * (self.width / 2))
+            (self.up * (self.height / 2)) - \
+            (self.right * (self.width / 2))
         self.ur = focus + \
-            (up * (self.height / 2)) + \
-            (right * (self.width / 2))
+            (self.up * (self.height / 2)) + \
+            (self.right * (self.width / 2))
         self.ll = focus - \
-            (up * (self.height / 2)) - \
-            (right * (self.width / 2))
+            (self.up * (self.height / 2)) - \
+            (self.right * (self.width / 2))
         self.lr = focus - \
-            (up * (self.height / 2)) + \
-            (right * (self.width / 2))
+            (self.up * (self.height / 2)) + \
+            (self.right * (self.width / 2))
 
     def __init__(self,
                  focus=vec(0, 0, 0),
@@ -72,3 +72,7 @@ class Camera(object):
            the given point to the center of focus."""
         focus = (self.ul + self.ur + self.ll + self.lr) / 4
         return np.linalg.norm(point - focus)
+
+    def getForward(self):
+        """Getter method for position."""
+        return self.fwd
