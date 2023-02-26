@@ -56,7 +56,8 @@ class ProgressiveRenderer(ABC):
                  showTime=True,
                  show=ShowTypes.PerColumn,
                  minimumPixel=0,
-                 startPixelSize=256):
+                 startPixelSize=256,
+                 samplePerPixel=1):
         self.width = width
         self.height = height
         self.showTime = showTime
@@ -67,6 +68,10 @@ class ProgressiveRenderer(ABC):
             self.show = ShowTypes.NoShow
         else:
             self.show = show
+        if len(sys.argv) > 2:
+            self.samplePerPixel = sys.argv[2]
+        else:
+            self.samplePerPixel = samplePerPixel
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
             self.startPixelSize = max(1, minimumPixel * 2)
         else:
@@ -168,7 +173,10 @@ class ProgressiveRenderer(ABC):
             for x in range(0, self.width, self.pixelSize):
                 for y in range(0, self.height, self.pixelSize):
                     # Get color
-                    color = self.getColor(x, y) * 255
+                    if self.pixelSize > 1:
+                        color = self.getColor(x, y, 1) * 255
+                    else:
+                        color = self.getColor(x, y, self.samplePerPixel) * 255
                     self.image.fill(color, ((x, y), (self.pixelSize,
                                                      self.pixelSize)))
                     if self.show == ShowTypes.PerPixel:

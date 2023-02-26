@@ -1,5 +1,6 @@
 # TODO ask about cubes,
 # textures on planes,
+# anti-aliasing,
 # updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
@@ -38,8 +39,8 @@ class RayTracer(ProgressiveRenderer):
             print(repr(light) + " Position: " + str(light.position))
 
     def getReflectionAngle(self, vector1, vector2):
-        """Returns an angle that is the product of the
-           reflection of vector1 and vector2.
+        """Returns an angle that is
+           between vector1 and vector2.
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
@@ -150,11 +151,11 @@ class RayTracer(ProgressiveRenderer):
                                       nearestObject.getSpecular())
         return color
 
-    def getColor(self, x, y, antiAliasing=1):
+    def getColor(self, x, y, samplePerPixel=1):
         # Fixing any NaNs in numpy, clipping to 0, 1.
         # Get the color based on the ray
         cameraRay = self.scene.camera.getRay(x / self.width, y / self.height)
-        if antiAliasing == 1:
+        if samplePerPixel == 1:
             return np.nan_to_num(np.clip(
                 self.getColorR(cameraRay, 0), 0, 1), 0)
         return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
