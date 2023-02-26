@@ -42,7 +42,8 @@ class Scene(object):
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
-                       specCoeff=.6)
+                       specCoeff=.6,
+                       reflective=False)
         # Red Ellipsoid
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -53,7 +54,8 @@ class Scene(object):
                           diffuse=vec(1, 0.2, 0.2),
                           specular=vec(1, 0.8, 0.8),
                           shininess=100,
-                          specCoeff=1)
+                          specCoeff=1,
+                          reflective=False)
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -62,7 +64,8 @@ class Scene(object):
                       diffuse=vec(0.7, 0.7, 0.7),
                       specular=vec(1, 1, 1),
                       shininess=5,
-                      specCoeff=0.1)
+                      specCoeff=0.1,
+                      reflective=False)
         """
         # Blue Cube
         self.addCube(length=1,
@@ -91,37 +94,41 @@ class Scene(object):
                   position=vec(0, 0, 0), color=COLORS["blue"],
                   ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
-                  shininess=0, specCoeff=100):
+                  shininess=0, specCoeff=100, reflective=False):
         self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
-                                   specular, shininess, specCoeff))
+                                   specular, shininess,
+                                   specCoeff, reflective))
 
     def addEllipsoid(self, a=1, b=1, c=1,
                      position=vec(0, 0, 0), color=COLORS["red"],
                      ambient=COLORS["red"],
                      diffuse=COLORS["black"], specular=COLORS["white"],
-                     shininess=0, specCoeff=100):
+                     shininess=0, specCoeff=100, reflective=False):
         self.objects.append(Ellipsoid(a, b, c, position, color,
                                       ambient, diffuse,
-                                      specular, shininess, specCoeff))
+                                      specular, shininess,
+                                      specCoeff, reflective))
 
     def addPlane(self, normal=vec(0, 1, 0),
                  position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
-                 shininess=0, specCoeff=100):
+                 shininess=0, specCoeff=100, reflective=False):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
-                                  specular, shininess, specCoeff))
+                                  specular, shininess,
+                                  specCoeff, reflective))
 
     def addCube(self, length=1,
                 position=vec(0, 0, 0), color=COLORS["gray"],
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
-                shininess=0, specCoeff=100):
+                shininess=0, specCoeff=100, reflective=False):
         self.objects.append(Cube(length, position, color,
                                  ambient, diffuse,
-                                 specular, shininess, specCoeff))
+                                 specular, shininess,
+                                 specCoeff, reflective))
 
     def addDirectionalLight(self,
                             color=COLORS["white"],

@@ -13,14 +13,16 @@ class Object3D(ABC):
        Has getter methods for all material properties.
        Has abstract methods intersect and getNormal."""
     def __init__(self, position, baseColor, ambient,
-                 diffuse, specular, shininess, specCoeff):
+                 diffuse, specular, shininess, specCoeff,
+                 reflective):
         self.position = np.array(position)
         self.material = Material(baseColor,
                                  ambient,
                                  diffuse,
                                  specular,
                                  shininess,
-                                 specCoeff)
+                                 specCoeff,
+                                 reflective)
 
     def getPosition(self):
         return self.position

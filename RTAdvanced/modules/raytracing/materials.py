@@ -10,13 +10,14 @@ class Material(object):
        Contains shininess property.
        Contains specular coefficient."""
     def __init__(self, baseColor, ambient, diffuse, specular,
-                 shine=100, specCoeff=1.0):
+                 shine=100, specCoeff=1.0, reflective=False):
         self.baseColor = vec(*baseColor)
         self.ambient = vec(*ambient)
         self.diffuse = vec(*diffuse)
         self.specular = vec(*specular)
         self.shine = shine
         self.specCoeff = specCoeff
+        self.reflective = reflective
 
     def getBaseColor(self):
         """Getter method for ambient color."""
@@ -41,3 +42,7 @@ class Material(object):
     def getSpecularCoefficient(self):
         """Getter method for specular coefficient."""
         return self.specCoeff
+
+    def getReflective(self):
+        """Getter method for reflective."""
+        return self.reflective
