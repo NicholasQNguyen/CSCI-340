@@ -2,6 +2,8 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import numpy as np
+import pygame as pg
+import pathlib
 
 from ..raytracing.planar import Plane, Cube
 from ..raytracing.spherical import Sphere, Ellipsoid
@@ -11,6 +13,10 @@ from ..utils.vector import vec
 from ..utils.definitions import COLORS
 
 LIGHT_POSITION = vec(-1, 2, 2)
+# Will only work if running rayTracer.py from source folder
+IMAGE_FOLDER = pathlib.Path("resources/images/")
+BROWN_STONE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
+GRAY_STONE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
 
 
 class Scene(object):
@@ -43,7 +49,8 @@ class Scene(object):
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
                        specCoeff=.6,
-                       reflective=False)
+                       reflective=False,
+                       image=None)
         """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
@@ -56,6 +63,17 @@ class Scene(object):
                        specCoeff=.8,
                        reflective=True)
         """
+        # Sphere with Image
+        self.addSphere(radius=0.5,
+                       position=vec(0, 0, 0),
+                       color=vec(1, 0, 1),
+                       ambient=vec(0.4, 0.2, 0.4),
+                       diffuse=vec(0.4, 0.2, 0.4),
+                       specular=vec(1, 0.8, 1),
+                       shininess=25,
+                       specCoeff=.8,
+                       reflective=False,
+                       image=BROWN_STONE)
         # Red Ellipsoid
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -67,7 +85,8 @@ class Scene(object):
                           specular=vec(1, 0.8, 0.8),
                           shininess=100,
                           specCoeff=1,
-                          reflective=False)
+                          reflective=False,
+                          image=None)
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -77,7 +96,8 @@ class Scene(object):
                       specular=vec(1, 1, 1),
                       shininess=5,
                       specCoeff=0.1,
-                      reflective=False)
+                      reflective=False,
+                      image=None)
         """
         # Blue Cube
         self.addCube(length=1,

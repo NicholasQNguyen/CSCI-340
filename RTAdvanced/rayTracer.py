@@ -6,6 +6,7 @@ import pygame as pg
 from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
+from modules.raytracing.spherical import Sphere
 from modules.raytracing.planar import Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
@@ -47,11 +48,19 @@ class RayTracer(ProgressiveRenderer):
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return (i := np.dot(vector, normal)) + (vector - i)
 
-    def returnImage(self, obj):
+    def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
-        # 11 Slides, Slide 20
         # TODO Implement a px and py
-        return twoFiftyFiveToOnePointO(obj.getImage.get_at(0, 0))
+        # 11 Slides, Slide 20
+        if type(obj) is Sphere:
+            d = obj.getPosition() - surfaceHitPoint
+            u = 0.5 + ((np.arctan2(d[2], d[0])) / (2 * np.pi))
+            v = np.arccos(d[1]) / np.pi
+            px = int(u * obj.getImage().get_width())
+            py = int(v * obj.getImage().get_height())
+            return twoFiftyFiveToOnePointO(obj.getImage().get_at((px, py)))
+        color = obj.getImage().get_at((0, 0))
+        return twoFiftyFiveToOnePointO(color)
 
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
@@ -79,8 +88,6 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
-        if nearestObject.getImage() is not None:
-            return self.returnImage(nearestObject)
         # TODO TEMP TESITNG
         if type(nearestObject) is Cube:
             return vec(0, 1, 0)
@@ -89,6 +96,8 @@ class RayTracer(ProgressiveRenderer):
             nearestObject.getAmbient()  # 07 Slides, Slide 16
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
+        if nearestObject.getImage() is not None:
+            return self.returnImage(nearestObject, surfaceHitPoint)
         # TODO fix this
         # Reflect if it's reflective
         if nearestObject.isReflective() and \

@@ -2,14 +2,8 @@
 Author: Liz Matthews, Geoff Matthews
 """
 import pygame as pg
-import pathlib
 
 from ..utils.vector import vec
-
-# Will only work if running rayTracer.py from source folder
-IMAGE_FOLDER = pathlib.Path("resources/images/")
-BROWN_STONE_IMAGE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
-GRAY_STONE_IMAGE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
 
 
 class Material(object):
