@@ -44,6 +44,16 @@ class Scene(object):
                        shininess=50,
                        specCoeff=.6,
                        reflective=False)
+        # Reflective Purple Sphere
+        self.addSphere(radius=0.5,
+                       position=vec(-1, -0.5, 0),
+                       color=vec(1, 0, 1),
+                       ambient=vec(0.4, 0.2, 0.4),
+                       diffuse=vec(0.4, 0.2, 0.4),
+                       specular=vec(1, 0.8, 1),
+                       shininess=25,
+                       specCoeff=.8,
+                       reflective=True)
         # Red Ellipsoid
         self.addEllipsoid(a=1.5,
                           b=0.7,
