@@ -53,7 +53,6 @@ class ProgressiveRenderer(ABC):
         args = parser.parse_args()
         fileName = args.file
         if fileName is not None:
-            print("EXTENSITON", fileName[-4:])
             if (not (fileName[-4:] in FILE_EXTENSIONS)):
                 raise Exception("File name must end in \".jpg\" or \".png\".")
             show = ShowTypes.NoShow

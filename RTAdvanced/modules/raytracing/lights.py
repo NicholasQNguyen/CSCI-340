@@ -1,7 +1,7 @@
 import numpy as np
 
 from abc import ABC, abstractmethod
-from ..utils.vector import vec, magnitude, normalize
+from ..utils.vector import vec, normalize, magnitude
 
 
 class AbstractLight(ABC):

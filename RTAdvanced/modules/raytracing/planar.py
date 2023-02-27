@@ -2,6 +2,7 @@ import numpy as np
 from enum import Enum
 
 from .objects import Object3D
+from ..utils.vector import vec, magnitude, normalize
 
 
 class Side(Enum):
@@ -46,7 +47,7 @@ class Plane(Planar):
 
 
 class Cube(Planar):
-    def __init__(self, length, position, baseColor, ambient,
+    def __init__(self, length, top, forward, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
                  reflective, image):
         super().__init__(position, baseColor, ambient,
@@ -54,6 +55,8 @@ class Cube(Planar):
                          specCoeff, reflective, image)
         self.length = length
         self.sides = []
+        self.top = top
+        self.forward = forward
         self.setSides()
 
     def setSides(self):
@@ -63,36 +66,34 @@ class Cube(Planar):
 
     def generateSide(self, side):
         distance = self.length / 2
-        pass
-        """
         match side:
             case Side.Top:
-                normal = vec(0, 1, 0)
+                normal = self.top
                 position = self.position + vec(0,
                                                distance,
                                                0)
             case Side.Bottom:
-                normal = vec(0, -1, 0)
+                normal = -self.top
                 position = self.position - vec(0,
                                                distance,
                                                0)
             case Side.Left:
-                normal = vec(-1, 0, 0)
+                normal = np.cross(self.forward, self.top)
                 position = self.position - vec(distance,
                                                0,
                                                0)
             case Side.Right:
-                normal = vec(1, 0, 0)
+                normal = np.cross(self.top, self.forward)
                 position = self.position + vec(distance,
                                                0,
                                                0)
             case Side.Front:
-                normal = vec(0, 0, 1)
+                normal = self.forward
                 position = self.position + vec(0,
                                                0,
                                                distance)
             case Side.Back:
-                normal = vec(0, 0, -1)
+                normal = -self.forward
                 position = self.position - vec(0,
                                                0,
                                                distance)
@@ -102,23 +103,41 @@ class Cube(Planar):
 
         return Plane(normal=normal,
                      position=position,
-                     color=self.getBaseColor(),
+                     baseColor=self.getBaseColor(),
                      ambient=self.getAmbient(),
                      diffuse=self.getDiffuse(),
                      specular=self.getSpecular(),
                      shininess=self.getShine(),
-                     specCoeff=self.getSpecularCoefficient())
-        """
+                     specCoeff=self.getSpecularCoefficient(),
+                     reflective=self.isReflective(),
+                     image=self.getImage())
 
-    # TODO get this working
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        return min([side.signedIntersect(ray) for side in self.sides])
+        # Dot prod normal and ray ray direction
+        # keep track on max enter and negative dot prod
+        # Keep tack of min exit and pos dot pro
+        # if max enter < min exit, hit it and return max
+        maxEnter = 0
+        minExit = np.inf
+        intersections = [side.signedIntersect(ray) for side in self.sides]
+        for i, side in enumerate(self.sides):
+            # Is an enter
+            if np.dot(ray.direction, side.getNormal()) < 0:
+                if intersections[i] > maxEnter:
+                    maxEnter = intersections[i]
+            # Is an exit
+            elif np.dot(ray.direction, side.getNormal()) > 0:
+                if intersections[i] < minExit:
+                    minExit = intersections[i]
+        return maxEnter if maxEnter < minExit else np.inf
 
     # TODO actually get this working
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        return self.normal
+        # Find the side that the intersection touches and return that normal
+        # return plane.getNormal()
+        return vec(0, -1, 0)
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"

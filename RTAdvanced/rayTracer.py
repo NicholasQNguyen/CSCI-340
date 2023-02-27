@@ -113,9 +113,6 @@ class RayTracer(ProgressiveRenderer):
         # We hit nothing
         if nearestObject is None:
             return self.fog
-        # TODO TEMP TESITNG
-        if type(nearestObject) is Cube:
-            return vec(0, 1, 0)
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         if nearestObject.getImage() is not None:
