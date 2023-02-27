@@ -1,6 +1,5 @@
 # TODO ask about cubes,
 # textures on planes,
-# anti-aliasing,
 # updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
