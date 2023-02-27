@@ -84,7 +84,7 @@ class Scene(object):
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=CHECKERBOARD)
+                          image=BROWN_STONE)
         """
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),

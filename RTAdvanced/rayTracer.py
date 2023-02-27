@@ -155,10 +155,12 @@ class RayTracer(ProgressiveRenderer):
         # Fixing any NaNs in numpy, clipping to 0, 1.
         # Get the color based on the ray
         cameraRay = self.scene.camera.getRay(x / self.width, y / self.height)
-        if samplePerPixel == 1:
-            return np.nan_to_num(np.clip(
+        totalColor = np.zeros(3)
+        # TODO Setting up for Anti-aliasing
+        for _ in range(samplePerPixel ** 2):
+            totalColor = totalColor + np.nan_to_num(np.clip(
                 self.getColorR(cameraRay, 0), 0, 1), 0)
-        return np.nan_to_num(np.clip(self.getColorR(cameraRay, 0), 0, 1), 0)
+        return totalColor
 
 
 # Calls the 'main' function when this script is executed
