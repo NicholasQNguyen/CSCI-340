@@ -10,7 +10,7 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Plane, Cube
+from modules.raytracing.planar import Plane#, Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
 from modules.utils.definitions import twoFiftyFiveToOnePointO
@@ -111,8 +111,8 @@ class RayTracer(ProgressiveRenderer):
         if nearestObject is None:
             return self.fog
         # TODO TEMP TESITNG
-        if type(nearestObject) is Cube:
-            return vec(0, 1, 0)
+        # if type(nearestObject) is Cube:
+        #     return vec(0, 1, 0)
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         if nearestObject.getImage() is not None:

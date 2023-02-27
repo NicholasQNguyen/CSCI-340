@@ -65,6 +65,8 @@ class Cube(Planar):
 
     def generateSide(self, side):
         distance = self.length / 2
+        pass
+        """
         match side:
             case Side.Top:
                 normal = vec(0, 1, 0)
@@ -108,6 +110,7 @@ class Cube(Planar):
                      specular=self.getSpecular(),
                      shininess=self.getShine(),
                      specCoeff=self.getSpecularCoefficient())
+        """
 
     # TODO get this working
     def intersect(self, ray):
