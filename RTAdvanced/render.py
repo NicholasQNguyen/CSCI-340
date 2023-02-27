@@ -43,6 +43,18 @@ class ProgressiveRenderer(ABC):
         parser.add_argument("-f", "--file", help="File")
         args = parser.parse_args()
         fileName = args.file
+        showTypes = ("PerPixel",
+                     "PerColumn",
+                     "PerImage",
+                     "FinalShow",
+                     "NoShow")
+        if (args.show is not None) and (not (args.show in showTypes)):
+            raise Exception("-sh flag must be one of the following: \n \
+1) PerPixel \n \
+2) PerColumn \n \
+3) PerImage \n \
+4) FinalShow \n \
+5) NoShow")
         show = ShowTypes[args.show] if args.show is not None else None
         if (fileName is None) and show is ShowTypes.NoShow:
             raise Exception("Must input file name if doing No Show. \
