@@ -154,8 +154,9 @@ class RayTracer(ProgressiveRenderer):
     def getColor(self, x, y, samplePerPixel=1):
         totalColor = np.zeros(3)
         # TODO Setting up for Anti-aliasing
-        for _ in range(samplePerPixel ** 2):
-            shift = 1 / (samplePerPixel)
+        for i in range(samplePerPixel ** 2):
+            # Hit the center of the pixel
+            shift = 1 / (samplePerPixel * (i + 1))
             # Get the color based on the ray
             cameraRay = self.scene.camera.getRay((x + shift) / self.width, (y + shift) / self.height)
             # Fixing any NaNs in numpy, clipping to 0, 1.

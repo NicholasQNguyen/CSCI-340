@@ -69,7 +69,7 @@ class ProgressiveRenderer(ABC):
         else:
             self.show = show
         if len(sys.argv) > 2:
-            self.samplePerPixel = sys.argv[2]
+            self.samplePerPixel = int(sys.argv[2])
         else:
             self.samplePerPixel = samplePerPixel
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
