@@ -5,6 +5,6 @@ make run
 
 Flags:
 -f -> File Name: Name of file if you save it.
--n -> No Show: True if you don't want to output it as it renders.
-NOTE: if -n is set, -f must also be set or an exception will raise
+-sh -> Show Type: Type of show to do (PerColumn, PerPixel, NoShow, etc.)
+NOTE: if -sh is set to NoShow, -f must also be set or an exception will raise
 -s -> Sample: Sample per pixel for the anti aliasing.

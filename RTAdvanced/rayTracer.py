@@ -27,12 +27,11 @@ class RayTracer(ProgressiveRenderer):
     def __init__(self,
                  width=WIDTH * SCREEN_MULTIPLIER,
                  height=HEIGHT * SCREEN_MULTIPLIER,
-                 noShow=False,
                  show=ShowTypes.PerColumn,
                  samplePerPixel=1,
                  file=None):
         super().__init__(width, height, show=show,
-                         noShow=noShow, samplePerPixel=samplePerPixel,
+                         samplePerPixel=samplePerPixel,
                          file=file)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)

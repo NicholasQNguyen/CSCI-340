@@ -38,21 +38,19 @@ class ProgressiveRenderer(ABC):
         pygame.init()
         # Get command line arguments
         parser = argparse.ArgumentParser()
-        parser.add_argument("-n", "--noShow", help="NoShow", type=bool)
+        parser.add_argument("-sh", "--show", help="Show")
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
         args = parser.parse_args()
         fileName = args.file
-        noShow = args.noShow if args.noShow is not None else False
-        if (fileName is None) and noShow is True:
+        show = ShowTypes[args.show] if args.show is not None else None
+        if (fileName is None) and show is ShowTypes.NoShow:
             raise Exception("Must input file name if doing No Show. \
                             You can use the -f flag.")
         sample = args.sample if args.sample is not None else 1
-        print("FILE NAME", fileName)
-        print("NO SHOW", noShow)
-        print("SAMPLE", sample)
         # Set up renderer
-        cls.renderer = cls(noShow=noShow, samplePerPixel=sample,
+        cls.renderer = cls(show=show,
+                           samplePerPixel=sample,
                            file=fileName)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
@@ -70,7 +68,6 @@ class ProgressiveRenderer(ABC):
 
     def __init__(self, width=640, height=480,
                  showTime=True,
-                 noShow=False,
                  show=ShowTypes.PerColumn,
                  minimumPixel=0,
                  startPixelSize=256,
@@ -82,11 +79,10 @@ class ProgressiveRenderer(ABC):
         self.minimumPixel = minimumPixel
         self.screen = None
         self.fillColor = (64, 128, 255)
-        if noShow:
-            print("AAAAAAAAAAAAAAA")
-            self.show = ShowTypes.NoShow
-        else:
+        if show is not None:
             self.show = show
+        else:
+            self.show = ShowTypes.PerColumn
         self.samplePerPixel = samplePerPixel
 
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
@@ -94,8 +90,7 @@ class ProgressiveRenderer(ABC):
         else:
             self.startPixelSize = startPixelSize
         if self.show == ShowTypes.NoShow:
-            if noShow:
-                self.fileName = file
+            self.fileName = file
         else:
             self.fileName = None
 
