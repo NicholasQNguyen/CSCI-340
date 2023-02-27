@@ -15,7 +15,7 @@ import pygame as pg
 import sys
 from enum import Enum
 from abc import ABC, abstractmethod
-
+import argparse
 
 class ShowTypes(Enum):
     """Control for how the progressive pixel renderer shows images.
@@ -36,8 +36,17 @@ class ProgressiveRenderer(ABC):
         Sets up pygame and everything necessary."""
         # Initialize Pygame
         pygame.init()
+        # Get command line arguments
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-n", "--noShow", help="NoShow", type=bool)
+        parser.add_argument("-s", "--sample", help="Sample", type=int)
+        args = parser.parse_args()
+        print("ARGS NOSHOW", args.noShow)
+        print("ARGS SAMPLE", args.sample)
+        noShow = args.noShow if args.noShow is not None else False
+        sample = args.sample if args.sample is not None else 1
         # Set up renderer
-        cls.renderer = cls()
+        cls.renderer = cls(noShow=noShow, samplePerPixel=sample)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
         # Main loop
@@ -54,6 +63,7 @@ class ProgressiveRenderer(ABC):
 
     def __init__(self, width=640, height=480,
                  showTime=True,
+                 noShow=False,
                  show=ShowTypes.PerColumn,
                  minimumPixel=0,
                  startPixelSize=256,
@@ -64,14 +74,12 @@ class ProgressiveRenderer(ABC):
         self.minimumPixel = minimumPixel
         self.screen = None
         self.fillColor = (64, 128, 255)
-        if len(sys.argv) > 1:
+        if not noShow:
             self.show = ShowTypes.NoShow
         else:
             self.show = show
-        if len(sys.argv) > 2:
-            self.samplePerPixel = int(sys.argv[2])
-        else:
-            self.samplePerPixel = samplePerPixel
+        self.samplePerPixel = samplePerPixel
+
         if self.show in [ShowTypes.NoShow, ShowTypes.FinalShow]:
             self.startPixelSize = max(1, minimumPixel * 2)
         else:
