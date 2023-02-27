@@ -173,6 +173,7 @@ class ProgressiveRenderer(ABC):
             for x in range(0, self.width, self.pixelSize):
                 for y in range(0, self.height, self.pixelSize):
                     # Get color
+                    # Only anti-alias if down to 1 pixel
                     if self.pixelSize > 1:
                         color = self.getColor(x, y, 1) * 255
                     else:
