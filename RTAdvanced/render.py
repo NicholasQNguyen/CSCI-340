@@ -42,11 +42,11 @@ class ProgressiveRenderer(ABC):
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
         args = parser.parse_args()
-        fileName = args.file if args.file is not None else None
+        fileName = args.file
         noShow = args.noShow if args.noShow is not None else False
         if (fileName is None) and noShow is True:
-            raise Exception("Must input file name \
-                            with -f flag if doing No Show")
+            raise Exception("Must input file name if doing No Show. \
+                            You can use the -f flag.")
         sample = args.sample if args.sample is not None else 1
         print("FILE NAME", fileName)
         print("NO SHOW", noShow)
