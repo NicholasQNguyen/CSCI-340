@@ -163,7 +163,9 @@ class RayTracer(ProgressiveRenderer):
             # Hit the center of the pixel
             shift = 1 / ((samplePerPixel + 1) * (i + 1))
             # Get the color based on the ray
-            cameraRay = self.scene.camera.getRay((x + shift) / self.width, (y + shift) / self.height)
+            cameraRay = self.scene.camera.getRay(
+                                                (x + shift) / self.width,
+                                                (y + shift) / self.height)
             # Fixing any NaNs in numpy, clipping to 0, 1.
             totalColor = totalColor + np.nan_to_num(np.clip(
                 self.getColorR(cameraRay, 0), 0, 1), 0)

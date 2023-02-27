@@ -1,9 +1,7 @@
-import sys
 import numpy as np
 from enum import Enum
 
 from .objects import Object3D
-from ..utils.vector import vec
 
 
 class Side(Enum):

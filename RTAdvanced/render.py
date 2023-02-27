@@ -12,10 +12,10 @@ import pygame
 import time
 import numpy as np
 import pygame as pg
-import sys
 from enum import Enum
 from abc import ABC, abstractmethod
 import argparse
+
 
 class ShowTypes(Enum):
     """Control for how the progressive pixel renderer shows images.
@@ -45,7 +45,8 @@ class ProgressiveRenderer(ABC):
         fileName = args.file if args.file is not None else None
         noShow = args.noShow if args.noShow is not None else False
         if (fileName is None) and noShow is True:
-            raise Exception("Must input file name with -f flag if doing noShow")
+            raise Exception("Must input file name \
+                            with -f flag if doing No Show")
         sample = args.sample if args.sample is not None else 1
         print("FILE NAME", fileName)
         print("NO SHOW", noShow)
