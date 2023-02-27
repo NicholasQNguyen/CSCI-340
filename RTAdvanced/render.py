@@ -40,13 +40,19 @@ class ProgressiveRenderer(ABC):
         parser = argparse.ArgumentParser()
         parser.add_argument("-n", "--noShow", help="NoShow", type=bool)
         parser.add_argument("-s", "--sample", help="Sample", type=int)
+        parser.add_argument("-f", "--file", help="File")
         args = parser.parse_args()
-        print("ARGS NOSHOW", args.noShow)
-        print("ARGS SAMPLE", args.sample)
+        fileName = args.file if args.file is not None else None
         noShow = args.noShow if args.noShow is not None else False
+        if (fileName is None) and noShow is True:
+            raise Exception("Must input file name with -f flag if doing noShow")
         sample = args.sample if args.sample is not None else 1
+        print("FILE NAME", fileName)
+        print("NO SHOW", noShow)
+        print("SAMPLE", sample)
         # Set up renderer
-        cls.renderer = cls(noShow=noShow, samplePerPixel=sample)
+        cls.renderer = cls(noShow=noShow, samplePerPixel=sample,
+                           file=fileName)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
         # Main loop
@@ -67,14 +73,16 @@ class ProgressiveRenderer(ABC):
                  show=ShowTypes.PerColumn,
                  minimumPixel=0,
                  startPixelSize=256,
-                 samplePerPixel=1):
+                 samplePerPixel=1,
+                 file=None):
         self.width = width
         self.height = height
         self.showTime = showTime
         self.minimumPixel = minimumPixel
         self.screen = None
         self.fillColor = (64, 128, 255)
-        if not noShow:
+        if noShow:
+            print("AAAAAAAAAAAAAAA")
             self.show = ShowTypes.NoShow
         else:
             self.show = show
@@ -85,10 +93,8 @@ class ProgressiveRenderer(ABC):
         else:
             self.startPixelSize = startPixelSize
         if self.show == ShowTypes.NoShow:
-            if len(sys.argv) > 1:
-                self.fileName = sys.argv[1]
-            else:
-                self.fileName = input("File name?: ")
+            if noShow:
+                self.fileName = file
         else:
             self.fileName = None
 
