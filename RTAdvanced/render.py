@@ -57,7 +57,8 @@ class ProgressiveRenderer(ABC):
                 raise Exception("File name must end in \".jpg\" or \".png\".")
             show = ShowTypes.NoShow
         else:
-            if (args.show is not None) and (not (args.show in SHOW_TYPES_STRINGS)):
+            if (args.show is not None) and \
+              (not (args.show in SHOW_TYPES_STRINGS)):
                 raise Exception("-sh flag must be one of the following: \n \
 1) PerPixel \n \
 2) PerColumn \n \

@@ -9,7 +9,7 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Plane, Cube
+from modules.raytracing.planar import Plane
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
 from modules.utils.definitions import twoFiftyFiveToOnePointO
@@ -159,8 +159,9 @@ class RayTracer(ProgressiveRenderer):
             shift = 1 / ((samplePerPixel + 1) * (i + 1))
             # Get the color based on the ray
             cameraRay = self.scene.camera.getRay(
-                                                (x + shift) / self.width,
-                                                (y + shift) / self.height)
+                                                    (x + shift) / self.width,
+                                                    (y + shift) / self.height
+                                                )
             # Fixing any NaNs in numpy, clipping to 0, 1.
             totalColor = totalColor + np.nan_to_num(np.clip(
                 self.getColorR(cameraRay, 0), 0, 1), 0)

@@ -2,7 +2,7 @@ import numpy as np
 from enum import Enum
 
 from .objects import Object3D
-from ..utils.vector import vec, magnitude, normalize
+from ..utils.vector import vec
 
 
 class Side(Enum):
@@ -99,7 +99,8 @@ class Cube(Planar):
                                                distance)
             case _:
                 print("OH GOD")
-                sys.exit(1)
+                raise Exception("We messed up somewhere \
+                                in the cube side generation.")
 
         return Plane(normal=normal,
                      position=position,
