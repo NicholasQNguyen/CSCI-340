@@ -118,7 +118,6 @@ class RayTracer(ProgressiveRenderer):
             # Start with base color of object + ambient difference
             color = nearestObject.getBaseColor() - \
                 nearestObject.getAmbient()  # 07 Slides, Slide 16
-        # TODO fix this
         # Reflect if it's reflective
         if nearestObject.isReflective() and \
            recursionCount < MAX_RECURSION_DEPTH:
@@ -150,7 +149,6 @@ class RayTracer(ProgressiveRenderer):
 
     def getColor(self, x, y, samplePerPixel=1):
         totalColor = np.zeros(3)
-        # TODO Setting up for Anti-aliasing
         for i in range(samplePerPixel ** 2):
             # Hit the center of the pixel
             shift = 1 / ((samplePerPixel + 1) * (i + 1))
