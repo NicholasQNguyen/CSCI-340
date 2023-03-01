@@ -84,9 +84,6 @@ class RayTracer(ProgressiveRenderer):
             return twoFiftyFiveToOnePointO(obj.getImage().get_at(
                 (coordinateU, coordinateV)))
 
-        color = obj.getImage().get_at((0, 0))
-        return twoFiftyFiveToOnePointO(color)
-
     def getDiffuse(self, vectorToLight, normal):
         """Gets the diffuse. Expects normalized vectors"""
         return max(0, self.getReflectionAngle(vectorToLight, normal))

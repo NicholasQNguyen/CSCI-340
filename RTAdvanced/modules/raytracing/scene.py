@@ -61,6 +61,7 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
+        """
         # Sphere with Brown Stone
         self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
@@ -72,6 +73,7 @@ class Scene(object):
                        specCoeff=.8,
                        reflective=False,
                        image=CHECKERBOARD)
+        """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -96,6 +98,17 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=False,
                       image=None)
+        # Blue Cube
+        self.addCube(length=0.5,
+                     top=vec(1, 1, 0),
+                     forward=vec(0, 0, 1),
+                     position=vec(0, 0, 0),
+                     color=COLORS["blue"],
+                     ambient=vec(0.3, 0.3, 0.7),
+                     diffuse=vec(0.3, 0.3, 0.7),
+                     specular=COLORS["white"],
+                     shininess=0,
+                     specCoeff=100)
         """
         # Plane with Image
         self.addPlane(normal=vec(0, 1, 0),
@@ -108,17 +121,6 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=False,
                       image=CHECKERBOARD)
-        # Blue Cube
-        self.addCube(length=0.5,
-                     top=vec(1, 1, 0),
-                     forward=vec(0, 0, 1),
-                     position=vec(0, 0, 0),
-                     color=COLORS["blue"],
-                     ambient=vec(0.3, 0.3, 0.7),
-                     diffuse=vec(0.3, 0.3, 0.7),
-                     specular=COLORS["white"],
-                     shininess=0,
-                     specCoeff=100)
         """
 
     def nearestObject(self, ray, obj=None):

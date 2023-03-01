@@ -69,34 +69,22 @@ class Cube(Planar):
         match side:
             case Side.Top:
                 normal = self.top
-                position = self.position + vec(0,
-                                               distance,
-                                               0)
+                position = self.position + distance * normal
             case Side.Bottom:
                 normal = -self.top
-                position = self.position - vec(0,
-                                               distance,
-                                               0)
+                position = self.position - distance * normal
             case Side.Left:
-                normal = np.cross(self.forward, self.top)
-                position = self.position - vec(distance,
-                                               0,
-                                               0)
-            case Side.Right:
                 normal = np.cross(self.top, self.forward)
-                position = self.position + vec(distance,
-                                               0,
-                                               0)
+                position = self.position - distance * normal
+            case Side.Right:
+                normal = np.cross(self.forward, self.top)
+                position = self.position + distance * normal
             case Side.Front:
                 normal = self.forward
-                position = self.position + vec(0,
-                                               0,
-                                               distance)
+                position = self.position + distance * normal
             case Side.Back:
                 normal = -self.forward
-                position = self.position - vec(0,
-                                               0,
-                                               distance)
+                position = self.position - distance * normal
             case _:
                 print("OH GOD")
                 raise Exception("We messed up somewhere \
