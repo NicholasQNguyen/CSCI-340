@@ -40,7 +40,6 @@ class Scene(object):
     def setup(self):
         # Example setup
         self.addPointLight(color=vec(1, 1, 1), position=LIGHT_POSITION)
-        """
         # Blue Sphere
         self.addSphere(radius=0.5,
                        position=vec(1, 0, 0),
@@ -86,7 +85,6 @@ class Scene(object):
                           specCoeff=1,
                           reflective=False,
                           image=BROWN_STONE)
-        """
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -110,7 +108,6 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=False,
                       image=CHECKERBOARD)
-        """
         # Blue Cube
         self.addCube(length=0.5,
                      top=vec(1, 1, 0),
@@ -122,6 +119,7 @@ class Scene(object):
                      specular=COLORS["white"],
                      shininess=0,
                      specCoeff=100)
+        """
 
     def nearestObject(self, ray, obj=None):
         """Returns the nearest collision object

@@ -1,5 +1,5 @@
 To Run:
-python3 rayTracer.py -f [FILE_NAME] -n [NO SHOW] -s [SAMPLE PER PIXEL]
+python3 rayTracer.py -f [FILE_NAME] -sh [ShowType] -s [SAMPLE PER PIXEL]
 or 
 make run
 

@@ -2,6 +2,10 @@ run:
 	python3 rayTracer.py && \
 	make clean
 
+runAA2:
+	python3 rayTracer.py -s 2 && \
+	make clean
+
 clean:
 	rm -rf __pycache__ && \
 	rm -rf modules/__pycache__ && \
