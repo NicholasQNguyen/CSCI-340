@@ -9,8 +9,8 @@ class Side(Enum):
     """Each side of the cube."""
     Top = 0
     Bottom = 1
-    Left = 2
-    Right = 3
+    Right = 2
+    Left = 3
     Front = 4
     Back = 5
 
@@ -43,7 +43,8 @@ class Plane(Planar):
         return self.positiveOnly(self.signedIntersect(ray))
 
     def __repr__(self):
-        return str(self.getBaseColor()) + " Plane"
+        # return str(self.getBaseColor()) + " Plane"
+        return str(self.getPosition()) + " Plane"
 
 
 class Cube(Planar):
@@ -60,8 +61,8 @@ class Cube(Planar):
         self.setSides()
 
     def setSides(self):
-        for side in [Side.Top, Side.Bottom, Side.Left,
-                     Side.Right, Side.Front, Side.Bottom]:
+        for side in [Side.Top, Side.Bottom, Side.Right,
+                     Side.Left, Side.Front, Side.Back]:
             self.sides.append(self.generateSide(side))
 
     def generateSide(self, side):
@@ -69,27 +70,20 @@ class Cube(Planar):
         match side:
             case Side.Top:
                 normal = self.top
-                position = self.position + distance * normal
             case Side.Bottom:
                 normal = -self.top
-                position = self.position - distance * normal
-            case Side.Left:
-                normal = np.cross(self.top, self.forward)
-                position = self.position - distance * normal
             case Side.Right:
                 normal = np.cross(self.forward, self.top)
-                position = self.position + distance * normal
+            case Side.Left:
+                normal = np.cross(self.top, self.forward)
             case Side.Front:
                 normal = self.forward
-                position = self.position + distance * normal
             case Side.Back:
                 normal = -self.forward
-                position = self.position - distance * normal
             case _:
-                print("OH GOD")
                 raise Exception("We messed up somewhere \
                                 in the cube side generation.")
-
+        position = self.position + distance * normal
         return Plane(normal=normal,
                      position=position,
                      baseColor=self.getBaseColor(),

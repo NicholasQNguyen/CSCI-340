@@ -100,7 +100,7 @@ class Scene(object):
                       image=None)
         # Blue Cube
         self.addCube(length=0.5,
-                     top=vec(1, 1, 0),
+                     top=vec(1, 0, 0),
                      forward=vec(0, 0, 1),
                      position=vec(0, 0, 0),
                      color=COLORS["blue"],
@@ -109,6 +109,8 @@ class Scene(object):
                      specular=COLORS["white"],
                      shininess=0,
                      specCoeff=100)
+        for side in self.objects[-1].sides:
+            print("SIDE", side)
         """
         # Plane with Image
         self.addPlane(normal=vec(0, 1, 0),
