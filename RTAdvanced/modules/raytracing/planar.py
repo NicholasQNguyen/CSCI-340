@@ -103,10 +103,12 @@ class Cube(Object3D):
         intersections = [side.signedIntersect(ray) for side in self.sides]
         for i, side in enumerate(self.sides):
             # Is an enter
-            if np.dot(ray.direction, side.getNormal()) < 0 and intersections[i] > maxEnter:
+            if np.dot(ray.direction, side.getNormal()) < 0 \
+              and intersections[i] > maxEnter:
                 maxEnter = intersections[i]
             # Is an exit
-            elif np.dot(ray.direction, side.getNormal()) > 0 and intersections[i] < minExit:
+            elif np.dot(ray.direction, side.getNormal()) > 0 \
+              and intersections[i] < minExit:
                 minExit = intersections[i]
             self.lastIntersectedPlane = side
         return maxEnter if maxEnter < minExit else np.inf
