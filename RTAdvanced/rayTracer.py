@@ -1,4 +1,4 @@
-# TODO ask about cubes,
+# TODO ask about cubes normal,
 # textures on planes,
 # updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
@@ -9,7 +9,7 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Plane
+from modules.raytracing.planar import Plane, Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
 from modules.utils.definitions import twoFiftyFiveToOnePointO
@@ -112,6 +112,8 @@ class RayTracer(ProgressiveRenderer):
             return self.fog
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
+        if type(nearestObject) is Cube:
+            print("CUBE NORMAL", normal)
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         else:

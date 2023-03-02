@@ -100,8 +100,8 @@ class Scene(object):
                       image=None)
         # Blue Cube
         self.addCube(length=0.5,
-                     top=vec(1, 0, 0),
-                     forward=vec(0, 0, 1),
+                     top=vec(1, 1, 0),
+                     forward=vec(0, 1, 1),
                      position=vec(0, 0, 0),
                      color=COLORS["blue"],
                      ambient=vec(0.3, 0.3, 0.7),

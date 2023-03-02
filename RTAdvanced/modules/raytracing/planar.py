@@ -2,7 +2,6 @@ import numpy as np
 from enum import Enum
 
 from .objects import Object3D
-from ..utils.vector import vec
 
 
 class Side(Enum):
@@ -15,15 +14,7 @@ class Side(Enum):
     Back = 5
 
 
-class Planar(Object3D):
-    def signedIntersect(self, ray):
-        # 10 Slides, slide 16
-        return np.inf if \
-            (denom := np.dot(ray.direction, self.normal)) == 0 else \
-            np.dot(self.position - ray.position, self.normal) / denom
-
-
-class Plane(Planar):
+class Plane(Object3D):
     def __init__(self, normal, position, baseColor,
                  ambient, diffuse, specular,
                  shininess, specCoeff, reflective,
@@ -42,12 +33,21 @@ class Plane(Planar):
            Returns a t only if it's positive."""
         return self.positiveOnly(self.signedIntersect(ray))
 
+    def signedIntersect(self, ray):
+        """Find the intersection for the plane.
+           Returns a t if positive or negative.
+           For use in Cube class."""
+        # 10 Slides, slide 16
+        return np.inf if \
+            (denom := np.dot(ray.direction, self.normal)) == 0 else \
+            np.dot(self.position - ray.position, self.normal) / denom
+
     def __repr__(self):
         # return str(self.getBaseColor()) + " Plane"
         return str(self.getPosition()) + " Plane"
 
 
-class Cube(Planar):
+class Cube(Object3D):
     def __init__(self, length, top, forward, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
                  reflective, image):
@@ -58,6 +58,7 @@ class Cube(Planar):
         self.sides = []
         self.top = top
         self.forward = forward
+        self.lastIntersectedPlane = None
         self.setSides()
 
     def setSides(self):
@@ -97,30 +98,24 @@ class Cube(Planar):
 
     def intersect(self, ray):
         """Find the intersection for the cube."""
-        # Dot prod normal and ray ray direction
-        # keep track on max enter and negative dot prod
-        # Keep tack of min exit and pos dot pro
-        # if max enter < min exit, hit it and return max
         maxEnter = 0
         minExit = np.inf
         intersections = [side.signedIntersect(ray) for side in self.sides]
         for i, side in enumerate(self.sides):
             # Is an enter
-            if np.dot(ray.direction, side.getNormal()) < 0:
-                if intersections[i] > maxEnter:
-                    maxEnter = intersections[i]
+            if np.dot(ray.direction, side.getNormal()) < 0 and intersections[i] > maxEnter:
+                maxEnter = intersections[i]
             # Is an exit
-            elif np.dot(ray.direction, side.getNormal()) > 0:
-                if intersections[i] < minExit:
-                    minExit = intersections[i]
+            elif np.dot(ray.direction, side.getNormal()) > 0 and intersections[i] < minExit:
+                minExit = intersections[i]
+            self.lastIntersectedPlane = side
         return maxEnter if maxEnter < minExit else np.inf
 
     # TODO actually get this working
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         # Find the side that the intersection touches and return that normal
-        # return plane.getNormal()
-        return vec(0, -1, 0)
+        return self.lastIntersectedPlane.getNormal()
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"
