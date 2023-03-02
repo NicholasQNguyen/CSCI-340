@@ -2,6 +2,7 @@ import numpy as np
 from enum import Enum
 
 from .objects import Object3D
+from ..utils.vector import normalize
 
 
 class Side(Enum):
@@ -84,9 +85,9 @@ class Cube(Object3D):
             case _:
                 raise Exception("We messed up somewhere \
                                 in the cube side generation.")
-        position = self.position + distance * normal
+        print(side, "NORMAL", normal)
         return Plane(normal=normal,
-                     position=position,
+                     position=self.position + distance * normal,
                      baseColor=self.getBaseColor(),
                      ambient=self.getAmbient(),
                      diffuse=self.getDiffuse(),
@@ -106,18 +107,17 @@ class Cube(Object3D):
             if np.dot(ray.direction, side.getNormal()) < 0 \
               and intersections[i] > maxEnter:
                 maxEnter = intersections[i]
+                self.lastIntersectedPlane = side
             # Is an exit
             elif np.dot(ray.direction, side.getNormal()) > 0 \
               and intersections[i] < minExit:
                 minExit = intersections[i]
-            self.lastIntersectedPlane = side
         return maxEnter if maxEnter < minExit else np.inf
 
     # TODO actually get this working
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
-        # Find the side that the intersection touches and return that normal
-        return self.lastIntersectedPlane.getNormal()
+        return normalize(self.lastIntersectedPlane.getNormal())
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"

@@ -51,6 +51,7 @@ class Scene(object):
                        specCoeff=.6,
                        reflective=False,
                        image=None)
+        """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
                        position=vec(-1, 0, -0.5),
@@ -61,7 +62,6 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
-        """
         # Sphere with Brown Stone
         self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
@@ -106,11 +106,9 @@ class Scene(object):
                      color=COLORS["blue"],
                      ambient=vec(0.3, 0.3, 0.7),
                      diffuse=vec(0.3, 0.3, 0.7),
-                     specular=COLORS["white"],
-                     shininess=0,
-                     specCoeff=100)
-        for side in self.objects[-1].sides:
-            print("SIDE", side)
+                     specular=vec(1, 1, 1),
+                     shininess=100,
+                     specCoeff=1)
         """
         # Plane with Image
         self.addPlane(normal=vec(0, 1, 0),
