@@ -14,7 +14,7 @@ class Object3D(ABC):
        Has abstract methods intersect and getNormal."""
     def __init__(self, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image):
+                 reflective, image, refractiveIndex):
         self.position = np.array(position)
         self.material = Material(baseColor,
                                  ambient,
@@ -23,7 +23,8 @@ class Object3D(ABC):
                                  shininess,
                                  specCoeff,
                                  reflective,
-                                 image)
+                                 image,
+                                 refractiveIndex)
 
     def getPosition(self):
         return self.position
@@ -63,6 +64,10 @@ class Object3D(ABC):
     def getImage(self):
         """Getter method for the material's image."""
         return self.material.getImage()
+
+    def getRefractiveIndex(self):
+        """Getter method for the material's refractive index."""
+        return self.material.getRefractiveIndex()
 
     @abstractmethod
     def intersect(self, ray):

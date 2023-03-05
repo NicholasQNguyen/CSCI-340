@@ -42,10 +42,11 @@ class Spherical(Object3D):
 class Sphere(Spherical):
     def __init__(self, radius, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image):
+                 reflective, image, refractiveIndex):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
-                         specCoeff, reflective, image)
+                         specCoeff, reflective, image,
+                         refractiveIndex)
         self.radius = radius
 
     def getRadius(self):
@@ -74,10 +75,10 @@ class Sphere(Spherical):
 class Ellipsoid(Spherical):
     def __init__(self, a, b, c, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image):
+                 reflective, image, refractiveIndex):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess, specCoeff,
-                         reflective, image)
+                         reflective, image, refractiveIndex)
         self.a = a
         self.b = b
         self.c = c

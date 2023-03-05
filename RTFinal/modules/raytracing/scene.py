@@ -139,49 +139,49 @@ class Scene(object):
                   ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
                   shininess=0, specCoeff=100, reflective=False,
-                  image=None):
+                  image=None, refractiveIndex=1.0):
         self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
                                    specular, shininess,
                                    specCoeff, reflective,
-                                   image))
+                                   image, refractiveIndex))
 
     def addEllipsoid(self, a=1, b=1, c=1,
                      position=vec(0, 0, 0), color=COLORS["red"],
                      ambient=COLORS["red"],
                      diffuse=COLORS["black"], specular=COLORS["white"],
                      shininess=0, specCoeff=100, reflective=False,
-                     image=None):
+                     image=None, refractiveIndex=1.0):
         self.objects.append(Ellipsoid(a, b, c, position, color,
                                       ambient, diffuse,
                                       specular, shininess,
                                       specCoeff, reflective,
-                                      image))
+                                      image, refractiveIndex))
 
     def addPlane(self, normal=vec(0, 1, 0),
                  position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
                  shininess=0, specCoeff=100, reflective=False,
-                 image=None):
+                 image=None, refractiveIndex=1.0):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
                                   specular, shininess,
                                   specCoeff, reflective,
-                                  image))
+                                  image, refractiveIndex))
 
     def addCube(self, length=1, top=vec(0, 1, 0), forward=vec(0, 0, 1),
                 position=vec(0, 0, 0), color=COLORS["gray"],
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
                 shininess=0, specCoeff=100, reflective=False,
-                image=None):
+                image=None, refractiveIndex=1.0):
         self.objects.append(Cube(length, top, forward,
                                  position, color,
                                  ambient, diffuse,
                                  specular, shininess,
                                  specCoeff, reflective,
-                                 image))
+                                 image, refractiveIndex))
 
     def addDirectionalLight(self,
                             color=COLORS["white"],

@@ -19,10 +19,11 @@ class Plane(Object3D):
     def __init__(self, normal, position, baseColor,
                  ambient, diffuse, specular,
                  shininess, specCoeff, reflective,
-                 image):
+                 image, refractiveIndex):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
-                         specCoeff, reflective, image)
+                         specCoeff, reflective, image,
+                         refractiveIndex)
         self.normal = normalize(normal)
 
     def getNormal(self, intersection=None):
@@ -51,10 +52,11 @@ class Plane(Object3D):
 class Cube(Object3D):
     def __init__(self, length, top, forward, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image):
+                 reflective, image, refractiveIndex):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
-                         specCoeff, reflective, image)
+                         specCoeff, reflective, image,
+                         refractiveIndex)
         self.length = length
         self.sides = []
         self.top = top
@@ -94,7 +96,8 @@ class Cube(Object3D):
                      shininess=self.getShine(),
                      specCoeff=self.getSpecularCoefficient(),
                      reflective=self.isReflective(),
-                     image=self.getImage())
+                     image=self.getImage(),
+                     refractiveIndex=self.getRefractiveIndex())
 
     def intersect(self, ray):
         """Find the intersection for the cube."""

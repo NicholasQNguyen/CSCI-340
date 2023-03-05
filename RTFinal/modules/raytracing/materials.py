@@ -11,7 +11,7 @@ class Material(object):
        Contains specular coefficient."""
     def __init__(self, baseColor, ambient, diffuse, specular,
                  shine=100, specCoeff=1.0, reflective=False,
-                 image=None):
+                 image=None, refractiveIndex=1.0):
         self.baseColor = vec(*baseColor)
         self.ambient = vec(*ambient)
         self.diffuse = vec(*diffuse)
@@ -20,6 +20,7 @@ class Material(object):
         self.specCoeff = specCoeff
         self.reflective = reflective
         self.image = image
+        self.refractiveIndex = refractiveIndex
 
     def getBaseColor(self):
         """Getter method for ambient color."""
@@ -52,3 +53,7 @@ class Material(object):
     def getImage(self):
         """Getter method for image"""
         return self.image
+
+    def getRefractiveIndex(self):
+        """Getter method for refractive index"""
+        return self.refractiveIndex
