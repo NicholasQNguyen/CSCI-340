@@ -57,9 +57,9 @@ class Object3D(ABC):
            Intersection parameter is unused for Ray Tracing Basics."""
         return self.material.getSpecularCoefficient()
 
-    def isReflective(self):
+    def getReflective(self):
         """Getter method for the material's color."""
-        return self.material.isReflective()
+        return self.material.getReflective()
 
     def getImage(self):
         """Getter method for the material's image."""

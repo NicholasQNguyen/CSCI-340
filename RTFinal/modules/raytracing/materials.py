@@ -46,7 +46,7 @@ class Material(object):
         """Getter method for specular coefficient."""
         return self.specCoeff
 
-    def isReflective(self):
+    def getReflective(self):
         """Getter method for reflective."""
         return self.reflective
 

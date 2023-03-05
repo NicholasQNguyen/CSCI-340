@@ -41,17 +41,30 @@ class Scene(object):
     def setup(self):
         # Example setup
         self.addPointLight(color=vec(1, 1, 1), position=LIGHT_POSITION)
+        # Gray Plane
+        self.addPlane(normal=vec(0, 1, 0),
+                      position=vec(0, -1, 0),
+                      color=COLORS["gray"],
+                      ambient=vec(0.3, 0.3, 0.3),
+                      diffuse=vec(0.7, 0.7, 0.7),
+                      specular=vec(1, 1, 1),
+                      shininess=5,
+                      specCoeff=0.1,
+                      reflective=0,
+                      image=None,
+                      refractiveIndex=1.5)
         # Blue Sphere
-        self.addSphere(radius=0.25,
-                       position=vec(1, 1, 0),
+        self.addSphere(radius=.5,
+                       position=vec(0, 0, -2),
                        color=vec(0, 0, 1),
                        ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
                        specCoeff=.6,
-                       reflective=False,
+                       reflective=1,
                        image=None)
+        """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
                        position=vec(-1, 1, -0.5),
@@ -62,9 +75,10 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
+        """
         # Sphere with Brown Stone
         self.addSphere(radius=0.5,
-                       position=vec(0, 0, 0),
+                       position=vec(1, 0, 0),
                        color=vec(0, 0, 0),
                        ambient=vec(0.0, 0.0, 0.0),
                        diffuse=vec(0.0, 0.0, 0.0),
@@ -73,6 +87,7 @@ class Scene(object):
                        specCoeff=.8,
                        reflective=False,
                        image=CHECKERBOARD)
+        """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -86,17 +101,6 @@ class Scene(object):
                           specCoeff=1,
                           reflective=False,
                           image=NOBEL)
-        # Gray Plane
-        self.addPlane(normal=vec(0, 1, 0),
-                      position=vec(0, -1, 0),
-                      color=COLORS["gray"],
-                      ambient=vec(0.3, 0.3, 0.3),
-                      diffuse=vec(0.7, 0.7, 0.7),
-                      specular=vec(1, 1, 1),
-                      shininess=5,
-                      specCoeff=0.1,
-                      reflective=False,
-                      image=None)
         # Blue Cube
         self.addCube(length=0.5,
                      top=vec(1, 1, 0),
@@ -108,7 +112,6 @@ class Scene(object):
                      specular=vec(1, 1, 1),
                      shininess=100,
                      specCoeff=1)
-        """
         # Plane with Image
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -138,7 +141,7 @@ class Scene(object):
                   position=vec(0, 0, 0), color=COLORS["blue"],
                   ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
-                  shininess=0, specCoeff=100, reflective=False,
+                  shininess=0, specCoeff=100, reflective=0,
                   image=None, refractiveIndex=1.0):
         self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
@@ -150,7 +153,7 @@ class Scene(object):
                      position=vec(0, 0, 0), color=COLORS["red"],
                      ambient=COLORS["red"],
                      diffuse=COLORS["black"], specular=COLORS["white"],
-                     shininess=0, specCoeff=100, reflective=False,
+                     shininess=0, specCoeff=100, reflective=0,
                      image=None, refractiveIndex=1.0):
         self.objects.append(Ellipsoid(a, b, c, position, color,
                                       ambient, diffuse,
@@ -162,7 +165,7 @@ class Scene(object):
                  position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
-                 shininess=0, specCoeff=100, reflective=False,
+                 shininess=0, specCoeff=100, reflective=0,
                  image=None, refractiveIndex=1.0):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
@@ -174,7 +177,7 @@ class Scene(object):
                 position=vec(0, 0, 0), color=COLORS["gray"],
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
-                shininess=0, specCoeff=100, reflective=False,
+                shininess=0, specCoeff=100, reflective=0,
                 image=None, refractiveIndex=1.0):
         self.objects.append(Cube(length, top, forward,
                                  position, color,

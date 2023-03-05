@@ -55,6 +55,20 @@ class RayTracer(ProgressiveRenderer):
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return -(i := (np.dot(vector, normal) * normal)) + (vector - i)
 
+    def getReflectance(self, obj, origin=None):
+        """Returns a float of the reflectance.
+           Entering from the origin into the obj."""
+        # 13 Slides, slide 26
+        etaObj = obj.getRefractiveIndex()
+        etaOrigin = 1.0 if origin is None else origin.getRefractiveIndex()
+        return ((etaObj - etaOrigin)/(etaObj + etaOrigin)) ** 2
+
+    def schlick(self, reflectance, theta):
+        """Returns a float. The angle by which things
+           change when entering a refractive object."""
+        # 13 Slides, slide 27
+        return reflectance + (1-reflectance) * (1 - np.cos(theta)) ** 5
+
     def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
         # 11 Slides, Slide 20
@@ -105,6 +119,7 @@ class RayTracer(ProgressiveRenderer):
     def getColorR(self, ray, recursionCount=0):
         """Returns color with diffuse and specualr attached.
            Expects a normalized ray."""
+        color = np.zeros(3)
         nearestObject, minDist = self.scene.nearestObject(ray)
         # We hit nothing
         if nearestObject is None:
@@ -112,16 +127,17 @@ class RayTracer(ProgressiveRenderer):
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         # Reflect if it's reflective
-        if nearestObject.isReflective():
-            return self.getColorR(Ray(surfaceHitPoint,
+        if nearestObject.getReflective() != 0:
+            color = color + self.getColorR(Ray(surfaceHitPoint,
                                       self.getReflectionVector(ray.direction,
                                                                normal)),
-                                  recursionCount + 1)
+                                  recursionCount + 1) * \
+                    nearestObject.getReflective()
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         else:
             # Start with base color of object + ambient difference
-            color = nearestObject.getBaseColor() - \
+            color = color + nearestObject.getBaseColor() - \
                 nearestObject.getAmbient()  # 07 Slides, Slide 16
         for light in self.scene.lights:
             vectorToLight = light.getVectorToLight(surfaceHitPoint)
