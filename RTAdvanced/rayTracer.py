@@ -1,6 +1,4 @@
-# TODO ask about cubes normal,
 # textures on planes,
-# updating the machines to python3 3.10
 """ Author: Liz Matthews, Geoff Matthews """
 import numpy as np
 import pygame as pg
@@ -55,13 +53,14 @@ class RayTracer(ProgressiveRenderer):
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return -(i := np.dot(vector, normal)) + (vector - i)
+        return -(i := (np.dot(vector, normal) * normal)) + (vector - i)
 
     def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
         # 11 Slides, Slide 20
         if type(obj) is Sphere or \
            type(obj) is Ellipsoid:
+            # 11 Slides, Slide 49
             d = obj.getPosition() - surfaceHitPoint
             u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
             v = np.arccos(d[Y]) / np.pi
@@ -103,31 +102,27 @@ class RayTracer(ProgressiveRenderer):
             (specularColor := specularAngle * objectSpecularColor)[X] > 0 \
             else vec(0, 0, 0)  # Prevent black specular spots
 
-    def getColorR(self, ray, recursionCount):
+    def getColorR(self, ray, recursionCount=0):
         """Returns color with diffuse and specualr attached.
            Expects a normalized ray."""
-        nearestObject, minDist = self.scene.nearestObject(ray, None)
+        nearestObject, minDist = self.scene.nearestObject(ray)
         # We hit nothing
         if nearestObject is None:
             return self.fog
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
-        if type(nearestObject) is Cube:
-            print("CUBE NORMAL", normal)
+        # Reflect if it's reflective
+        if nearestObject.isReflective():
+            return self.getColorR(Ray(surfaceHitPoint,
+                                      self.getReflectionVector(ray.direction,
+                                                               normal)),
+                                  recursionCount + 1)
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         else:
             # Start with base color of object + ambient difference
             color = nearestObject.getBaseColor() - \
                 nearestObject.getAmbient()  # 07 Slides, Slide 16
-        # Reflect if it's reflective
-        if nearestObject.isReflective() and \
-           recursionCount < MAX_RECURSION_DEPTH:
-            return color + \
-                self.getColorR(Ray(surfaceHitPoint,
-                                   self.getReflectionVector(ray.direction,
-                                                            normal)),
-                               recursionCount + 1)
         for light in self.scene.lights:
             vectorToLight = light.getVectorToLight(surfaceHitPoint)
             # Check if shadowed

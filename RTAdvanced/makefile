@@ -13,7 +13,7 @@ clean:
 	rm -rf modules/utils/__pycache__
 
 profile:
-	python3 -m cProfile -o output.pstats rayTracer.py -f example.png -n True && \
+	python3 -m cProfile -o output.pstats rayTracer.py -f example.png && \
 	gprof2dot --colour-nodes-by-selftime -f pstats output.pstats |     dot -Tpng -o output.png && \
 	open output.png && \
 	make clean

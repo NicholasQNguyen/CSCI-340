@@ -23,7 +23,7 @@ class Plane(Object3D):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
                          specCoeff, reflective, image)
-        self.normal = normal
+        self.normal = normalize(normal)
 
     def getNormal(self, intersection=None):
         """Find the normal for the given object. Must override."""
@@ -45,7 +45,7 @@ class Plane(Object3D):
 
     def __repr__(self):
         # return str(self.getBaseColor()) + " Plane"
-        return str(self.getPosition()) + " Plane"
+        return str(self.getBaseColor()) + " Plane"
 
 
 class Cube(Object3D):
@@ -85,7 +85,6 @@ class Cube(Object3D):
             case _:
                 raise Exception("We messed up somewhere \
                                 in the cube side generation.")
-        print(side, "NORMAL", normal)
         return Plane(normal=normal,
                      position=self.position + distance * normal,
                      baseColor=self.getBaseColor(),
@@ -114,7 +113,6 @@ class Cube(Object3D):
                 minExit = intersections[i]
         return maxEnter if maxEnter < minExit else np.inf
 
-    # TODO actually get this working
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         return normalize(self.lastIntersectedPlane.getNormal())

@@ -17,6 +17,7 @@ IMAGE_FOLDER = pathlib.Path("resources/images/")
 BROWN_STONE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
 GRAY_STONE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
 CHECKERBOARD = pg.image.load(IMAGE_FOLDER / "checkerboard.png")
+NOBEL = pg.image.load(IMAGE_FOLDER / "nobel.jpg")
 
 
 class Scene(object):
@@ -41,8 +42,8 @@ class Scene(object):
         # Example setup
         self.addPointLight(color=vec(1, 1, 1), position=LIGHT_POSITION)
         # Blue Sphere
-        self.addSphere(radius=0.5,
-                       position=vec(1, 0, 0),
+        self.addSphere(radius=0.25,
+                       position=vec(1, 1, 0),
                        color=vec(0, 0, 1),
                        ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 0.2, 0.4),
@@ -51,10 +52,9 @@ class Scene(object):
                        specCoeff=.6,
                        reflective=False,
                        image=None)
-        """
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
-                       position=vec(-1, 0, -0.5),
+                       position=vec(-1, 1, -0.5),
                        color=vec(1, 0, 1),
                        ambient=vec(0.4, 0.2, 0.4),
                        diffuse=vec(0.4, 0.2, 0.4),
@@ -73,7 +73,6 @@ class Scene(object):
                        specCoeff=.8,
                        reflective=False,
                        image=CHECKERBOARD)
-        """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -86,7 +85,7 @@ class Scene(object):
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=BROWN_STONE)
+                          image=NOBEL)
         # Gray Plane
         self.addPlane(normal=vec(0, 1, 0),
                       position=vec(0, -1, 0),
@@ -101,8 +100,8 @@ class Scene(object):
         # Blue Cube
         self.addCube(length=0.5,
                      top=vec(1, 1, 0),
-                     forward=vec(0, 1, 1),
-                     position=vec(0, 0, 0),
+                     forward=vec(1, 1, 1),
+                     position=vec(1, 0, 0),
                      color=COLORS["blue"],
                      ambient=vec(0.3, 0.3, 0.7),
                      diffuse=vec(0.3, 0.3, 0.7),

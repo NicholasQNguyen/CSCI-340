@@ -97,5 +97,13 @@ class Ellipsoid(Spherical):
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
             self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
+    def rotateX(self, x, y, z):
+        (x, y * np.cos(theta) - z * np.sin(theta), y * np.sin(theta) + z * np.cos(theta))
+
+    def rotateY(self, x, y, z):
+        (x, y * np.cos(theta) - z * np.sin(theta), y * np.sin(theta) + z * np.cos(theta))
+
+    def rotateZ(self, x, y, z):
+        (x, y * np.cos(theta) - z * np.sin(theta), y * np.sin(theta) + z * np.cos(theta))
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
