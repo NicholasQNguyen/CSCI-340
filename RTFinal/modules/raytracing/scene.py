@@ -52,17 +52,18 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=0,
                       image=None,
-                      refractiveIndex=1.5)
+                      refractiveIndex=1)
         # Blue Sphere
-        self.addSphere(radius=.5,
-                       position=vec(0, 0, -2),
+        self.addSphere(radius=0.5,
+                       position=vec(0, 0, 0),
                        color=vec(0, 0, 1),
                        ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
                        specCoeff=.6,
-                       reflective=1,
+                       reflective=0,
+                       refractiveIndex=1.54,
                        image=None)
         """
         # Reflective Purple Sphere
@@ -77,16 +78,15 @@ class Scene(object):
                        reflective=True)
         """
         # Sphere with Brown Stone
-        self.addSphere(radius=0.5,
-                       position=vec(1, 0, 0),
-                       color=vec(0, 0, 0),
-                       ambient=vec(0.0, 0.0, 0.0),
-                       diffuse=vec(0.0, 0.0, 0.0),
-                       specular=vec(1, 1, 1),
-                       shininess=25,
-                       specCoeff=.8,
-                       reflective=False,
-                       image=CHECKERBOARD)
+        self.addEllipsoid(position=vec(0, 0, -2),
+                          color=vec(0, 0, 0),
+                          ambient=vec(0.0, 0.0, 0.0),
+                          diffuse=vec(0.0, 0.0, 0.0),
+                          specular=vec(1, 1, 1),
+                          shininess=25,
+                          specCoeff=.8,
+                          reflective=0,
+                          image=CHECKERBOARD)
         """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
@@ -142,19 +142,19 @@ class Scene(object):
                   ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
                   shininess=0, specCoeff=100, reflective=0,
-                  image=None, refractiveIndex=1.0):
+                  image=None, refractiveIndex=0.0):
         self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
                                    specular, shininess,
                                    specCoeff, reflective,
                                    image, refractiveIndex))
 
-    def addEllipsoid(self, a=1, b=1, c=1,
+    def addEllipsoid(self, a=1, b=2, c=1,
                      position=vec(0, 0, 0), color=COLORS["red"],
                      ambient=COLORS["red"],
                      diffuse=COLORS["black"], specular=COLORS["white"],
                      shininess=0, specCoeff=100, reflective=0,
-                     image=None, refractiveIndex=1.0):
+                     image=None, refractiveIndex=0.0):
         self.objects.append(Ellipsoid(a, b, c, position, color,
                                       ambient, diffuse,
                                       specular, shininess,
@@ -166,7 +166,7 @@ class Scene(object):
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
                  shininess=0, specCoeff=100, reflective=0,
-                 image=None, refractiveIndex=1.0):
+                 image=None, refractiveIndex=0.0):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
                                   specular, shininess,
@@ -178,7 +178,7 @@ class Scene(object):
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
                 shininess=0, specCoeff=100, reflective=0,
-                image=None, refractiveIndex=1.0):
+                image=None, refractiveIndex=0.0):
         self.objects.append(Cube(length, top, forward,
                                  position, color,
                                  ambient, diffuse,

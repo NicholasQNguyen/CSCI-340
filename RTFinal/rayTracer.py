@@ -10,7 +10,7 @@ from modules.raytracing.spherical import Sphere, Ellipsoid
 from modules.raytracing.planar import Plane
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize
-from modules.utils.definitions import twoFiftyFiveToOnePointO
+from modules.utils.definitions import twoFiftyFiveToOnePointO, EPSILON
 
 SCREEN_MULTIPLIER = 1
 WIDTH = 800
@@ -53,7 +53,7 @@ class RayTracer(ProgressiveRenderer):
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
-        return -(i := (np.dot(vector, normal) * normal)) + (vector - i)
+        return normalize(-(i := (np.dot(vector, normal) * normal)) + (vector - i))
 
     def getReflectance(self, obj, origin=None):
         """Returns a float of the reflectance.
@@ -67,7 +67,7 @@ class RayTracer(ProgressiveRenderer):
         """Returns a float. The angle by which things
            change when entering a refractive object."""
         # 13 Slides, slide 27
-        return reflectance + (1-reflectance) * (1 - np.cos(theta)) ** 5
+        return reflectance + (1 - reflectance) * (1 - np.cos(theta)) ** 5
 
     def returnImage(self, obj, surfaceHitPoint):
         """Returns the color of the image we hit."""
@@ -78,6 +78,8 @@ class RayTracer(ProgressiveRenderer):
             d = obj.getPosition() - surfaceHitPoint
             u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
             v = np.arccos(d[Y]) / np.pi
+            if np.isnan(v):
+                v = 0
             # 11 Slides, Slide 21
             px = int(u * obj.getImage().get_width()) % \
                 obj.getImage().get_width()
@@ -127,12 +129,23 @@ class RayTracer(ProgressiveRenderer):
         surfaceHitPoint = ray.getPositionAt(minDist)
         normal = nearestObject.getNormal(surfaceHitPoint)
         # Reflect if it's reflective
-        if nearestObject.getReflective() != 0:
-            color = color + self.getColorR(Ray(surfaceHitPoint,
-                                      self.getReflectionVector(ray.direction,
-                                                               normal)),
-                                  recursionCount + 1) * \
-                    nearestObject.getReflective()
+        reflectiveColor = self.getColorR(Ray(surfaceHitPoint,
+                                              self.getReflectionVector(ray.direction,
+                                                                       normal)),
+                                         recursionCount + 1) * \
+                          nearestObject.getReflective() if nearestObject.getReflective() != 0 \
+                          else np.zeros(3)
+        if nearestObject.getRefractiveIndex() != 0.0 and \
+           type(nearestObject) is Sphere and \
+           recursionCount < MAX_RECURSION_DEPTH:
+            refractiveColor = self.getColorR(Ray(surfaceHitPoint - normal * nearestObject.getRadius() * 2 + EPSILON,
+                                                  -self.getReflectionVector(ray.direction,
+                                                                           normal)),
+                                             recursionCount + 1) * \
+                              nearestObject.getRefractiveIndex()
+        else:
+            refractiveColor = np.zeros(3)
+        color = color + reflectiveColor + refractiveColor
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         else:
