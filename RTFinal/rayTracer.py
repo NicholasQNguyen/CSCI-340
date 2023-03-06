@@ -28,10 +28,13 @@ class RayTracer(ProgressiveRenderer):
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
                  show=ShowTypes.PerColumn,
                  samplePerPixel=1,
-                 file=None):
+                 file=None,
+                 chunkStartX=0,
+                 chunkStartY=0):
         super().__init__(width, height, show=show,
                          samplePerPixel=samplePerPixel,
-                         file=file)
+                         file=file, chunkStartX=chunkStartX,
+                         chunkStartY=chunkStartY)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
         print("Camera Position:", self.scene.camera.getPosition())

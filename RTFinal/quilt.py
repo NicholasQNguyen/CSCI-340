@@ -56,15 +56,23 @@ class QuiltRenderer(ProgressiveRenderer):
         parser.add_argument("-sh", "--show", help="Show")
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
+        parser.add_argument("-csx", "--chunkStartX", help="ChunkStartX", type=int)
+        parser.add_argument("-csy", "--chunkStartY", help="ChunkStartY", type=int)
         args = parser.parse_args()
         filename = args.file if args.file is not None else "quilt"
         if args.show is not None and args.show != "NoShow":
             raise Exception("QuiltRenderer may only take \
                             NoShow as the showType)")
         sample = args.sample if args.sample is not None else 1
+        chunkStartX = args.chunkStartX if args.chunkStartX is not None else 0
+        chunkStartY = args.chunkStartY if args.chunkStartY is not None else 0
+        print("X", chunkStartX)
+        print("Y", chunkStartY)
         # Set up renderer
         cls.renderer = cls(samplePerPixel=sample,
-                           file=filename)
+                           file=filename,
+                           chunkStartX=chunkStartX,
+                           chunkStartY=chunkStartY)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
 
@@ -75,7 +83,9 @@ class QuiltRenderer(ProgressiveRenderer):
                  chunkSize=100,
                  displayUpdates=True,
                  samplePerPixel=1,
-                 file=None):
+                 file=None,
+                 chunkStartX=0,
+                 chunkStartY=0):
         print("Enter a folder name for the QuiltRenderer")
         super().__init__(width,
                          height,
@@ -87,8 +97,8 @@ class QuiltRenderer(ProgressiveRenderer):
                          file=None)
         self.displayUpdates = displayUpdates
         self.chunkSize = chunkSize
-        self.chunkStartX = 0
-        self.chunkStartY = 0
+        self.chunkStartX = chunkStartX
+        self.chunkStartY = chunkStartY
         self.chunkEndX = self.width
         self.chunkEndY = self.height
         if not os.path.exists(QUILT_SUBFOLDER):
