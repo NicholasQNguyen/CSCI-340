@@ -12,9 +12,9 @@ from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO, EPSILON
 
-SCREEN_MULTIPLIER = 1
-WIDTH = 800
-HEIGHT = 600
+SCREEN_MULTIPLIER = 1/2
+WIDTH = 1600
+HEIGHT = 900
 MAX_RECURSION_DEPTH = 3
 X = 0
 Y = 1
@@ -24,8 +24,8 @@ AIR = None
 
 class RayTracer(ProgressiveRenderer):
     def __init__(self,
-                 width=WIDTH * SCREEN_MULTIPLIER,
-                 height=HEIGHT * SCREEN_MULTIPLIER,
+                 width=int(WIDTH * SCREEN_MULTIPLIER),
+                 height=int(HEIGHT * SCREEN_MULTIPLIER),
                  show=ShowTypes.PerColumn,
                  samplePerPixel=1,
                  file=None):
