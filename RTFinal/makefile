@@ -1,9 +1,11 @@
+base = python3 rayTracer.py
+
 run:
-	python3 rayTracer.py && \
+	$(base) && \
 	make clean
 
 runAA2:
-	python3 rayTracer.py -s 2 && \
+	$(base) -s 2 && \
 	make clean
 
 clean:
