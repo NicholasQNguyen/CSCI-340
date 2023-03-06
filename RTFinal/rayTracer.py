@@ -135,16 +135,15 @@ class RayTracer(ProgressiveRenderer):
                                          recursionCount + 1) * \
                           nearestObject.getReflective() if nearestObject.getReflective() != 0 \
                           else np.zeros(3)
-        if nearestObject.getRefractiveIndex() != 0.0 and \
-           type(nearestObject) is Sphere and \
-           recursionCount < MAX_RECURSION_DEPTH:
-            refractiveColor = self.getColorR(Ray(surfaceHitPoint - normal * nearestObject.getRadius() * 2 + EPSILON,
-                                                  -self.getReflectionVector(ray.direction,
-                                                                           normal)),
-                                             recursionCount + 1) * \
-                              nearestObject.getRefractiveIndex()
-        else:
-            refractiveColor = np.zeros(3)
+        refractiveColor = self.getColorR(Ray(surfaceHitPoint - normal * nearestObject.getRadius() * 2 + EPSILON,
+                                              -self.getReflectionVector(ray.direction,
+                                                                       normal)),
+                                         recursionCount + 1) * \
+                          nearestObject.getRefractiveIndex() \
+                          if nearestObject.getRefractiveIndex() != 0.0 and \
+                             type(nearestObject) is Sphere and \
+                             recursionCount < MAX_RECURSION_DEPTH \
+                          else np.zeros(3)
         color = color + reflectiveColor + refractiveColor
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
