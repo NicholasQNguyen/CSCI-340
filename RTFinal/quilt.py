@@ -7,12 +7,6 @@ import psutil
 import argparse
 
 
-SHOW_TYPES_STRINGS = ("PerPixel",
-                      "PerColumn",
-                      "PerImage",
-                      "FinalShow",
-                      "NoShow")
-
 try:
     if platform.system() == "Windows":
         proc = psutil.Process(os.getpid())
@@ -55,10 +49,8 @@ class QuiltRenderer(ProgressiveRenderer):
     def main(cls, caption="Renderer"):
         """General main loop for the progressive renderer.
         Sets up pygame and everything necessary."""
-
         # Initialize Pygame
         pygame.init()
-
         # Get command line arguments
         parser = argparse.ArgumentParser()
         parser.add_argument("-sh", "--show", help="Show")
@@ -66,23 +58,11 @@ class QuiltRenderer(ProgressiveRenderer):
         parser.add_argument("-f", "--file", help="File")
         args = parser.parse_args()
         filename = args.file if args.file is not None else "quilt"
-        if filename is not None:
-            show = ShowTypes.NoShow
-        else:
-            if (args.show is not None) and \
-              (not (args.show in SHOW_TYPES_STRINGS)):
-                raise Exception("-sh flag must be one of the following: \n \
-1) PerPixel \n \
-2) PerColumn \n \
-3) PerImage \n \
-4) FinalShow \n \
-5) NoShow")
-            show = ShowTypes[args.show] if args.show is not None else None
+        if args.show is not None and args.show != "NoShow":
+            raise Exception("QuiltRenderer may only take NoShow as the showType)")
         sample = args.sample if args.sample is not None else 1
         # Set up renderer
-        print("FILENAME", filename)
-        cls.renderer = cls(show=show,
-                           samplePerPixel=sample,
+        cls.renderer = cls(samplePerPixel=sample,
                            file=filename)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
@@ -101,14 +81,15 @@ class QuiltRenderer(ProgressiveRenderer):
                          showTime,
                          ShowTypes.NoShow,
                          minimumPixel=startPixelSize // 2,
-                         startPixelSize=startPixelSize)
+                         startPixelSize=startPixelSize,
+                         samplePerPixel=samplePerPixel,
+                         file=None)
         self.displayUpdates = displayUpdates
         self.chunkSize = chunkSize
         self.chunkStartX = 0
         self.chunkStartY = 0
         self.chunkEndX = self.width
         self.chunkEndY = self.height
-        print("FILENAME", file)
         if not os.path.exists(QUILT_SUBFOLDER):
             os.mkdir(QUILT_SUBFOLDER)
         self.quiltFolder = os.path.join(QUILT_SUBFOLDER,
@@ -128,9 +109,7 @@ class QuiltRenderer(ProgressiveRenderer):
         """The main loop of rendering the image.
         Will create pixels of progressively smaller sizes. Stops rendering
         when the pixel size is 0."""
-
         startTime = time.time()
-
         # First progress is to fill entire image with one color
         color = self.getColor(0, 0)
         self.image.fill(color, ((0, 0), (self.width, self.height)))
@@ -150,7 +129,7 @@ class QuiltRenderer(ProgressiveRenderer):
                 for ix in range(x, x+self.chunkSize):
                     for iy in range(y, y+self.chunkSize):
                         # Get color
-                        color = self.getColor(ix, iy) * 255
+                        color = self.getColor(ix, iy, self.samplePerPixel) * 255
                         chunkImage.fill(color, ((ix - x, iy - y), (1, 1)))
                 pygame.image.save(chunkImage, os.path.join(self.quiltFolder,
                                                            chunkFileName))
