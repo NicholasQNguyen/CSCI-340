@@ -76,11 +76,9 @@ class RayTracer(ProgressiveRenderer):
         if type(obj) is Sphere or \
            type(obj) is Ellipsoid:
             # 11 Slides, Slide 49
-            d = obj.getPosition() - surfaceHitPoint
+            d = normalize(obj.getPosition() - surfaceHitPoint)
             u = 0.5 + (np.arctan2(d[Z], d[X]) / (2 * np.pi))
             v = np.arccos(d[Y]) / np.pi
-            if np.isnan(v):
-                v = 0
             # 11 Slides, Slide 21
             px = int(u * obj.getImage().get_width()) % \
                 obj.getImage().get_width()
