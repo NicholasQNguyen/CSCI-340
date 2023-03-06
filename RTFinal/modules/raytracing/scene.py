@@ -67,7 +67,7 @@ class Scene(object):
                        image=None)
         # Sphere with Brown Stone
         self.addSphere(radius=1.0,
-                       position=vec(0, 0, -2),
+                       position=vec(-0.5, 0, -2),
                        color=vec(0, 0, 0),
                        ambient=vec(0.0, 0.0, 0.0),
                        diffuse=vec(0.0, 0.0, 0.0),
