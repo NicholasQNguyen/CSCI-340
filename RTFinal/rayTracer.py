@@ -148,6 +148,7 @@ class RayTracer(ProgressiveRenderer):
                                      nearestObject.getReflective(),
                                      recursionCount)
         if recursionCount < MAX_RECURSION_DEPTH:
+            refractiveIndex = nearestObject.getRefractiveIndex()
             if type(nearestObject) is Sphere:
                 refractionRay = Ray(surfaceHitPoint - normal *
                                     nearestObject.getRadius() *
@@ -155,14 +156,14 @@ class RayTracer(ProgressiveRenderer):
                                     -self.getReflectionVector(ray.direction,
                                                               normal))
                 refractiveColor = self.recur(refractionRay,
-                                             nearestObject.getRefractiveIndex(),
+                                             refractiveIndex,
                                              recursionCount)
             elif type(nearestObject) is Plane:
                 refractionRay = Ray(surfaceHitPoint,
                                     -self.getReflectionVector(ray.direction,
                                                               normal))
                 refractiveColor = self.recur(refractionRay,
-                                             nearestObject.getRefractiveIndex(),
+                                             refractiveIndex,
                                              recursionCount)
             else:
                 refractiveColor = np.zeros(3)
@@ -171,7 +172,9 @@ class RayTracer(ProgressiveRenderer):
         R0 = self.getReflectance(nearestObject)
         RTheta = self.schlick(R0, self.getBetweenAngle(ray.direction, normal))
         # TODO Do i normlize this?
-        reflectAndRefractColor = normalize(lerp(reflectiveColor, refractiveColor, RTheta))
+        reflectAndRefractColor = normalize(lerp(reflectiveColor,
+                                                refractiveColor,
+                                                RTheta))
         color = color + reflectAndRefractColor
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)

@@ -4,6 +4,7 @@ Author: Liz Matthews, Geoff Matthews
 import numpy as np
 import pygame as pg
 import pathlib
+
 from ..raytracing.planar import Plane, Cube
 from ..raytracing.spherical import Sphere, Ellipsoid
 from ..raytracing.lights import DirectionalLight, PointLight
