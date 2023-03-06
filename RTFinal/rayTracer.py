@@ -9,7 +9,7 @@ from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
 from modules.raytracing.planar import Plane
 from modules.raytracing.ray import Ray
-from modules.utils.vector import vec, normalize
+from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO, EPSILON
 
 SCREEN_MULTIPLIER = 1
@@ -19,6 +19,7 @@ MAX_RECURSION_DEPTH = 3
 X = 0
 Y = 1
 Z = 2
+AIR = None
 
 
 class RayTracer(ProgressiveRenderer):
@@ -39,9 +40,17 @@ class RayTracer(ProgressiveRenderer):
         for light in self.scene.lights:
             print(repr(light) + " Position: " + str(light.position))
 
-    def getReflectionAngle(self, vector1, vector2):
+    def getBetweenAngle(self, vector1, vector2):
         """Returns an angle that is
            between vector1 and vector2.
+           Expects normalized vectors."""
+        # 03 Slides, Slide 32
+        # https://www.cuemath.com/geometry/angle-between-vectors/
+        return np.arccos(np.dot(vector1, vector2))
+
+    def getReflectionAngle(self, vector1, vector2):
+        """Returns an angle that is
+           the reflection of vector1 and vector2.
            Expects normalized vectors."""
         # 03 Slides, Slide 32
         # https://www.cuemath.com/geometry/angle-between-vectors/
@@ -56,12 +65,12 @@ class RayTracer(ProgressiveRenderer):
         return normalize(-(i := (np.dot(vector, normal) * normal)) +
                          (vector - i))
 
-    def getReflectance(self, obj, origin=None):
+    def getReflectance(self, obj, origin=AIR):
         """Returns a float of the reflectance.
            Entering from the origin into the obj."""
         # 13 Slides, slide 26
         etaObj = obj.getRefractiveIndex()
-        etaOrigin = 1.0 if origin is None else origin.getRefractiveIndex()
+        etaOrigin = 1.0 if origin is AIR else origin.getRefractiveIndex()
         return ((etaObj - etaOrigin)/(etaObj + etaOrigin)) ** 2
 
     def schlick(self, reflectance, theta):
@@ -138,18 +147,32 @@ class RayTracer(ProgressiveRenderer):
         reflectiveColor = self.recur(reflectionRay,
                                      nearestObject.getReflective(),
                                      recursionCount)
-        if type(nearestObject) is Sphere:
-            refractionRay = Ray(surfaceHitPoint - normal *
-                                nearestObject.getRadius() *
-                                2 + EPSILON,
-                                -self.getReflectionVector(ray.direction,
-                                                          normal))
-            refractiveColor = self.recur(refractionRay,
-                                         nearestObject.getRefractiveIndex(),
-                                         recursionCount)
+        if recursionCount < MAX_RECURSION_DEPTH:
+            if type(nearestObject) is Sphere:
+                refractionRay = Ray(surfaceHitPoint - normal *
+                                    nearestObject.getRadius() *
+                                    2 + EPSILON,
+                                    -self.getReflectionVector(ray.direction,
+                                                              normal))
+                refractiveColor = self.recur(refractionRay,
+                                             nearestObject.getRefractiveIndex(),
+                                             recursionCount)
+            elif type(nearestObject) is Plane:
+                refractionRay = Ray(surfaceHitPoint,
+                                    -self.getReflectionVector(ray.direction,
+                                                              normal))
+                refractiveColor = self.recur(refractionRay,
+                                             nearestObject.getRefractiveIndex(),
+                                             recursionCount)
+            else:
+                refractiveColor = np.zeros(3)
         else:
             refractiveColor = np.zeros(3)
-        color = color + reflectiveColor + refractiveColor
+        R0 = self.getReflectance(nearestObject)
+        RTheta = self.schlick(R0, self.getBetweenAngle(ray.direction, normal))
+        # TODO Do i normlize this?
+        reflectAndRefractColor = normalize(lerp(reflectiveColor, refractiveColor, RTheta))
+        color = color + reflectAndRefractColor
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         else:
