@@ -4,6 +4,14 @@ import time
 from render import ProgressiveRenderer, ShowTypes
 import platform
 import psutil
+import argparse
+
+
+SHOW_TYPES_STRINGS = ("PerPixel",
+                      "PerColumn",
+                      "PerImage",
+                      "FinalShow",
+                      "NoShow")
 
 try:
     if platform.system() == "Windows":
@@ -51,8 +59,31 @@ class QuiltRenderer(ProgressiveRenderer):
         # Initialize Pygame
         pygame.init()
 
+        # Get command line arguments
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-sh", "--show", help="Show")
+        parser.add_argument("-s", "--sample", help="Sample", type=int)
+        parser.add_argument("-f", "--file", help="File")
+        args = parser.parse_args()
+        filename = args.file if args.file is not None else "quilt"
+        if filename is not None:
+            show = ShowTypes.NoShow
+        else:
+            if (args.show is not None) and \
+              (not (args.show in SHOW_TYPES_STRINGS)):
+                raise Exception("-sh flag must be one of the following: \n \
+1) PerPixel \n \
+2) PerColumn \n \
+3) PerImage \n \
+4) FinalShow \n \
+5) NoShow")
+            show = ShowTypes[args.show] if args.show is not None else None
+        sample = args.sample if args.sample is not None else 1
         # Set up renderer
-        cls.renderer = cls()
+        print("FILENAME", filename)
+        cls.renderer = cls(show=show,
+                           samplePerPixel=sample,
+                           file=filename)
         cls.renderer.startPygame(caption)
         cls.stepper = cls.renderer.render()
 
@@ -61,7 +92,9 @@ class QuiltRenderer(ProgressiveRenderer):
                  showTime=True,
                  startPixelSize=1,
                  chunkSize=100,
-                 displayUpdates=False):
+                 displayUpdates=False,
+                 samplePerPixel=1,
+                 file=None):
         print("Enter a folder name for the QuiltRenderer")
         super().__init__(width,
                          height,
@@ -75,10 +108,11 @@ class QuiltRenderer(ProgressiveRenderer):
         self.chunkStartY = 0
         self.chunkEndX = self.width
         self.chunkEndY = self.height
+        print("FILENAME", file)
         if not os.path.exists(QUILT_SUBFOLDER):
             os.mkdir(QUILT_SUBFOLDER)
         self.quiltFolder = os.path.join(QUILT_SUBFOLDER,
-                                        self.fileName)
+                                        file)
         if not os.path.exists(self.quiltFolder):
             os.mkdir(self.quiltFolder)
 
