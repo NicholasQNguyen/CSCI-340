@@ -1,11 +1,11 @@
 import pygame
 import os
 import time
-from render import ProgressiveRenderer, ShowTypes
 import platform
 import psutil
 import argparse
 
+from render import ProgressiveRenderer, ShowTypes
 
 try:
     if platform.system() == "Windows":
@@ -56,8 +56,12 @@ class QuiltRenderer(ProgressiveRenderer):
         parser.add_argument("-sh", "--show", help="Show")
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
-        parser.add_argument("-csx", "--chunkStartX", help="ChunkStartX", type=int)
-        parser.add_argument("-csy", "--chunkStartY", help="ChunkStartY", type=int)
+        parser.add_argument("-csx", "--chunkStartX",
+                            help="ChunkStartX",
+                            type=int)
+        parser.add_argument("-csy",
+                            "--chunkStartY",
+                            help="ChunkStartY", type=int)
         args = parser.parse_args()
         filename = args.file if args.file is not None else "quilt"
         if args.show is not None and args.show != "NoShow":

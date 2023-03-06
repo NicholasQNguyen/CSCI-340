@@ -50,8 +50,12 @@ class ProgressiveRenderer(ABC):
         parser.add_argument("-sh", "--show", help="Show")
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
-        parser.add_argument("-csx", "--chunkStartX", help="ChunkStartX", type=int)
-        parser.add_argument("-csy", "--chunkStartY", help="ChunkStartY", type=int)
+        parser.add_argument("-csx",
+                            "--chunkStartX",
+                            help="ChunkStartX", type=int)
+        parser.add_argument("-csy",
+                            "--chunkStartY",
+                            help="ChunkStartY", type=int)
         args = parser.parse_args()
         fileName = args.file
         if fileName is not None:
