@@ -68,6 +68,9 @@ class Sphere(Spherical):
         return np.inf if self.getDiscriminant(a, b, c) < 0 else \
             self.positiveOnly(min(self.quadraticFormula(a, b, c)))
 
+    def getDistance(self):
+        return 2 * self.radius
+
     def __repr__(self):
         return str(self.getBaseColor()) + " Sphere"
 

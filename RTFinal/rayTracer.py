@@ -7,12 +7,12 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Plane
+from modules.raytracing.planar import Plane, Cube
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO, EPSILON
 
-SCREEN_MULTIPLIER = 1/2
+SCREEN_MULTIPLIER = 3/4
 WIDTH = 1600
 HEIGHT = 900
 MAX_RECURSION_DEPTH = 3
@@ -67,6 +67,22 @@ class RayTracer(ProgressiveRenderer):
         # https://www.cuemath.com/geometry/angle-between-vectors/
         return normalize(-(i := (np.dot(vector, normal) * normal)) +
                          (vector - i))
+
+    def snellsLaw(self, transmitting=AIR, external=AIR):
+        # 13 Slides, slide 7
+        # Entering
+        if transmitting is not AIR and external is not AIR:
+            external.getRefractiveIndex() / transmitting.getRefractiveIndex()
+        elif transmitting is AIR:
+            return 1
+        elif external is AIR:
+            return 1/transmitting.getRefractiveIndex()
+
+    def getRefractiveVector(self, vector, normal, ratio):
+        """Returns the position where a ray would start
+           when refracting."""
+        # 13 Slides, slide 12
+        return (ratio * np.dot(-vector, normal) - np.sqrt(1 - (ratio ** 2) * (1 - (np.dot(-vector, normal)) ** 2))) * normal + ratio * vector
 
     def getReflectance(self, obj, origin=AIR):
         """Returns a float of the reflectance.
@@ -131,7 +147,8 @@ class RayTracer(ProgressiveRenderer):
 
     def recur(self, ray, value, recursionCount):
         return self.getColorR(ray, recursionCount + 1) * value \
-               if value != 0 else np.zeros(3)
+               if value != 0 and recursionCount < MAX_RECURSION_DEPTH \
+               else np.zeros(3)
 
     def getColorR(self, ray, recursionCount=0):
         """Returns color with diffuse and specualr attached.
@@ -150,28 +167,27 @@ class RayTracer(ProgressiveRenderer):
         reflectiveColor = self.recur(reflectionRay,
                                      nearestObject.getReflective(),
                                      recursionCount)
-        if recursionCount < MAX_RECURSION_DEPTH:
-            refractiveIndex = nearestObject.getRefractiveIndex()
-            if type(nearestObject) is Sphere:
-                refractionRay = Ray(surfaceHitPoint - normal *
-                                    nearestObject.getRadius() *
-                                    2 + EPSILON,
-                                    -self.getReflectionVector(ray.direction,
-                                                              normal))
-                refractiveColor = self.recur(refractionRay,
-                                             refractiveIndex,
-                                             recursionCount)
-            elif type(nearestObject) is Plane:
-                refractionRay = Ray(surfaceHitPoint,
-                                    -self.getReflectionVector(ray.direction,
-                                                              normal))
-                refractiveColor = self.recur(refractionRay,
-                                             refractiveIndex,
-                                             recursionCount)
-            else:
-                refractiveColor = np.zeros(3)
+        # Entering
+        if np.dot(ray.direction, normal) < 0 and \
+           nearestObject.getRefractiveIndex != 0:
+            ratio = self.snellsLaw(transmitting=nearestObject)
+            refractiveRay = Ray(surfaceHitPoint, self.getRefractiveVector(ray.direction, normal, ratio))
+            oppositeSide = refractiveRay.getPositionAt(nearestObject.getDistance())
+            exitingRay = Ray(oppositeSide, self.getRefractiveVector(refractiveRay.direction, normal, ratio))
+            refractiveColor = self.recur(exitingRay,
+                                         nearestObject.getRefractiveIndex(),
+                                         recursionCount)
+        # Exiting
+        elif np.dot(ray.direction, normal) > 0 and \
+             nearestObject.getRefractiveIndex != 0:
+            ratio = self.snellsLaw(external=nearestObject)
+            refractiveRay = Ray(self.getRefractiveVector(ray.direction, normal, ratio), -ray.direction)
+            oppositeSide = refractiveRay.getPositionAt(nearestObject.getDistance())
+            refractiveColor = self.recur(refractiveRay,
+                                         nearestObject.getRefractiveIndex(),
+                                         recursionCount)
         else:
-            refractiveColor = np.zeros(3)
+            refractiveColor = vec(1, 1, 1)
         R0 = self.getReflectance(nearestObject)
         RTheta = self.schlick(R0, self.getBetweenAngle(ray.direction, normal))
         # TODO Do i normlize this?

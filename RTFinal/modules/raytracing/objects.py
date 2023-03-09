@@ -79,6 +79,11 @@ class Object3D(ABC):
         """Find the normal for the given object. Must override."""
         pass
 
+    @abstractmethod
+    def getDistance(self, intersection=None):
+        """Find the distance from one end to another for the given object. Must override."""
+        pass
+
     def positiveOnly(self, t):
         """Returns t or infinity if t is negative."""
         return t if t >= 0 else np.inf

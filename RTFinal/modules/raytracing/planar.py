@@ -44,6 +44,9 @@ class Plane(Object3D):
             (denom := np.dot(ray.direction, self.normal)) == 0 else \
             np.dot(self.position - ray.position, self.normal) / denom
 
+    def getDistance(self):
+        return 0
+
     def __repr__(self):
         # return str(self.getBaseColor()) + " Plane"
         return str(self.getBaseColor()) + " Plane"
@@ -95,7 +98,7 @@ class Cube(Object3D):
                      specular=self.getSpecular(),
                      shininess=self.getShine(),
                      specCoeff=self.getSpecularCoefficient(),
-                     reflective=self.isReflective(),
+                     reflective=self.getReflective(),
                      image=self.getImage(),
                      refractiveIndex=self.getRefractiveIndex())
 
@@ -119,6 +122,13 @@ class Cube(Object3D):
     def getNormal(self, intersection):
         """Find the normal for the given object. Must override."""
         return normalize(self.lastIntersectedPlane.getNormal())
+
+    def getLength(self):
+        """Find the normal for the given object. Must override."""
+        return self.length
+
+    def getDistance(self):
+        return self.length
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Cube"

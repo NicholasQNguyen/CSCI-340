@@ -54,18 +54,55 @@ class Scene(object):
                       reflective=0,
                       image=None,
                       refractiveIndex=1)
-        # Blue Refracting Sphere
-        self.addSphere(radius=0.5,
-                       position=vec(0, 0, 0),
+        # Blue Refractive Cube
+        self.addCube(length=.5,
+                     top=vec(1, 0, 0),
+                     forward=vec(0, 0, 1.5),
+                     position=vec(1, 0, 0),
+                     color=COLORS["blue"],
+                     ambient=vec(0.3, 0.3, 0.7),
+                     diffuse=vec(0.3, 0.3, 0.7),
+                     specular=vec(1, 1, 1),
+                     shininess=100,
+                     specCoeff=1,
+                     refractiveIndex=1.53)
+        # Sphere with checkerboard
+        self.addSphere(radius=.5,
+                       position=vec(1, 0, -2),
                        color=vec(0, 0, 1),
                        ambient=vec(0.2, 0.2, 0.4),
                        diffuse=vec(0.2, 0.2, 0.4),
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
                        specCoeff=0.5,
-                       reflective=.5,
-                       refractiveIndex=1.54,
+                       reflective=0,
+                       refractiveIndex=1,
+                       image=CHECKERBOARD)
+        # Sphere with checkerboard
+        self.addSphere(radius=.5,
+                       position=vec(-1, 0, -2),
+                       color=vec(0, 0, 1),
+                       ambient=vec(0.2, 0.2, 0.4),
+                       diffuse=vec(0.2, 0.2, 0.4),
+                       specular=vec(0.8, 0.8, 1),
+                       shininess=50,
+                       specCoeff=0.5,
+                       reflective=0,
+                       refractiveIndex=1,
+                       image=CHECKERBOARD)
+        # Purple Refracting Sphere
+        self.addSphere(radius=0.4,
+                       position=vec(-1, 0, 0),
+                       color=vec(1, 0, 1),
+                       ambient=vec(0.4, 0.2, 0.4),
+                       diffuse=vec(0.4, 0.2, 0.4),
+                       specular=vec(1, 0.8, 1),
+                       shininess=50,
+                       specCoeff=0.5,
+                       reflective=1,
+                       refractiveIndex=1.53,
                        image=None)
+        """
         # Sphere with Brown Stone
         self.addSphere(radius=1.0,
                        position=vec(-0.5, 0, -2),
@@ -100,6 +137,7 @@ class Scene(object):
                           specCoeff=1,
                           reflective=False,
                           image=NOBEL)
+        """
         """
         # Blue Cube
         self.addCube(length=0.5,
