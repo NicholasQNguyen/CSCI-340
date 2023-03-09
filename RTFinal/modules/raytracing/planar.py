@@ -74,22 +74,21 @@ class Cube(Object3D):
 
     def generateSide(self, side):
         distance = self.length / 2
-        match side:
-            case Side.Top:
-                normal = self.top
-            case Side.Bottom:
-                normal = -self.top
-            case Side.Right:
-                normal = np.cross(self.forward, self.top)
-            case Side.Left:
-                normal = np.cross(self.top, self.forward)
-            case Side.Front:
-                normal = self.forward
-            case Side.Back:
-                normal = -self.forward
-            case _:
-                raise Exception("We messed up somewhere \
-                                in the cube side generation.")
+        if side is Side.Top:
+            normal = self.top
+        elif side is Side.Bottom:
+            normal = -self.top
+        elif side is Side.Right:
+            normal = np.cross(self.forward, self.top)
+        elif side is Side.Left:
+            normal = np.cross(self.top, self.forward)
+        elif side is Side.Front:
+            normal = self.forward
+        elif side is Side.Back:
+            normal = -self.forward
+        else:
+            raise Exception("We messed up somewhere \
+                            in the cube side generation.")
         return Plane(normal=normal,
                      position=self.position + distance * normal,
                      baseColor=self.getBaseColor(),

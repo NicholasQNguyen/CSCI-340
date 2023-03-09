@@ -172,7 +172,7 @@ class RayTracer(ProgressiveRenderer):
                                      recursionCount)
         exitOrEnterCheck = np.dot(ray.direction, normal)
         # Entering
-        if exitOrEnterCheck < 0 and nearestObject.getRefractiveIndex != 0:
+        if exitOrEnterCheck < 0 and nearestObject.getRefractiveIndex() != 0:
             ratio = self.snellsLaw(transmitting=nearestObject)
             refractiveRay = Ray(surfaceHitPoint,
                                 self.getRefractiveVector(ray.direction,
@@ -187,7 +187,7 @@ class RayTracer(ProgressiveRenderer):
                                          nearestObject.getRefractiveIndex(),
                                          recursionCount)
         # Exiting
-        elif exitOrEnterCheck > 0 and nearestObject.getRefractiveIndex != 0:
+        elif exitOrEnterCheck > 0 and nearestObject.getRefractiveIndex() != 0:
             ratio = self.snellsLaw(external=nearestObject)
             refractiveRay = Ray(self.getRefractiveVector(ray.direction,
                                                          normal,

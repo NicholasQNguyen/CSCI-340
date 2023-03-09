@@ -103,17 +103,6 @@ class Scene(object):
                        refractiveIndex=1.53,
                        image=None)
         """
-        # Sphere with Brown Stone
-        self.addSphere(radius=1.0,
-                       position=vec(-0.5, 0, -2),
-                       color=vec(0, 0, 0),
-                       ambient=vec(0.0, 0.0, 0.0),
-                       diffuse=vec(0.0, 0.0, 0.0),
-                       specular=vec(1, 1, 1),
-                       shininess=25,
-                       specCoeff=.8,
-                       reflective=0,
-                       image=CHECKERBOARD)
         # Reflective Purple Sphere
         self.addSphere(radius=0.5,
                        position=vec(-1, 1, 0.5),
@@ -124,6 +113,7 @@ class Scene(object):
                        shininess=25,
                        specCoeff=.8,
                        reflective=True)
+        """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -136,8 +126,7 @@ class Scene(object):
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=NOBEL)
-        """
+                          image=GRAY_STONE)
         """
         # Blue Cube
         self.addCube(length=0.5,
