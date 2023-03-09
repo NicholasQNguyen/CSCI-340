@@ -82,7 +82,10 @@ class RayTracer(ProgressiveRenderer):
         """Returns the position where a ray would start
            when refracting."""
         # 13 Slides, slide 12
-        return (ratio * np.dot(-vector, normal) - np.sqrt(1 - (ratio ** 2) * (1 - (np.dot(-vector, normal)) ** 2))) * normal + ratio * vector
+        dotProduct = np.dot(-vector, normal)
+        return (ratio * dotProduct -
+                np.sqrt(1 - (ratio ** 2) * (1 - dotProduct ** 2))
+                ) * normal + ratio * vector
 
     def getReflectance(self, obj, origin=AIR):
         """Returns a float of the reflectance.
@@ -167,23 +170,34 @@ class RayTracer(ProgressiveRenderer):
         reflectiveColor = self.recur(reflectionRay,
                                      nearestObject.getReflective(),
                                      recursionCount)
+        exitOrEnterCheck = np.dot(ray.direction, normal)
         # Entering
-        if np.dot(ray.direction, normal) < 0 and \
-           nearestObject.getRefractiveIndex != 0:
+        if exitOrEnterCheck < 0 and nearestObject.getRefractiveIndex != 0:
             ratio = self.snellsLaw(transmitting=nearestObject)
-            refractiveRay = Ray(surfaceHitPoint, self.getRefractiveVector(ray.direction, normal, ratio))
-            oppositeSide = refractiveRay.getPositionAt(nearestObject.getDistance())
-            exitingRay = Ray(oppositeSide, self.getRefractiveVector(refractiveRay.direction, normal, ratio))
+            refractiveRay = Ray(surfaceHitPoint,
+                                self.getRefractiveVector(ray.direction,
+                                                         normal,
+                                                         ratio))
+            oppSide = refractiveRay.getPositionAt(nearestObject.getDistance())
+            exitingRay = Ray(oppSide,
+                             self.getRefractiveVector(refractiveRay.direction,
+                                                      normal,
+                                                      ratio))
             refractiveColor = self.recur(exitingRay,
                                          nearestObject.getRefractiveIndex(),
                                          recursionCount)
         # Exiting
-        elif np.dot(ray.direction, normal) > 0 and \
-             nearestObject.getRefractiveIndex != 0:
+        elif exitOrEnterCheck > 0 and nearestObject.getRefractiveIndex != 0:
             ratio = self.snellsLaw(external=nearestObject)
-            refractiveRay = Ray(self.getRefractiveVector(ray.direction, normal, ratio), -ray.direction)
-            oppositeSide = refractiveRay.getPositionAt(nearestObject.getDistance())
-            exitingRay = Ray(oppositeSide, self.getRefractiveVector(refractiveRay.direction, normal, ratio))
+            refractiveRay = Ray(self.getRefractiveVector(ray.direction,
+                                                         normal,
+                                                         ratio),
+                                -ray.direction)
+            oppSide = refractiveRay.getPositionAt(nearestObject.getDistance())
+            exitingRay = Ray(oppSide,
+                             self.getRefractiveVector(refractiveRay.direction,
+                                                      normal,
+                                                      ratio))
             refractiveColor = self.recur(exitingRay,
                                          nearestObject.getRefractiveIndex(),
                                          recursionCount)

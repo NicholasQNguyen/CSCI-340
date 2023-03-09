@@ -81,7 +81,8 @@ class Object3D(ABC):
 
     @abstractmethod
     def getDistance(self, intersection=None):
-        """Find the distance from one end to another for the given object. Must override."""
+        """Find the distance from one end to another
+           for the given object. Must override."""
         pass
 
     def positiveOnly(self, t):
