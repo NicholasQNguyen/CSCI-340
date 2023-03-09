@@ -7,10 +7,10 @@ from render import ProgressiveRenderer, ShowTypes
 # from quilt import QuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
-from modules.raytracing.planar import Plane, Cube
+from modules.raytracing.planar import Plane
 from modules.raytracing.ray import Ray
 from modules.utils.vector import vec, normalize, lerp
-from modules.utils.definitions import twoFiftyFiveToOnePointO, EPSILON
+from modules.utils.definitions import twoFiftyFiveToOnePointO
 
 SCREEN_MULTIPLIER = 3/4
 WIDTH = 1600
@@ -183,7 +183,8 @@ class RayTracer(ProgressiveRenderer):
             ratio = self.snellsLaw(external=nearestObject)
             refractiveRay = Ray(self.getRefractiveVector(ray.direction, normal, ratio), -ray.direction)
             oppositeSide = refractiveRay.getPositionAt(nearestObject.getDistance())
-            refractiveColor = self.recur(refractiveRay,
+            exitingRay = Ray(oppositeSide, self.getRefractiveVector(refractiveRay.direction, normal, ratio))
+            refractiveColor = self.recur(exitingRay,
                                          nearestObject.getRefractiveIndex(),
                                          recursionCount)
         else:

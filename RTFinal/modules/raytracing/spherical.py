@@ -118,6 +118,8 @@ class Ellipsoid(Spherical):
          y * np.cos(theta) - z * np.sin(theta),
          y * np.sin(theta) + z * np.cos(theta))
     """
+    def getDistance(self):
+        return np.sqrt(self.a ** 2 + self.b ** 2 + self.c ** 2)
 
     def __repr__(self):
         return str(self.getBaseColor()) + " Ellipsoid"
