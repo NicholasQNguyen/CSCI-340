@@ -28,6 +28,7 @@ COLORS = {
     "white": makeColor("white"),
     "black": makeColor("black"),
     "red": makeColor("red"),
+    "green": makeColor("green"),
     "yellow": makeColor("yellow"),
     "marble1": makeColor("seagreen1"),
     "marble2": makeColor("seagreen4"),

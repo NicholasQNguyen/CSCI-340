@@ -15,14 +15,14 @@ from modules.utils.definitions import twoFiftyFiveToOnePointO
 SCREEN_MULTIPLIER = 3/4
 WIDTH = 1600
 HEIGHT = 900
-MAX_RECURSION_DEPTH = 3
+MAX_RECURSION_DEPTH = 5
 X = 0
 Y = 1
 Z = 2
 AIR = None
 
 
-class RayTracer(QuiltRenderer):
+class RayTracer(ProgressiveRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
@@ -70,11 +70,12 @@ class RayTracer(QuiltRenderer):
 
     def snellsLaw(self, transmitting=AIR, external=AIR):
         # 13 Slides, slide 7
-        # Entering
         if transmitting is not AIR and external is not AIR:
             external.getRefractiveIndex() / transmitting.getRefractiveIndex()
+        # Exiting
         elif transmitting is AIR:
             return 1
+        # Entering
         elif external is AIR:
             return 1/transmitting.getRefractiveIndex()
 
@@ -170,6 +171,7 @@ class RayTracer(QuiltRenderer):
         reflectiveColor = self.recur(reflectionRay,
                                      nearestObject.getReflective(),
                                      recursionCount)
+        # Refractive stuff
         exitOrEnterCheck = np.dot(ray.direction, normal)
         # Entering
         if exitOrEnterCheck < 0 and nearestObject.getRefractiveIndex() != 0:
@@ -230,10 +232,10 @@ class RayTracer(QuiltRenderer):
                 self.getDiffuse(vectorToLight, normal) + \
                 nearestObject.getAmbient() + \
                 self.getSpecularColor(self.getSpecularAngle(  # Slide 23
-                                          vectorToLight,
-                                          normal,
-                                          ray,
-                                          nearestObject),
+                                                            vectorToLight,
+                                                            normal,
+                                                            ray,
+                                                            nearestObject),
                                       nearestObject.getSpecular())
         return color
 

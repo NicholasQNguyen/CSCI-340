@@ -102,18 +102,6 @@ class Scene(object):
                        reflective=1,
                        refractiveIndex=1.53,
                        image=None)
-        """
-        # Reflective Purple Sphere
-        self.addSphere(radius=0.5,
-                       position=vec(-1, 1, 0.5),
-                       color=vec(1, 0, 1),
-                       ambient=vec(0.4, 0.2, 0.4),
-                       diffuse=vec(0.4, 0.2, 0.4),
-                       specular=vec(1, 0.8, 1),
-                       shininess=25,
-                       specCoeff=.8,
-                       reflective=True)
-        """
         # Ellipsoid with Gray Stone
         self.addEllipsoid(a=1.5,
                           b=0.7,
@@ -127,30 +115,29 @@ class Scene(object):
                           specCoeff=1,
                           reflective=False,
                           image=GRAY_STONE)
-        """
-        # Blue Cube
+        # Green Cube
         self.addCube(length=0.5,
                      top=vec(1, 1, 0),
                      forward=vec(1, 1, 1),
-                     position=vec(1, 0, 0),
-                     color=COLORS["blue"],
-                     ambient=vec(0.3, 0.3, 0.7),
-                     diffuse=vec(0.3, 0.3, 0.7),
-                     specular=vec(1, 1, 1),
+                     position=vec(-2, 1, -3),
+                     color=COLORS["green"],
+                     ambient=vec(0.3, 0.7, 0.3),
+                     diffuse=vec(0.0, 0.7, 0.3),
+                     specular=vec(0.8, 1, 0.8),
                      shininess=100,
                      specCoeff=1)
-        # Plane with Image
-        self.addPlane(normal=vec(0, 1, 0),
-                      position=vec(0, -1, 0),
-                      color=vec(0, 0, 0),
-                      ambient=vec(0.0, 0.0, 0.0),
-                      diffuse=vec(0.0, 0.0, 0.0),
-                      specular=vec(1, 1, 1),
-                      shininess=5,
-                      specCoeff=0.1,
-                      reflective=False,
-                      image=CHECKERBOARD)
-        """
+        # Green Reflecting Sphere
+        self.addSphere(radius=0.4,
+                       position=vec(0, 0, -3),
+                       color=vec(1, 0, 1),
+                       ambient=vec(0.4, 0.2, 0.4),
+                       diffuse=vec(0.4, 0.2, 0.4),
+                       specular=vec(1, 0.8, 1),
+                       shininess=50,
+                       specCoeff=0.5,
+                       reflective=0.8,
+                       refractiveIndex=1.53,
+                       image=None)
 
     def nearestObject(self, ray, obj=None):
         """Returns the nearest collision object
