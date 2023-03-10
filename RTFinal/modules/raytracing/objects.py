@@ -26,6 +26,9 @@ class Object3D(ABC):
                                  image,
                                  refractiveIndex)
 
+    def getMaterial(self):
+        return self.material
+
     def getPosition(self):
         return self.position
 

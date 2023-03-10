@@ -128,6 +128,8 @@ class QuiltRenderer(ProgressiveRenderer):
                 if self.displayUpdates:
                     print(f"{chunkFileName} starting.")
                 if os.path.isfile(os.path.join(self.quiltFolder, chunkFileName)):
+                    print(f"{chunkFileName} already generated. Skipping.")
+                    print("===============================")
                     continue
                 for ix in range(x, x+self.chunkSize):
                     for iy in range(y, y+self.chunkSize):

@@ -9,6 +9,7 @@ from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
 from modules.raytracing.planar import Plane
 from modules.raytracing.ray import Ray
+from modules.raytracing.materials import NoiseMaterial
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO
 
@@ -211,6 +212,8 @@ class RayTracer(ProgressiveRenderer):
         color = color + reflectAndRefractColor
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
+        if type(nearestObject.getMaterial()) == NoiseMaterial:
+            pass
         else:
             # Start with base color of object + ambient difference
             color = color + nearestObject.getBaseColor() - \

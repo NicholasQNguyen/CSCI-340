@@ -2,6 +2,7 @@
 Author: Liz Matthews, Geoff Matthews
 """
 from ..utils.vector import vec
+from ..utils.noise import NoiseMachine
 
 
 class Material(object):
@@ -57,3 +58,13 @@ class Material(object):
     def getRefractiveIndex(self):
         """Getter method for refractive index"""
         return self.refractiveIndex
+
+class NoiseMaterial(Material):
+    def __init__(self, baseColor, ambient, diffuse, specular,
+                 shine=100, specCoeff=1.0, reflective=False,
+                 image=None, refractiveIndex=1.0,
+                 noiseFunction=None):
+        super().__init__(self, baseColor, ambient, diffuse, specular,
+                 shine=100, specCoeff=1.0, reflective=False,
+                 image=None, refractiveIndex=1.0)
+        self.noiseFunction=noiseFunction
