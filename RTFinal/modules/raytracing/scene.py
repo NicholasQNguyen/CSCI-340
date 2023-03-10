@@ -66,7 +66,7 @@ class Scene(object):
                        specular=vec(0.8, 0.8, 1),
                        shininess=50,
                        specCoeff=0.5,
-                       noiseFunction=NOISE_PATTERNS.marble3D)
+                       noiseFunction=NOISE_PATTERNS.clouds3D)
         """
         # Blue Refractive Cube
         self.addCube(length=.5,
