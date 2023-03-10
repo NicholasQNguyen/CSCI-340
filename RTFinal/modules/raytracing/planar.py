@@ -20,7 +20,7 @@ class Plane(Object3D):
                  ambient, diffuse, specular,
                  shininess, specCoeff, reflective,
                  image, refractiveIndex,
-                 noiseFunction):
+                 noiseFunction=None):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
                          specCoeff, reflective, image,

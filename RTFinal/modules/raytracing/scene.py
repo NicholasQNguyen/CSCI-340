@@ -56,18 +56,8 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=0,
                       image=None,
-                      refractiveIndex=1)
-        # Noise Sphere
-        self.addSphere(radius=.5,
-                       position=vec(1, 0, -2),
-                       color=vec(0, 0, 1),
-                       ambient=vec(0.2, 0.2, 0.4),
-                       diffuse=vec(0.2, 0.2, 0.4),
-                       specular=vec(0.8, 0.8, 1),
-                       shininess=50,
-                       specCoeff=0.5,
-                       noiseFunction=NOISE_PATTERNS.clouds3D)
-        """
+                      refractiveIndex=1,
+                      noiseFunction=NOISE_PATTERNS.marble3D)
         # Blue Refractive Cube
         self.addCube(length=.5,
                      top=vec(1, 0, 0),
@@ -152,7 +142,6 @@ class Scene(object):
                        reflective=0.8,
                        refractiveIndex=1.53,
                        image=None)
-        """
 
     def nearestObject(self, ray, obj=None):
         """Returns the nearest collision object

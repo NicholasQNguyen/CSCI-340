@@ -1,5 +1,5 @@
 To Run:
-python3 rayTracer.py -f [FILE_NAME] -sh [ShowType] -s [Sample per Pixel] -csx [ChunkStartX] -csy [ChunkStartY]
+python3 rayTracer.py -f [FILE_NAME] -sh [ShowType] -s [Sample per Pixel]
 or 
 make run
 
@@ -10,7 +10,3 @@ Flags:
 NOTE: if -sh is set to NoShow, -f must also be set or an exception will raise
 
 -s -> Sample: Sample per pixel for the anti aliasing.
-
--csx -> ChunkStartX: X chunk to start on when using quilt renderer
-
--csy -> ChunkStartY: Y chunk to start on when using quilt renderer
