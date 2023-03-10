@@ -141,6 +141,8 @@ class QuiltRenderer(ProgressiveRenderer):
                 chunkFileName = f"{x}_{y}.png"
                 if self.displayUpdates:
                     print(f"{chunkFileName} starting.")
+                if os.path.isfile(os.path.join(self.quiltFolder, chunkFileName)):
+                    continue
                 for ix in range(x, x+self.chunkSize):
                     for iy in range(y, y+self.chunkSize):
                         # Get color
