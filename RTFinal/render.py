@@ -50,12 +50,6 @@ class ProgressiveRenderer(ABC):
         parser.add_argument("-sh", "--show", help="Show")
         parser.add_argument("-s", "--sample", help="Sample", type=int)
         parser.add_argument("-f", "--file", help="File")
-        parser.add_argument("-csx",
-                            "--chunkStartX",
-                            help="ChunkStartX", type=int)
-        parser.add_argument("-csy",
-                            "--chunkStartY",
-                            help="ChunkStartY", type=int)
         args = parser.parse_args()
         fileName = args.file
         if fileName is not None:
@@ -97,9 +91,7 @@ class ProgressiveRenderer(ABC):
                  minimumPixel=0,
                  startPixelSize=256,
                  samplePerPixel=1,
-                 file=None,
-                 chunkStartX=0,
-                 chunkStartY=0):
+                 file=None):
         self.width = width
         self.height = height
         self.showTime = showTime

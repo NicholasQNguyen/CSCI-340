@@ -22,19 +22,16 @@ Z = 2
 AIR = None
 
 
-class RayTracer(QuiltRenderer):
+class RayTracer(ProgressiveRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
                  show=ShowTypes.PerColumn,
                  samplePerPixel=1,
-                 file=None,
-                 chunkStartX=0,
-                 chunkStartY=0):
+                 file=None):
         super().__init__(width, height, show=show,
                          samplePerPixel=samplePerPixel,
-                         file=file, chunkStartX=chunkStartX,
-                         chunkStartY=chunkStartY)
+                         file=file)
         self.fog = vec(0.7, 0.9, 1.0)
         self.scene = Scene(aspect=width/height, fov=45)
         print("Camera Position:", self.scene.camera.getPosition())
