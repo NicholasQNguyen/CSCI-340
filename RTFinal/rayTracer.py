@@ -23,7 +23,7 @@ Z = 2
 AIR = None
 
 
-class RayTracer(ProgressiveRenderer):
+class RayTracer(QuiltRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
@@ -203,6 +203,7 @@ class RayTracer(ProgressiveRenderer):
                                          recursionCount)
         else:
             refractiveColor = vec(1, 1, 1)
+        # Fresnal
         R0 = self.getReflectance(nearestObject)
         RTheta = self.schlick(R0, self.getBetweenAngle(ray.direction, normal))
         # TODO Do i normlize this?
