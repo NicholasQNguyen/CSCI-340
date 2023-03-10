@@ -60,7 +60,7 @@ class Material(object):
         return self.refractiveIndex
 
     def getNoiseFunction(self):
-        pass
+        return None
 
 class NoiseMaterial(Material):
     def __init__(self, baseColor, ambient, diffuse, specular,
