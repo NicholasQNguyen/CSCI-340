@@ -4,7 +4,7 @@ Author: Liz Matthews, Geoff Matthews
 from abc import ABC, abstractmethod
 import numpy as np
 
-from .materials import Material
+from .materials import Material, NoiseMaterial
 
 
 class Object3D(ABC):
@@ -14,7 +14,8 @@ class Object3D(ABC):
        Has abstract methods intersect and getNormal."""
     def __init__(self, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image, refractiveIndex):
+                 reflective, image, refractiveIndex,
+                 noiseFunction=None):
         self.position = np.array(position)
         self.material = Material(baseColor,
                                  ambient,
@@ -24,7 +25,18 @@ class Object3D(ABC):
                                  specCoeff,
                                  reflective,
                                  image,
-                                 refractiveIndex)
+                                 refractiveIndex) \
+                        if noiseFunction is None else \
+                        NoiseMaterial(baseColor,
+                                      ambient,
+                                      diffuse,
+                                      specular,
+                                      shininess,
+                                      specCoeff,
+                                      reflective,
+                                      image,
+                                      refractiveIndex,
+                                      noiseFunction)
 
     def getMaterial(self):
         return self.material
@@ -71,6 +83,10 @@ class Object3D(ABC):
     def getRefractiveIndex(self):
         """Getter method for the material's refractive index."""
         return self.material.getRefractiveIndex()
+
+    def getNoiseFunction(self):
+        """Getter method for the material's refractive index."""
+        return self.material.getNoiseFunction()
 
     @abstractmethod
     def intersect(self, ray):

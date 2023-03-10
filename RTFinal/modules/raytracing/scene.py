@@ -11,6 +11,7 @@ from ..raytracing.lights import DirectionalLight, PointLight
 from .camera import Camera
 from ..utils.vector import vec
 from ..utils.definitions import COLORS
+from ..utils.noise import NoisePatterns
 
 LIGHT_POSITION = vec(-1, 2, 2)
 # Will only work if running rayTracer.py from source folder
@@ -19,6 +20,8 @@ BROWN_STONE = pg.image.load(IMAGE_FOLDER / "brownStone.jpg")
 GRAY_STONE = pg.image.load(IMAGE_FOLDER / "grayStone.jpg")
 CHECKERBOARD = pg.image.load(IMAGE_FOLDER / "checkerboard.png")
 NOBEL = pg.image.load(IMAGE_FOLDER / "nobel.jpg")
+
+NOISE_PATTERNS = NoisePatterns.getInstance()
 
 
 class Scene(object):
@@ -54,6 +57,17 @@ class Scene(object):
                       reflective=0,
                       image=None,
                       refractiveIndex=1)
+        # Noise Sphere
+        self.addSphere(radius=.5,
+                       position=vec(1, 0, -2),
+                       color=vec(0, 0, 1),
+                       ambient=vec(0.2, 0.2, 0.4),
+                       diffuse=vec(0.2, 0.2, 0.4),
+                       specular=vec(0.8, 0.8, 1),
+                       shininess=50,
+                       specCoeff=0.5,
+                       noiseFunction=NOISE_PATTERNS.marble3D)
+        """
         # Blue Refractive Cube
         self.addCube(length=.5,
                      top=vec(1, 0, 0),
@@ -138,6 +152,7 @@ class Scene(object):
                        reflective=0.8,
                        refractiveIndex=1.53,
                        image=None)
+        """
 
     def nearestObject(self, ray, obj=None):
         """Returns the nearest collision object
@@ -156,49 +171,57 @@ class Scene(object):
                   ambient=COLORS["blue"],
                   diffuse=COLORS["black"], specular=COLORS["white"],
                   shininess=0, specCoeff=100, reflective=0,
-                  image=None, refractiveIndex=0.0):
+                  image=None, refractiveIndex=0.0,
+                  noiseFunction=None):
         self.objects.append(Sphere(radius, position, color,
                                    ambient, diffuse,
                                    specular, shininess,
                                    specCoeff, reflective,
-                                   image, refractiveIndex))
+                                   image, refractiveIndex,
+                                   noiseFunction))
 
     def addEllipsoid(self, a=1, b=2, c=1,
                      position=vec(0, 0, 0), color=COLORS["red"],
                      ambient=COLORS["red"],
                      diffuse=COLORS["black"], specular=COLORS["white"],
                      shininess=0, specCoeff=100, reflective=0,
-                     image=None, refractiveIndex=0.0):
+                     image=None, refractiveIndex=0.0,
+                     noiseFunction=None):
         self.objects.append(Ellipsoid(a, b, c, position, color,
                                       ambient, diffuse,
                                       specular, shininess,
                                       specCoeff, reflective,
-                                      image, refractiveIndex))
+                                      image, refractiveIndex,
+                                      noiseFunction))
 
     def addPlane(self, normal=vec(0, 1, 0),
                  position=vec(0, 0, 0), color=COLORS["gray"],
                  ambient=COLORS["blue"],
                  diffuse=COLORS["black"], specular=COLORS["white"],
                  shininess=0, specCoeff=100, reflective=0,
-                 image=None, refractiveIndex=0.0):
+                 image=None, refractiveIndex=0.0,
+                 noiseFunction=None):
         self.objects.append(Plane(normal, position, color,
                                   ambient, diffuse,
                                   specular, shininess,
                                   specCoeff, reflective,
-                                  image, refractiveIndex))
+                                  image, refractiveIndex,
+                                  noiseFunction))
 
     def addCube(self, length=1, top=vec(0, 1, 0), forward=vec(0, 0, 1),
                 position=vec(0, 0, 0), color=COLORS["gray"],
                 ambient=COLORS["blue"],
                 diffuse=COLORS["black"], specular=COLORS["white"],
                 shininess=0, specCoeff=100, reflective=0,
-                image=None, refractiveIndex=0.0):
+                image=None, refractiveIndex=0.0,
+                noiseFunction=None):
         self.objects.append(Cube(length, top, forward,
                                  position, color,
                                  ambient, diffuse,
                                  specular, shininess,
                                  specCoeff, reflective,
-                                 image, refractiveIndex))
+                                 image, refractiveIndex,
+                                 noiseFunction))
 
     def addDirectionalLight(self,
                             color=COLORS["white"],

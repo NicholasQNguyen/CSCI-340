@@ -19,11 +19,12 @@ class Plane(Object3D):
     def __init__(self, normal, position, baseColor,
                  ambient, diffuse, specular,
                  shininess, specCoeff, reflective,
-                 image, refractiveIndex):
+                 image, refractiveIndex,
+                 noiseFunction):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
                          specCoeff, reflective, image,
-                         refractiveIndex)
+                         refractiveIndex, noiseFunction)
         self.normal = normalize(normal)
 
     def getNormal(self, intersection=None):
@@ -55,11 +56,12 @@ class Plane(Object3D):
 class Cube(Object3D):
     def __init__(self, length, top, forward, position, baseColor, ambient,
                  diffuse, specular, shininess, specCoeff,
-                 reflective, image, refractiveIndex):
+                 reflective, image, refractiveIndex,
+                 noiseFunction):
         super().__init__(position, baseColor, ambient,
                          diffuse, specular, shininess,
                          specCoeff, reflective, image,
-                         refractiveIndex)
+                         refractiveIndex, noiseFunction)
         self.length = length
         self.sides = []
         self.top = top

@@ -213,7 +213,9 @@ class RayTracer(ProgressiveRenderer):
         if nearestObject.getImage() is not None:
             color = self.returnImage(nearestObject, surfaceHitPoint)
         if type(nearestObject.getMaterial()) == NoiseMaterial:
-            pass
+            return nearestObject.getNoiseFunction()(surfaceHitPoint[X],
+                                                     surfaceHitPoint[Y],
+                                                     surfaceHitPoint[Z])
         else:
             # Start with base color of object + ambient difference
             color = color + nearestObject.getBaseColor() - \

@@ -59,12 +59,18 @@ class Material(object):
         """Getter method for refractive index"""
         return self.refractiveIndex
 
+    def getNoiseFunction(self):
+        pass
+
 class NoiseMaterial(Material):
     def __init__(self, baseColor, ambient, diffuse, specular,
                  shine=100, specCoeff=1.0, reflective=False,
                  image=None, refractiveIndex=1.0,
                  noiseFunction=None):
-        super().__init__(self, baseColor, ambient, diffuse, specular,
-                 shine=100, specCoeff=1.0, reflective=False,
-                 image=None, refractiveIndex=1.0)
+        super().__init__(baseColor, ambient, diffuse, specular,
+                         shine=100, specCoeff=1.0, reflective=False,
+                         image=None, refractiveIndex=1.0)
         self.noiseFunction=noiseFunction
+
+    def getNoiseFunction(self):
+        return self.noiseFunction
