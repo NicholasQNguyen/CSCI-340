@@ -56,8 +56,7 @@ class Scene(object):
                       specCoeff=0.1,
                       reflective=0,
                       image=None,
-                      refractiveIndex=1,
-                      noiseFunction=NOISE_PATTERNS.marble3D)
+                      refractiveIndex=1)
         # Blue Refractive Cube
         self.addCube(length=.5,
                      top=vec(1, 0, 0),
@@ -82,7 +81,7 @@ class Scene(object):
                        reflective=0,
                        refractiveIndex=1,
                        image=CHECKERBOARD)
-        # Sphere with checkerboard
+        # Sphere with noise
         self.addSphere(radius=.5,
                        position=vec(-1, 0, -2),
                        color=vec(0, 0, 1),
@@ -93,7 +92,7 @@ class Scene(object):
                        specCoeff=0.5,
                        reflective=0,
                        refractiveIndex=1,
-                       image=CHECKERBOARD)
+                       noiseFunction=NOISE_PATTERNS.clouds3D)
         # Purple Refracting Sphere
         self.addSphere(radius=0.4,
                        position=vec(-1, 0, 0),
@@ -118,7 +117,7 @@ class Scene(object):
                           shininess=100,
                           specCoeff=1,
                           reflective=False,
-                          image=GRAY_STONE)
+                          image=BROWN_STONE)
         # Green Cube
         self.addCube(length=0.5,
                      top=vec(1, 1, 0),

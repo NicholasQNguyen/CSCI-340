@@ -13,9 +13,9 @@ from modules.raytracing.materials import NoiseMaterial
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO
 
-SCREEN_MULTIPLIER = 3/4
-WIDTH = 1600
-HEIGHT = 900
+SCREEN_MULTIPLIER = 1
+WIDTH = 10800
+HEIGHT = 7200
 MAX_RECURSION_DEPTH = 5
 X = 0
 Y = 1
@@ -217,8 +217,7 @@ class RayTracer(QuiltRenderer):
         elif nearestObject.getNoiseFunction() is not None:
             color = nearestObject.getNoiseFunction()(surfaceHitPoint[X],
                                                      surfaceHitPoint[Y],
-                                                     surfaceHitPoint[Z]) \
-                    * 2
+                                                     surfaceHitPoint[Z])
         else:
             # Start with base color of object + ambient difference
             color = color + nearestObject.getBaseColor() - \
