@@ -5,6 +5,7 @@ import pygame as pg
 
 from render import ProgressiveRenderer, ShowTypes
 from quilt import QuiltRenderer
+from reverseQuilt import RQuiltRenderer
 from modules.raytracing.scene import Scene
 from modules.raytracing.spherical import Sphere, Ellipsoid
 from modules.raytracing.planar import Plane
@@ -23,7 +24,7 @@ Z = 2
 AIR = None
 
 
-class RayTracer(QuiltRenderer):
+class RayTracer(RQuiltRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
