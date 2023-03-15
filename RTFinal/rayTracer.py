@@ -24,7 +24,7 @@ Z = 2
 AIR = None
 
 
-class RayTracer(RQuiltRenderer):
+class RayTracer(QuiltRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
