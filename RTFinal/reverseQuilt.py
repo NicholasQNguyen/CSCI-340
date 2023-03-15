@@ -120,8 +120,8 @@ class RQuiltRenderer(ProgressiveRenderer):
         # For each pixel in the image, jumping by pixel size
         for x in range(self.chunkEndX, self.chunkStartX, -self.chunkSize):
             for y in range(self.chunkEndY, self.chunkStartY, -self.chunkSize):
-                chunkWidth = min(self.width - x, self.chunkSize)
-                chunkHeight = min(self.height - y, self.chunkSize)
+                chunkWidth = min(self.width + x, self.chunkSize)
+                chunkHeight = min(self.height + y, self.chunkSize)
                 chunkImage = pygame.Surface((chunkWidth,
                                              chunkHeight))
                 chunkFileName = f"{x}_{y}.png"
