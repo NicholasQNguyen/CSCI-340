@@ -144,7 +144,7 @@ class Scene(object):
                        image=None)
         """
         # Red Sphere
-        self.addSphere(radius=1.0,
+        self.addSphere(radius=0.5,
                        position=vec(0, 0, 0),
                        color=vec(1, 0, 0),
                        ambient=vec(0.4, 0.2, 0.2),

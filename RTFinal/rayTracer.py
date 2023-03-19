@@ -14,7 +14,7 @@ from modules.raytracing.materials import NoiseMaterial
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO
 
-SCREEN_MULTIPLIER = 1/16
+SCREEN_MULTIPLIER = 1/8
 WIDTH = 10800
 HEIGHT = 7200
 MAX_RECURSION_DEPTH = 5
