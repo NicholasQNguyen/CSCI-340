@@ -14,7 +14,7 @@ from modules.raytracing.materials import NoiseMaterial
 from modules.utils.vector import vec, normalize, lerp
 from modules.utils.definitions import twoFiftyFiveToOnePointO
 
-SCREEN_MULTIPLIER = 1/8
+SCREEN_MULTIPLIER = 1
 WIDTH = 10800
 HEIGHT = 7200
 MAX_RECURSION_DEPTH = 5
@@ -24,7 +24,7 @@ Z = 2
 AIR = None
 
 
-class RayTracer(ProgressiveRenderer):
+class RayTracer(QuiltRenderer):
     def __init__(self,
                  width=int(WIDTH * SCREEN_MULTIPLIER),
                  height=int(HEIGHT * SCREEN_MULTIPLIER),
