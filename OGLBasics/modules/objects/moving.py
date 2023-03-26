@@ -1,15 +1,16 @@
 """
 Author: Liz Matthews
 Code modified from
-  https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
+https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
 """
+import numpy as np
 
 from .mesh import Mesh
 from ..utils.vector import vec, magnitude, normalize
 from ..utils.definitions import EPSILON
 from ..utils.matrix import Matrix
 from pygame.locals import *
-import numpy as np
+
 
 class Moving(object):
     """An abstract class for inheritance. Updates its
@@ -22,26 +23,30 @@ class Moving(object):
         """Initializes maximum speed and velocities."""
         self.speed = speed
         self.rotationalSpeed = rotSpeed
-        
         self.velocity = np.zeros((3))
         self.rotationalVelocity = np.zeros((3))        
         
     def setVelocity(self, velocity):
         """Sets the velocity to the given parameter."""
-        pass
+        self.velocity = velocity
     
     def setRotVel(self, rotVel):
         """Sets the rotational velocity to the given
            parameter."""
-        pass
+        self.rotaionalVelocity = rotVel
         
     def update(self, deltaTime):
         """If either velocity has a magnitde greater than
            zero, calculates the distance or rotation achived
            in deltaTime and uses the velocity to add to the
            current values in rotation or position."""
-        
-        pass
+        if magnitude(self.velocity) > 0:
+            distance = self.speed * deltaTime
+            # TODO Apply to what position?
+            
+        if magnitude(self.rotationalVelocity) > 0:
+            rotationalDistance = self.rotationalSpeed * deltaTime
+            # TODO Apply to what position?
 
             
 class MovingMesh(Moving, Mesh):

@@ -33,7 +33,7 @@ class Main(Base):
         self.rig.setPosition([1, 1, 4])
         self.scene.add(self.rig)
         axes = AxesHelper(axisLength=2)
-        self.scene.add( axes )
+        self.scene.add(axes)
         grid = GridHelper(size=20, gridColor=[1,1,1],
         centerColor=[1,1,0])
         grid.setRotateX(-np.pi/2)
