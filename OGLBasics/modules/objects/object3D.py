@@ -1,7 +1,7 @@
 """
 Author: Liz Matthews
 Code modified from
-  https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
+https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
 """
 
 from ..oGL.attribute import Attribute
@@ -11,6 +11,11 @@ from ..utils.matrix import Matrix
 
 import numpy as np
 from OpenGL.GL import *
+
+x = 0
+y = 1
+z = 2
+
 
 class Object3D(object):        
     """As described in Developing Graphics Frameworks
@@ -64,5 +69,27 @@ class Object3D(object):
             return self.parent.getWorldMatrix() @ t
     
     ## Mutator methods to adjust absolute values for translations ##
-        
-    
+    def setPosition(self, newPosition):
+        self.position = newPosition
+
+    def setRotateX(self, angle):
+        self.rotation[x] = angle
+
+    def setRotateY(self, angle):
+        self.rotation[y] = angle
+
+    def setRotateZ(self, angle):
+        self.rotation[z] = angle
+
+    def setRotate(self, xAngle, yAngle, zAngle):
+        self.setRotateX(xAngle)
+        self.setRotateY(YAngle)
+        self.setRotateZ(ZAngle)
+
+    def setScale(self, scale):
+        self.scale = scale
+
+    def setScaleAsymmetric(self, xScale, yScale, zScale):
+        self.scale[x] = xScale
+        self.scale[y] = yScale
+        self.scale[z] = zScale

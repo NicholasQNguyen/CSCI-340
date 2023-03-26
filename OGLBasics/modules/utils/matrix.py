@@ -83,3 +83,7 @@ class Matrix(object):
     @staticmethod
     def makeRotate(a, b, c):
         return(makeRotationZ(c) * makeRotationY(b) * makeRotationX(a))
+
+    @staticmethod
+    def applyMatrix(baseMatrix, appliedMatrix, local):
+        return None

@@ -19,7 +19,7 @@ class Main(Base):
     def handleOtherInput(self, event):
         self.rig.handleOtherInput(event, self.deltaTime)
 
-    def initialize(self):        
+    def initialize(self):
         print("Initializing program...")
         pygame.mouse.set_visible(False)
         pygame.event.set_grab(True)
@@ -30,7 +30,6 @@ class Main(Base):
         self.rig.add(self.camera)
 
         # The following does not work until part 2 is completed
-        """
         self.rig.setPosition([1, 1, 4])
         self.scene.add(self.rig)
         axes = AxesHelper(axisLength=2)
@@ -45,13 +44,13 @@ class Main(Base):
         mesh.setRotVel((0.0337, 0.0514, 0))
         mesh.setPosition([0,1,-4])
         self.scene.add(mesh)
-        """
-        
+
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""
         self.scene.update(self.deltaTime)
         self.rig.update(self.deltaTime)
-        self.renderer.render( self.scene, self.camera)
+        self.renderer.render(self.scene, self.camera)
+
 
 if __name__ == '__main__':
     Main(fullScreen=False).run()

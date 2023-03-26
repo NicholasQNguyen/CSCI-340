@@ -1,9 +1,8 @@
 run:
 	python3 main.py
-	clean
+	make clean
 
 clean:
-	python3 main.py
 	rm -rf __pycache__ && \
 	rm -rf modules/__pycache__ && \
 	rm -rf modules/geometry/__pycache__ && \
