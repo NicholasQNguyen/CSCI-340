@@ -79,3 +79,7 @@ class Matrix(object):
                          [0, b, 0, 0],
                          [0, 0, c, 0],
                          [0, 0, 0, 1]]).astype(float)
+
+    @staticmethod
+    def makeRotate(a, b, c):
+        return(makeRotationZ(c) * makeRotationY(b) * makeRotationX(a))
