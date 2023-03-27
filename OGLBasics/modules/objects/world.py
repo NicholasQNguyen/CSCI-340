@@ -22,12 +22,12 @@ class Scene(Object3D):
             # Only update if the mesh is visible
             if mesh.visible:        
                 mesh.update(deltaTime)
-            
+
 
 class Group(Object3D):
     def __init__(self):
         super().__init__()
-        
+
 
 class Camera(Object3D):
     def __init__(self, angleOfView=60,
@@ -37,6 +37,6 @@ class Camera(Object3D):
                                                        aspectRatio,
                                                        near, far)
         self.viewMatrix = Matrix.makeIdentity()
-    
+
     def updateViewMatrix(self):
         self.viewMatrix = inv(self.getWorldMatrix())

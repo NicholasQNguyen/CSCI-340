@@ -114,9 +114,9 @@ class Matrix(object):
         Matrix.rotateX(matrix, a)
 
     @staticmethod
-    def scale():
-        Matrix.applyMatrix(Matrix.makeScale(matrix, s))
+    def scale(s):
+        Matrix.applyMatrix(matrix, Matrix.makeScale(s))
 
     @staticmethod
-    def scaleAsymmetric():
-        pass
+    def scaleAsymmetric(matrix, a, b, c):
+        Matrix.applyMatrix(matrix, Matrix.makeScaleAsymmetrix(a, b, c))
