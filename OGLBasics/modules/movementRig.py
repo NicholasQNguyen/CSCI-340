@@ -1,8 +1,8 @@
 """
 Author: Liz Matthews
 Code modified from Developing Graphics Frameworks
-  with Python and OpenGL by Lee Stemkoski and
-  Michael Pascale.
+with Python and OpenGL by Lee Stemkoski and
+Michael Pascale.
 """
 
 from .objects import Moving
@@ -13,6 +13,7 @@ from .utils.definitions import EPSILON
 
 from pygame.locals import *
 import numpy as np
+
 
 class MovementRig(Moving, Object3D):
     """A first-person perspective movement rig.
@@ -54,8 +55,10 @@ class MovementRig(Moving, Object3D):
     def update(self, deltaTime):
         self.velocity = np.zeros((3))
         # Use the movement dictionary and velocity map to
-        #  change the velocity
-        
+        # change the velocity
+        for key, value in self.movement.items():
+            if value:
+                self.velocity += self.velocityMap[key] * self.speed * deltaTime
         if magnitude(self.velocity) > EPSILON:
             # Rotate velocity vector to match current rotation.
             pass
@@ -67,7 +70,9 @@ class MovementRig(Moving, Object3D):
         # Set the movement dictionary based on the movement
         #  keys
         if event.type == KEYDOWN:
-            if event.key in self.movement.keys:
-                position += velocityMap[event.key] * self.speed * deltaTime
+            if event.key in self.movement:
+                self.movement[event.key] = True
+            else:
+                self.movement[event.key] = False
         # Set the rotation values based on mouse movement
         #  events
