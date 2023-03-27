@@ -42,11 +42,11 @@ class Moving(object):
            current values in rotation or position."""
         if magnitude(self.velocity) > 0:
             distance = self.speed * deltaTime
-            # TODO Apply to what position?
+            self.position += distance
             
         if magnitude(self.rotationalVelocity) > 0:
             rotationalDistance = self.rotationalSpeed * deltaTime
-            # TODO Apply to what position?
+            self.rotation += rotationalDistance
 
             
 class MovingMesh(Moving, Mesh):

@@ -85,5 +85,38 @@ class Matrix(object):
         return(makeRotationZ(c) * makeRotationY(b) * makeRotationX(a))
 
     @staticmethod
-    def applyMatrix(baseMatrix, appliedMatrix, local):
-        return None
+    def applyMatrix(baseMatrix, appliedMatrix, local=True):
+        if local:
+            baseMatrix = baseMatrix + appliedMatrix
+        else:
+            baseMatrix = appliedMatrix + baseMatrix
+
+    @staticmethod
+    def translate(matrix, x, y, z):
+        Matrix.applyMatrix(matrix, Matrix.makeTranslation(x, y, z))
+
+    @staticmethod
+    def rotateX(matrix, angle):
+        Matrix.applyMatrix(matrix, Matrix.makeRotationX(angle))
+
+    @staticmethod
+    def rotateY(matrix, angle):
+        Matrix.applyMatrix(matrix, Matrix.makeRotationY(angle))
+
+    @staticmethod
+    def rotateZ(matrix, angle):
+        Matrix.applyMatrix(matrix, Matrix.makeRotationZ(angle))
+
+    @staticmethod
+    def rotate(matrix, a, b, c):
+        Matrix.rotateZ(matrix, c)
+        Matrix.rotateY(matrix, b)
+        Matrix.rotateX(matrix, a)
+
+    @staticmethod
+    def scale():
+        Matrix.applyMatrix(Matrix.makeScale(matrix, s))
+
+    @staticmethod
+    def scaleAsymmetric():
+        pass

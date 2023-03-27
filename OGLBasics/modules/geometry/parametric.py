@@ -14,13 +14,11 @@ class AbstractParametric(AbstractGeometry):
        of the shape. *Start, *End, and *Resolution define
        how much of the shape is created and at what level
        of detail."""
-       
     def __init__(self, uStart, uEnd, uResolution,
                        vStart, vEnd, vResolution,
                        surfaceFunction,
                        colorFunction=None):
         super().__init__()
-        
         # Generate set of points based on the function
         deltaU = (uEnd - uStart) / uResolution
         deltaV = (vEnd - vStart) / vResolution
@@ -32,16 +30,13 @@ class AbstractParametric(AbstractGeometry):
                 v = vStart + vIndex * deltaV
                 vArray.append(surfaceFunction(u,v))
             positions.append(vArray)
-            
         # Store vertex data
         positionData = []
         colorData = []
-        
         # Default vertex colors
         C1, C2, C3 = [1,0,0], [0,1,0], [0,0,1]
         C4, C5, C6 = [0,1,1], [1,0,1], [1,1,0]
         cIndex = 0
-        
         # Group vertex data into triangles
         for xIndex in range(uResolution):
             for yIndex in range(vResolution):        
@@ -50,7 +45,6 @@ class AbstractParametric(AbstractGeometry):
                 pB = positions[xIndex+1][yIndex+0]
                 pC = positions[xIndex+1][yIndex+1]
                 pD = positions[xIndex+0][yIndex+1]
-                
                 positionData += [ pA.copy(), pB.copy(),
                                   pC.copy(), pA.copy(),
                                   pC.copy(), pD.copy() ]
@@ -62,10 +56,8 @@ class AbstractParametric(AbstractGeometry):
                     cB = colorFunction(xIndex+1,yIndex,   len(positions), len(positions[xIndex]))
                     cC = colorFunction(xIndex+1,yIndex+1, len(positions), len(positions[xIndex]))
                     cD = colorFunction(xIndex,  yIndex+1, len(positions), len(positions[xIndex]))
-                    
                     colorData += [cA, cB, cC,
                                   cA, cC, cD]           
-                
         self.addAttribute("vec3", "vertexPosition", positionData)
         self.addAttribute("vec3", "vertexColor", colorData)
         self.countVertices()
@@ -75,10 +67,8 @@ class AbstractParametric(AbstractGeometry):
 class PlaneGeometry(AbstractParametric):
     def __init__(self, width=1, height=1,
                  widthSegments=8, heightSegments=8):
-        
         def S(u,v):
             return [u, v, 0]
-        
         super().__init__(-width/2, width/2,
                          widthSegments,
                          -height/2, height/2,
@@ -107,7 +97,7 @@ class SphereGeometry(EllipsoidGeometry):
                         2*radius,
                         radiusSegments,
                         heightSegments)
-    
+
 
 class CylindricalGeometry(AbstractParametric):
     def __init__(self, radiusTop=1, radiusBottom=1,
@@ -118,7 +108,6 @@ class CylindricalGeometry(AbstractParametric):
             return [(v*radiusTop + (1-v)*radiusBottom) * np.sin(u),
                     height * (v - 0.5),
                     (v*radiusTop + (1-v)*radiusBottom) * np.cos(u)]
-
         super().__init__(0, 2*np.pi,
                          radialSegments,
                          0, 1,
