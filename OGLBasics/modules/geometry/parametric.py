@@ -57,18 +57,18 @@ class AbstractParametric(AbstractGeometry):
                     cC = colorFunction(xIndex+1,yIndex+1, len(positions), len(positions[xIndex]))
                     cD = colorFunction(xIndex,  yIndex+1, len(positions), len(positions[xIndex]))
                     colorData += [cA, cB, cC,
-                                  cA, cC, cD]           
+                                  cA, cC, cD]
         self.addAttribute("vec3", "vertexPosition", positionData)
         self.addAttribute("vec3", "vertexColor", colorData)
         self.countVertices()
 
 
-## Some parametric shapes ##
+# Some parametric shapes
 class PlaneGeometry(AbstractParametric):
     def __init__(self, width=1, height=1,
                  widthSegments=8, heightSegments=8,
                  colorFunction=None):
-        def S(u,v):
+        def S(u, v):
             return [u, v, 0]
         super().__init__(-width/2, width/2,
                          widthSegments,
@@ -81,10 +81,10 @@ class EllipsoidGeometry(AbstractParametric):
     def __init__(self, width=1, height=1, depth=1,
                  radiusSegments=32, heightSegments=16,
                  colorFunction=None):
-        def S(u,v):
-            return [ width/2 * np.sin(u) * np.cos(v),
+        def S(u, v):
+            return [width/2 * np.sin(u) * np.cos(v),
                     height/2 * np.sin(v),
-                    depth/2 * np.cos(u) * np.cos(v) ]
+                    depth/2 * np.cos(u) * np.cos(v)]
         super().__init__(0, 2*np.pi,
                          radiusSegments,
                          -np.pi/2, np.pi/2,
@@ -98,11 +98,11 @@ class SphereGeometry(EllipsoidGeometry):
                  heightSegments=16,
                  colorFunction=None):
         super().__init__(2*radius,
-                        2*radius,
-                        2*radius,
-                        radiusSegments,
-                        heightSegments,
-                        colorFunction=colorFunction)
+                         2*radius,
+                         2*radius,
+                         radiusSegments,
+                         heightSegments,
+                         colorFunction=colorFunction)
 
 
 class CylindricalGeometry(AbstractParametric):
@@ -111,7 +111,7 @@ class CylindricalGeometry(AbstractParametric):
                  heightSegments=4, closedTop=True,
                  closedBottom=True,
                  colorFunction=None):
-        def S(u,v):
+        def S(u, v):
             return [(v*radiusTop + (1-v)*radiusBottom) * np.sin(u),
                     height * (v - 0.5),
                     (v*radiusTop + (1-v)*radiusBottom) * np.cos(u)]
@@ -123,13 +123,17 @@ class CylindricalGeometry(AbstractParametric):
         if closedTop:
             topGeometry = PolygonGeometry(radialSegments,
                                           radiusTop)
-            transform = Matrix.makeTranslation(0, height/2, 0) @ Matrix.makeRotationY(-np.pi/2) @ Matrix.makeRotationX(-np.pi/2)
+            transform = Matrix.makeTranslation(0, height/2, 0) @ \
+                        Matrix.makeRotationY(-np.pi/2) @ \
+                        Matrix.makeRotationX(-np.pi/2)
             topGeometry.applyMatrix(transform)
             self.merge(topGeometry)
         if closedBottom:
             bottomGeometry = PolygonGeometry(radialSegments,
                                              radiusBottom)
-            transform = Matrix.makeTranslation(0, -height/2, 0) @ Matrix.makeRotationY(-np.pi/2) @ Matrix.makeRotationX(np.pi/2)
+            transform = Matrix.makeTranslation(0, -height/2, 0) @ \
+                        Matrix.makeRotationY(-np.pi/2) @ \
+                        Matrix.makeRotationX(np.pi/2)
             bottomGeometry.applyMatrix(transform)
             self.merge(bottomGeometry)
 

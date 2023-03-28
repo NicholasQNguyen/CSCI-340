@@ -30,4 +30,3 @@ def rainbowGradient(u, v, uMaxIndex, vMaxIndex,
         return lerp(colors[start], colors[end], percentU - u)
     else:
         return lerp(colors[start], colors[end], percentU - v)
-        

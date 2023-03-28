@@ -1,6 +1,5 @@
 """
-Author: Liz Matthews
-Code modified from Developing Graphics Frameworks
+Author: Liz Matthews Code modified from Developing Graphics Frameworks
 with Python and OpenGL by Lee Stemkoski and
 Michael Pascale.
 """
@@ -45,6 +44,7 @@ class MovementRig(Moving, Object3D):
             K_z : vec( 0,-1, 0),
             K_x : vec( 0, 1, 0)
         }
+        self.numbers = [K_1, K_2, K_3]
         
     # Override functions from Object3D class        
     def add(self, child):
@@ -71,6 +71,10 @@ class MovementRig(Moving, Object3D):
         if event.type == KEYDOWN and \
            event.key in self.movement:
             self.movement[event.key] = True
+        if event.type == KEYDOWN and \
+           event.key in self.numbers:
+            # TODO change between different materials
+            pass
         if event.type == KEYUP and\
            event.key in self.movement:
             self.movement[event.key] = False
