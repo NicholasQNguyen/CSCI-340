@@ -62,11 +62,11 @@ class Object3D(object):
         if self.parent == None:
             return t
         else:
-            Matrix.translate(t,
+            t = Matrix.translate(t,
                              self.position[x],
                              self.position[y],
                              self.position[z])
-            Matrix.rotate(t,
+            t = Matrix.rotate(t,
                           self.rotation[x],
                           self.rotation[y],
                           self.rotation[z])
