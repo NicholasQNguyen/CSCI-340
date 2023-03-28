@@ -33,7 +33,7 @@ class Moving(object):
     def setRotVel(self, rotVel):
         """Sets the rotational velocity to the given
            parameter."""
-        self.rotaionalVelocity = rotVel
+        self.rotationalVelocity = rotVel
         
     def update(self, deltaTime):
         """If either velocity has a magnitde greater than
@@ -41,12 +41,19 @@ class Moving(object):
            in deltaTime and uses the velocity to add to the
            current values in rotation or position."""
         if magnitude(self.velocity) > 0:
+            normalize(self.velocity)
             self.position += self.velocity * self.speed * deltaTime
             
-        elif magnitude(self.rotationalVelocity) > 0:
+        if magnitude(self.rotationalVelocity) > 0:
+            """
+            normalize(self.rotationalVelocity)
+            vel = self.rotationalVelocity * self.rotationalSpeed
+            vel *= deltaTime
+            self.rotation += vel
+            """
             self.rotation += self.rotationalVelocity * self.rotationalSpeed * deltaTime
 
-            
+
 class MovingMesh(Moving, Mesh):
     """Uses multiple inheritance to obtain the behaviors of
        both Moving and Mesh classes."""

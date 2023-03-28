@@ -13,6 +13,7 @@ from modules.objects import Scene, Camera, MovingMesh, AxesHelper, GridHelper
 from modules.geometry import BoxGeometry
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial
+from modules.utils.vector import vec
 
 
 class Main(Base):
@@ -41,8 +42,8 @@ class Main(Base):
         geometry = BoxGeometry()
         material = SurfaceMaterial({"useVertexColors" : True})
         mesh = MovingMesh(geometry, material)
-        mesh.setRotVel((0.0337, 0.0514, 0))
-        mesh.setPosition([0,1,-4])
+        mesh.setRotVel(vec(0.0337, 0.0514, 0))
+        mesh.setPosition([0,1, -4])
         self.scene.add(mesh)
 
     def update(self):
