@@ -9,6 +9,7 @@ from ..utils.vector import vec, lerp
 def randomColor(u, v, uMaxIndex, vMaxIndex):
     return vec(random.random(), random.random(), random.random())
 
+
 def rainbowGradient(u, v, uMaxIndex, vMaxIndex,
                     orientation="u", wrap=False):
     colors = [(1, 0, 0),
@@ -17,6 +18,8 @@ def rainbowGradient(u, v, uMaxIndex, vMaxIndex,
               (0, 1, 1),
               (0, 0, 1),
               (1, 0, 1)]
+    if wrap:
+        colors.append(colors[0])
     percentU = u / uMaxIndex
     percentV = v / vMaxIndex
     percentU *= len(colors) - 1

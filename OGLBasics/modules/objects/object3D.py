@@ -63,13 +63,13 @@ class Object3D(object):
             return t
         else:
             t = Matrix.translate(t,
-                             self.position[x],
-                             self.position[y],
-                             self.position[z])
+                                 self.position[x],
+                                 self.position[y],
+                                 self.position[z])
             t = Matrix.rotate(t,
-                          self.rotation[x],
-                          self.rotation[y],
-                          self.rotation[z])
+                              self.rotation[x],
+                              self.rotation[y],
+                              self.rotation[z])
             return self.parent.getWorldMatrix() @ t
     
     ## Mutator methods to adjust absolute values for translations ##

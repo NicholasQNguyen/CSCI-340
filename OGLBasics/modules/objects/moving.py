@@ -26,6 +26,12 @@ class Moving(object):
         self.velocity = np.zeros((3))
         self.rotationalVelocity = np.zeros((3))        
         
+    def setSpeed(self, newSpeed):
+        self.speed = newSpeed
+
+    def setRotationalSpeed(self, newRotSpeed):
+        self.rotationalSpeed = newRotSpeed
+
     def setVelocity(self, velocity):
         """Sets the velocity to the given parameter."""
         self.velocity = velocity

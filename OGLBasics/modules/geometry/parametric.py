@@ -66,18 +66,21 @@ class AbstractParametric(AbstractGeometry):
 ## Some parametric shapes ##
 class PlaneGeometry(AbstractParametric):
     def __init__(self, width=1, height=1,
-                 widthSegments=8, heightSegments=8):
+                 widthSegments=8, heightSegments=8,
+                 colorFunction=None):
         def S(u,v):
             return [u, v, 0]
         super().__init__(-width/2, width/2,
                          widthSegments,
                          -height/2, height/2,
-                         heightSegments, S)
+                         heightSegments, S,
+                         colorFunction=colorFunction)
 
 
 class EllipsoidGeometry(AbstractParametric):
     def __init__(self, width=1, height=1, depth=1,
-             radiusSegments=32, heightSegments=16):
+                 radiusSegments=32, heightSegments=16,
+                 colorFunction=None):
         def S(u,v):
             return [ width/2 * np.sin(u) * np.cos(v),
                     height/2 * np.sin(v),
@@ -85,25 +88,29 @@ class EllipsoidGeometry(AbstractParametric):
         super().__init__(0, 2*np.pi,
                          radiusSegments,
                          -np.pi/2, np.pi/2,
-                         heightSegments, S)
+                         heightSegments, S,
+                         colorFunction=colorFunction)
 
 
 class SphereGeometry(EllipsoidGeometry):
     def __init__(self, radius=1,
-             radiusSegments=32,
-             heightSegments=16):
+                 radiusSegments=32,
+                 heightSegments=16,
+                 colorFunction=None):
         super().__init__(2*radius,
                         2*radius,
                         2*radius,
                         radiusSegments,
-                        heightSegments)
+                        heightSegments,
+                        colorFunction=colorFunction)
 
 
 class CylindricalGeometry(AbstractParametric):
     def __init__(self, radiusTop=1, radiusBottom=1,
                  height=1, radialSegments=32,
                  heightSegments=4, closedTop=True,
-                 closedBottom=True):
+                 closedBottom=True,
+                 colorFunction=None):
         def S(u,v):
             return [(v*radiusTop + (1-v)*radiusBottom) * np.sin(u),
                     height * (v - 0.5),
@@ -112,7 +119,7 @@ class CylindricalGeometry(AbstractParametric):
                          radialSegments,
                          0, 1,
                          heightSegments,
-                         S)
+                         S, colorFunction=colorFunction)
         if closedTop:
             topGeometry = PolygonGeometry(radialSegments,
                                           radiusTop)
@@ -131,34 +138,40 @@ class CylinderGeometry(CylindricalGeometry):
     def __init__(self, radius=1, height=1,
                  radialSegments=32,
                  heightSegments=4,
-                 closed=True):
+                 closed=True,
+                 colorFunction=None):
         super().__init__(radius, radius,
                          height, radialSegments,
-                         heightSegments, closed, closed)
+                         heightSegments, closed, closed,
+                         colorFunction=colorFunction)
 
 
 class PrismGeometry(CylindricalGeometry):
     def __init__(self, radius=1, height=1,
                  sides=6, heightSegments=4,
-                 closed=True):
+                 closed=True,
+                 colorFunction=None):
         super().__init__(radius, radius,
                          height, sides,
-                         heightSegments, closed, closed)
+                         heightSegments, closed, closed,
+                         colorFunction=colorFunction)
 
 
 class ConeGeometry(CylindricalGeometry):
     def __init__(self, radius=1, height=1,
                  radialSegments=32, heightSegments=4,
-                 closed=True):
+                 closed=True, colorFunction=None):
         super().__init__(0, radius, height,
                          radialSegments, heightSegments,
-                         False, closed)
+                         False, closed,
+                         colorFunction=colorFunction)
 
 
 class PyramidGeometry(CylindricalGeometry):
     def __init__(self, radius=1, height=1,
                  sides=4, heightSegments=4,
-                 closed=True):
+                 closed=True, colorFunction=None):
         super().__init__(0, radius, height,
                          sides, heightSegments,
-                         False, closed)
+                         False, closed,
+                         colorFunction=colorFunction)

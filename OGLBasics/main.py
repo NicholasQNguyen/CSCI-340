@@ -10,7 +10,8 @@ import numpy as np
 from modules.oGL.base import Base
 from modules.renderer import Renderer
 from modules.objects import Scene, Camera, MovingMesh, AxesHelper, GridHelper
-from modules.geometry import BoxGeometry
+from modules.geometry import BoxGeometry, SphereGeometry
+from modules.geometry.colorFuncs import randomColor, rainbowGradient
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial
 from modules.utils.vector import vec
@@ -39,10 +40,12 @@ class Main(Base):
         centerColor=[1,1,0])
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
-        geometry = BoxGeometry()
+        # geometry = BoxGeometry()
+        geometry = SphereGeometry(colorFunction=randomColor)
         material = SurfaceMaterial({"useVertexColors" : True})
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(0.0337, 0.0514, 0))
+        mesh.setRotationalSpeed(2)
         mesh.setPosition([0,1, -4])
         self.scene.add(mesh)
 
