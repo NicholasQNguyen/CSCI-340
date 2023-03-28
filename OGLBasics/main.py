@@ -41,7 +41,7 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # geometry = BoxGeometry()
-        geometry = SphereGeometry(colorFunction=randomColor)
+        geometry = SphereGeometry(colorFunction=rainbowGradient)
         material = SurfaceMaterial({"useVertexColors" : True})
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(0.0337, 0.0514, 0))

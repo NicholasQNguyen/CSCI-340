@@ -58,13 +58,11 @@ class MovementRig(Moving, Object3D):
         # change the velocity
         for key, value in self.movement.items():
             if value:
-                self.velocity += self.velocityMap[key] * self.speed * deltaTime
+                self.velocity += self.velocityMap[key] * self.speed #* deltaTime
         if magnitude(self.velocity) > EPSILON:
             # Rotate velocity vector to match current rotation.
             pass
-        
         super().update(deltaTime)
-        
         
     def handleOtherInput(self, event, deltaTime):
         # Set the movement dictionary based on the movement
@@ -73,6 +71,9 @@ class MovementRig(Moving, Object3D):
             if event.key in self.movement:
                 self.movement[event.key] = True
             else:
+                self.movement[event.key] = False
+        if event.type == KEYUP:
+            if event.key in self.movement:
                 self.movement[event.key] = False
         # Set the rotation values based on mouse movement
         #  events
