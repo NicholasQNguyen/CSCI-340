@@ -12,6 +12,7 @@ from .utils.matrix import Matrix
 from .utils.definitions import EPSILON
 
 from pygame.locals import *
+import pygame
 import numpy as np
 
 
@@ -23,11 +24,11 @@ class MovementRig(Moving, Object3D):
        WASD/ZX are oriented around the current look
        direction."""
     def __init__(self,
-                 speed=2,
+                 speed=15,
                  rotSpeed=np.radians(20)):
-        
         super().__init__(speed, rotSpeed)
         Object3D.__init__(self)
+        pygame.init()
         # Initialize attached Object3D
         self.lookAttachment = Object3D()
         self.children = [self.lookAttachment]
@@ -58,7 +59,7 @@ class MovementRig(Moving, Object3D):
         # change the velocity
         for key, value in self.movement.items():
             if value:
-                self.velocity += self.velocityMap[key] * self.speed #* deltaTime
+                self.velocity += self.velocityMap[key] * self.speed * deltaTime
         if magnitude(self.velocity) > EPSILON:
             # Rotate velocity vector to match current rotation.
             pass
@@ -74,4 +75,7 @@ class MovementRig(Moving, Object3D):
            event.key in self.movement:
             self.movement[event.key] = False
         # Set the rotation values based on mouse movement
-        #  events
+        if event.type == MOUSEMOTION:
+            mousePos = pygame.mouse.get_pos()
+            newLocation = vec(mousePos[0], mousePos[1], 0)
+            self.rotation = newLocation
