@@ -67,13 +67,11 @@ class MovementRig(Moving, Object3D):
     def handleOtherInput(self, event, deltaTime):
         # Set the movement dictionary based on the movement
         #  keys
-        if event.type == KEYDOWN:
-            if event.key in self.movement:
-                self.movement[event.key] = True
-            else:
-                self.movement[event.key] = False
-        if event.type == KEYUP:
-            if event.key in self.movement:
-                self.movement[event.key] = False
+        if event.type == KEYDOWN and \
+           event.key in self.movement:
+            self.movement[event.key] = True
+        if event.type == KEYUP and\
+           event.key in self.movement:
+            self.movement[event.key] = False
         # Set the rotation values based on mouse movement
         #  events
