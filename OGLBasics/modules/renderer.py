@@ -28,25 +28,19 @@ class Renderer(object):
         # Extract list of all Mesh objects in scene
         descendantList = scene.getDescendantList()        
         meshList = [x for x in descendantList if isinstance(x, Mesh)]
-        
         for mesh in meshList:
-            
             # Only try to render if the mesh is visible.
             if mesh.visible:            
                 glUseProgram(mesh.material.programRef)
-                
                 # Bind VAO
                 glBindVertexArray(mesh.vaoRef)
-                
                 # Update uniform values stored outside of material
                 mesh.material.uniforms["modelMatrix"].data = mesh.getWorldMatrix()
                 mesh.material.uniforms["viewMatrix"].data = camera.viewMatrix
                 mesh.material.uniforms["projectionMatrix"].data = camera.projectionMatrix
-                
                 # Update uniforms stored in material
                 for variableName, uniformObject in mesh.material.uniforms.items():
                     uniformObject.uploadData()
-
                 # Update render settings
                 mesh.material.updateRenderSettings()
                 glDrawArrays(mesh.material.settings["drawStyle"],

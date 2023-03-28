@@ -41,12 +41,10 @@ class Moving(object):
            in deltaTime and uses the velocity to add to the
            current values in rotation or position."""
         if magnitude(self.velocity) > 0:
-            distance = self.speed * deltaTime
-            self.position += distance
+            self.position += self.velocity * self.speed * deltaTime
             
-        if magnitude(self.rotationalVelocity) > 0:
-            rotationalDistance = self.rotationalSpeed * deltaTime
-            self.rotation += rotationalDistance
+        elif magnitude(self.rotationalVelocity) > 0:
+            self.rotation += self.rotationalVelocity * self.rotationalSpeed * deltaTime
 
             
 class MovingMesh(Moving, Mesh):

@@ -15,7 +15,6 @@ class Matrix(object):
                          [0, 1, 0, 0],
                          [0, 0, 1, 0],
                          [0, 0, 0, 1]]).astype(float)
-    
     @staticmethod
     def makeTranslation(x, y, z):    
         return np.array([[1, 0, 0, x],
@@ -82,14 +81,14 @@ class Matrix(object):
 
     @staticmethod
     def makeRotate(a, b, c):
-        return(makeRotationZ(c) * makeRotationY(b) * makeRotationX(a))
+        return(makeRotationZ(c) @ makeRotationY(b) @ makeRotationX(a))
 
     @staticmethod
     def applyMatrix(baseMatrix, appliedMatrix, local=True):
         if local:
-            baseMatrix = baseMatrix + appliedMatrix
+            baseMatrix = baseMatrix @ appliedMatrix
         else:
-            baseMatrix = appliedMatrix + baseMatrix
+            baseMatrix = appliedMatrix @ baseMatrix
 
     @staticmethod
     def translate(matrix, x, y, z):

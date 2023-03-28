@@ -3,7 +3,6 @@ Author: Liz Matthews
 Code modified from
 https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
 """
-
 from ..oGL.attribute import Attribute
 from ..oGL.uniform import Uniform
 from ..utils.vector import vec
@@ -24,7 +23,6 @@ class Object3D(object):
        
        Edits include change to use absolute transformation
        values instead of accumulative values."""
-       
     def __init__(self):
         self.parent   = None
         self.children = []
@@ -60,12 +58,18 @@ class Object3D(object):
     def getWorldMatrix(self):
         """Obtain the final transformation matrix based on all
            transforms in parent chain."""
-           
         t = Matrix.makeIdentity()
-       
         if self.parent == None:
             return t
         else:
+            Matrix.translate(t,
+                             self.position[x],
+                             self.position[y],
+                             self.position[z])
+            Matrix.rotate(t,
+                          self.rotation[x],
+                          self.rotation[y],
+                          self.rotation[z])
             return self.parent.getWorldMatrix() @ t
     
     ## Mutator methods to adjust absolute values for translations ##
