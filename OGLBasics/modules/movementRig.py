@@ -62,6 +62,8 @@ class MovementRig(Moving, Object3D):
                 self.velocity += self.velocityMap[key] * self.speed * deltaTime
         if magnitude(self.velocity) > EPSILON:
             # Rotate velocity vector to match current rotation.
+            # self.velocity += vec(-self.rotation[1], self.rotation[0], 0)
+            # TODO finish this rotation stuff
             pass
         super().update(deltaTime)
         
@@ -80,6 +82,7 @@ class MovementRig(Moving, Object3D):
             self.movement[event.key] = False
         # Set the rotation values based on mouse movement
         if event.type == MOUSEMOTION:
-            mousePos = pygame.mouse.get_pos()
-            newLocation = vec(mousePos[0], mousePos[1], 0)
-            self.rotation = newLocation
+            x, y = pygame.mouse.get_rel()
+            x /= 500
+            y /= 500
+            self.rotation += vec(-y, -x, 0)

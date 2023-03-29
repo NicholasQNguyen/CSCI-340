@@ -49,14 +49,7 @@ class Moving(object):
         if magnitude(self.velocity) > 0:
             normalize(self.velocity)
             self.position += self.velocity * self.speed * deltaTime
-            
         if magnitude(self.rotationalVelocity) > 0:
-            """
-            normalize(self.rotationalVelocity)
-            vel = self.rotationalVelocity * self.rotationalSpeed
-            vel *= deltaTime
-            self.rotation += vel
-            """
             self.rotation += self.rotationalVelocity * self.rotationalSpeed * deltaTime
 
 
