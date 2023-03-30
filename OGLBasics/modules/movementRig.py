@@ -62,7 +62,6 @@ class MovementRig(Moving, Object3D):
                 self.velocity += self.velocityMap[key] * self.speed * deltaTime
         if magnitude(self.velocity) > EPSILON:
             # Rotate velocity vector to match current rotation.
-            # self.velocity += vec(-self.rotation[1], self.rotation[0], 0)
             # TODO finish this rotation stuff
             pass
         super().update(deltaTime)

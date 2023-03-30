@@ -62,6 +62,10 @@ class Object3D(object):
         if self.parent == None:
             return t
         else:
+            t = Matrix.scaleAsymmetric(t,
+                                       self.scale[x],
+                                       self.scale[y],
+                                       self.scale[z])
             t = Matrix.translate(t,
                                  self.position[x],
                                  self.position[y],
