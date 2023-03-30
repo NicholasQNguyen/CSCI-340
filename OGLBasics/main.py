@@ -61,11 +61,13 @@ class Main(Base):
         sphereMaterial = SurfaceMaterial({"useVertexColors" : True}, doubleSide=True)
         sphereGeometry = SphereGeometry(radius=.5,
                                         uStart=0, uEnd=np.pi,
-                                        vStart=-np.pi/2, vEnd=np.pi/2)
+                                        vStart=-np.pi/2, vEnd=np.pi/2,
+                                        colorFunction=randomColor)
         sphereMesh = MovingMesh(sphereGeometry, sphereMaterial)
         sphereMesh.setRotVel(vec(0.0337, 0.0514, 0))
         sphereMesh.setRotationalSpeed(5)
         sphereMesh.setPosition([4,1, -4])
+        sphereMesh.setRotate(0, 0, 3*np.pi/2)
         self.scene.add(sphereMesh)
 
     def update(self):
