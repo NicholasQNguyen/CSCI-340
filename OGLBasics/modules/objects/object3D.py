@@ -91,8 +91,8 @@ class Object3D(object):
 
     def setRotate(self, xAngle, yAngle, zAngle):
         self.setRotateX(xAngle)
-        self.setRotateY(YAngle)
-        self.setRotateZ(ZAngle)
+        self.setRotateY(yAngle)
+        self.setRotateZ(zAngle)
 
     def setScale(self, scale):
         self.scale = scale

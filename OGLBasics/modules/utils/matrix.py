@@ -119,4 +119,4 @@ class Matrix(object):
 
     @staticmethod
     def scaleAsymmetric(matrix, a, b, c):
-        return Matrix.applyMatrix(matrix, Matrix.makeScaleAsymmetrix(a, b, c))
+        return Matrix.applyMatrix(matrix, Matrix.makeScaleAsymmetric(a, b, c))

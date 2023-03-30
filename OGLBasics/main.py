@@ -10,8 +10,8 @@ import numpy as np
 from modules.oGL.base import Base
 from modules.renderer import Renderer
 from modules.objects import Scene, Camera, MovingMesh, AxesHelper, GridHelper
-from modules.geometry import BoxGeometry, SphereGeometry
-from modules.geometry.colorFuncs import randomColor, rainbowGradient
+from modules.geometry import BoxGeometry, SphereGeometry, PyramidGeometry, RectangleGeometry
+from modules.geometry.colorFuncs import randomColor, rainbowGradient, purple, blue
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial
 from modules.utils.vector import vec
@@ -41,13 +41,21 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # geometry = BoxGeometry()
-        geometry = SphereGeometry(colorFunction=rainbowGradient)
+        # geometry = SphereGeometry(colorFunction=rainbowGradient)
         material = SurfaceMaterial({"useVertexColors" : True})
+        # Purple Pyramid
+        geometry = PyramidGeometry(colorFunction=purple)
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(0.0337, 0.0514, 0))
         mesh.setRotationalSpeed(2)
         mesh.setPosition([0,1, -4])
         self.scene.add(mesh)
+        # Floor
+        floorGeometry = RectangleGeometry(width=30, height=30)
+        floorMesh = MovingMesh(floorGeometry, material)
+        floorMesh.setRotate(3 * np.pi / 2, 0, 0)
+        floorMesh.setRotationalSpeed(0)
+        self.scene.add(floorMesh)
 
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""

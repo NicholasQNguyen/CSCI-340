@@ -6,6 +6,7 @@ Code modified from
 import numpy as np
 from . import AbstractGeometry
 from ..utils.matrix import Matrix
+from . primitives import PolygonGeometry
 
 
 class AbstractParametric(AbstractGeometry):
