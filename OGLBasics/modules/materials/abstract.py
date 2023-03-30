@@ -1,7 +1,7 @@
 """
 Author: Liz Matthews
 Code modified from
-  https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
+https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
 """
 
 from ..oGL.openGLUtils import OpenGLUtils

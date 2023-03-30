@@ -8,7 +8,7 @@ from . import BasicMaterial
 from OpenGL.GL import *
 
 class SurfaceMaterial(BasicMaterial):
-    def __init__(self, properties={}):
+    def __init__(self, properties={}, doubleSide=False):
         super().__init__()
         
         # Render vertices as surface
@@ -16,7 +16,7 @@ class SurfaceMaterial(BasicMaterial):
         
         # Render both sides? default: front side only
         # Vertices ordered counterclockwise
-        self.settings["doubleSide"] = False
+        self.settings["doubleSide"] = doubleSide
         
         # Render triangles as wireframe?
         self.settings["wireframe"] = False

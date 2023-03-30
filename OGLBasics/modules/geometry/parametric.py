@@ -81,29 +81,53 @@ class PlaneGeometry(AbstractParametric):
 class EllipsoidGeometry(AbstractParametric):
     def __init__(self, width=1, height=1, depth=1,
                  radiusSegments=32, heightSegments=16,
-                 colorFunction=None):
+                 colorFunction=None,
+                 uStart=None, uEnd=None, uResolution=32,
+                 vStart=None, vEnd=None, vResolution=16):
         def S(u, v):
             return [width/2 * np.sin(u) * np.cos(v),
                     height/2 * np.sin(v),
                     depth/2 * np.cos(u) * np.cos(v)]
-        super().__init__(0, 2*np.pi,
-                         radiusSegments,
-                         -np.pi/2, np.pi/2,
-                         heightSegments, S,
-                         colorFunction=colorFunction)
+        if uStart is None:
+            super().__init__(0, 2*np.pi,
+                             radiusSegments,
+                             -np.pi/2, np.pi/2,
+                             heightSegments, S,
+                             colorFunction=colorFunction)
+        else:
+            super().__init__(uStart, uEnd,
+                             uResolution,
+                             vStart, vEnd,
+                             vResolution, S,
+                             colorFunction=colorFunction)
+            
 
 
 class SphereGeometry(EllipsoidGeometry):
     def __init__(self, radius=1,
                  radiusSegments=32,
                  heightSegments=16,
-                 colorFunction=None):
-        super().__init__(2*radius,
-                         2*radius,
-                         2*radius,
-                         radiusSegments,
-                         heightSegments,
-                         colorFunction=colorFunction)
+                 colorFunction=None,
+                 uStart=None, uEnd=None,
+                 vStart=None, vEnd=None):
+        if uStart is None:
+            super().__init__(2*radius,
+                             2*radius,
+                             2*radius,
+                             radiusSegments,
+                             heightSegments,
+                             colorFunction=colorFunction)
+        else:
+            super().__init__(width=2*radius,
+                             height=2*radius,
+                             depth=2*radius,
+                             uStart=uStart,
+                             uEnd=uEnd,
+                             vStart=vStart,
+                             vEnd=vEnd,
+                             colorFunction=colorFunction)
+            
+        
 
 
 class CylindricalGeometry(AbstractParametric):

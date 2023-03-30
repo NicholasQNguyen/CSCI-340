@@ -60,4 +60,3 @@ class MovingMesh(Moving, Mesh):
     def __init__(self, geometry, material, speed=1, rotSpeed=np.radians(20)):
         super().__init__(speed, rotSpeed)
         Mesh.__init__(self, geometry, material)
-    

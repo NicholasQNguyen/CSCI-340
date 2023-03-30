@@ -42,8 +42,8 @@ class Main(Base):
         self.scene.add(grid)
         # geometry = BoxGeometry()
         # geometry = SphereGeometry(colorFunction=rainbowGradient)
-        material = SurfaceMaterial({"useVertexColors" : True})
         # Purple Pyramid
+        material = SurfaceMaterial({"useVertexColors" : True})
         geometry = PyramidGeometry(colorFunction=purple)
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(0.0337, 0.0514, 0))
@@ -51,11 +51,22 @@ class Main(Base):
         mesh.setPosition([0,1, -4])
         self.scene.add(mesh)
         # Floor
+        floorMaterial = SurfaceMaterial({"useVertexColors" : True})
         floorGeometry = RectangleGeometry(width=30, height=30)
-        floorMesh = MovingMesh(floorGeometry, material)
+        floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
+        # Bowl
+        sphereMaterial = SurfaceMaterial({"useVertexColors" : True}, doubleSide=True)
+        sphereGeometry = SphereGeometry(radius=.5,
+                                        uStart=0, uEnd=np.pi,
+                                        vStart=-np.pi/2, vEnd=np.pi/2)
+        sphereMesh = MovingMesh(sphereGeometry, sphereMaterial)
+        sphereMesh.setRotVel(vec(0.0337, 0.0514, 0))
+        sphereMesh.setRotationalSpeed(5)
+        sphereMesh.setPosition([4,1, -4])
+        self.scene.add(sphereMesh)
 
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""
