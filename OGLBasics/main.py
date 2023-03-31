@@ -191,13 +191,13 @@ class Main(Base):
     
         if self.materialType == "point":
             cylinderMaterial = PointMaterial({"useVertexColors": True},
-                                           doubleSide=True)
+                                             doubleSide=True)
         elif self.materialType == "line":
             cylinderMaterial = LineMaterial({"useVertexColors": True},
-                                           doubleSide=True)
+                                            doubleSide=True)
         else:
             cylinderMaterial = SurfaceMaterial({"useVertexColors": True},
-                                           doubleSide=True)
+                                               doubleSide=True)
         cylinderGeometry = CylinderGeometry(radius=0.125, height=0.5)
         cylinderMesh = MovingMesh(cylinderGeometry, cylinderMaterial)
         cylinderMesh.setPosition([-3.75, 1.75, -4])
