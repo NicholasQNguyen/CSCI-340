@@ -8,12 +8,16 @@ from .basic import BasicMaterial
 from OpenGL.GL import *
 
 class LineMaterial(BasicMaterial):
-    def __init__(self, properties={}):
+    def __init__(self, properties={}, doubleSide=False):
         super().__init__()
         
         # Render vertices as continuous line by default
         self.settings["drawStyle"] = GL_LINE_STRIP
         
+        # Render both sides? default: front side only
+        # Vertices ordered counterclockwise
+        self.settings["doubleSide"] = doubleSide
+
         # Line thickness
         self.settings["lineWidth"] = 1
         
@@ -23,6 +27,10 @@ class LineMaterial(BasicMaterial):
         self.setProperties(properties)
         
     def updateRenderSettings(self):
+        if self.settings["doubleSide"]:
+            glDisable(GL_CULL_FACE)
+        else:
+            glEnable(GL_CULL_FACE)
         glLineWidth(self.settings["lineWidth"])
         if self.settings["lineType"] == "connected":
             self.settings["drawStyle"] = GL_LINE_STRIP

@@ -13,6 +13,9 @@ class Base(object):
         
         # Initialize all pygame modules
         pygame.init()
+
+        # Initialize material type changer
+        self.materialType = None
         
         # Indicate rendering details
         displayFlags = pygame.DOUBLEBUF | pygame.OPENGL        

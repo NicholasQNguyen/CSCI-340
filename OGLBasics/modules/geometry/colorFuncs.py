@@ -35,6 +35,6 @@ def rainbowGradient(u, v, uMaxIndex, vMaxIndex,
     start = int(np.floor(percentU))
     end = min(u + 1, 5)
     if orientation == "u":
-        return lerp(colors[start], colors[end], percentU - u)
+        return lerp(colors[start], colors[end], abs((percentU - u) / 100))
     else:
-        return lerp(colors[start], colors[end], percentU - v)
+        return lerp(colors[start], colors[end], abs((percentV - v) / 100))

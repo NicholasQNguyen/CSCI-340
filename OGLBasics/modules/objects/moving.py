@@ -49,8 +49,8 @@ class Moving(object):
             normalize(self.velocity)
             self.position += self.velocity * self.speed * deltaTime
         if magnitude(self.rotationalVelocity) > 0:
-            self.rotation += self.rotationalVelocity *
-                             self.rotationalSpeed *
+            self.rotation += self.rotationalVelocity * \
+                             self.rotationalSpeed * \
                              deltaTime
 
 

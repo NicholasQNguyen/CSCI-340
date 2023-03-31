@@ -5,6 +5,7 @@ Code modified from Developing Graphics Frameworks
   Michael Pascale.
 """
 import pygame
+from pygame.locals import *
 import numpy as np
 
 from modules.oGL.base import Base
@@ -17,16 +18,28 @@ from modules.geometry import (BoxGeometry,
 from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
                                          purple, blue)
 from modules.movementRig import MovementRig
-from modules.materials import SurfaceMaterial
+from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.utils.vector import vec
 
 
 class Main(Base):
     def handleOtherInput(self, event):
         self.rig.handleOtherInput(event, self.deltaTime)
+        if event.type == KEYDOWN and \
+           event.key in self.numbers:
+            if event.key == K_1:
+                self.materialType = "point"
+            elif event.key == K_2:
+                self.materialType = "line"
+            elif event.key == K_3:
+                self.materialType = "surface"
+            self.initialize()
 
     def initialize(self):
         print("Initializing program...")
+        self.numbers = [K_1, K_2, K_3]
+        if self.materialType is None:   
+            self.materialType = "surface"
         pygame.mouse.set_visible(False)
         pygame.event.set_grab(True)
         self.renderer = Renderer()
@@ -47,7 +60,12 @@ class Main(Base):
         # geometry = BoxGeometry()
         # geometry = SphereGeometry(colorFunction=rainbowGradient)
         # Purple Pyramid
-        material = SurfaceMaterial({"useVertexColors": True})
+        if self.materialType == "point":
+            material = PointMaterial({"useVertexColors": True})
+        elif self.materialType == "line":
+            material = LineMaterial({"useVertexColors": True})
+        else:
+            material = SurfaceMaterial({"useVertexColors": True})
         geometry = PyramidGeometry(colorFunction=purple)
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(0.0337, 0.0514, 0))
@@ -55,15 +73,27 @@ class Main(Base):
         mesh.setPosition([0, 1, -4])
         self.scene.add(mesh)
         # Floor
-        floorMaterial = SurfaceMaterial({"useVertexColors": True})
+        if self.materialType == "point":
+            floorMaterial = PointMaterial({"useVertexColors": True})
+        elif self.materialType == "line":
+            floorMaterial = LineMaterial({"useVertexColors": True})
+        else:
+            floorMaterial = SurfaceMaterial({"useVertexColors": True})
         floorGeometry = RectangleGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
         # Bowl
-        sphereMaterial = SurfaceMaterial({"useVertexColors": True},
-                                         doubleSide=True)
+        if self.materialType == "point":
+            sphereMaterial = PointMaterial({"useVertexColors": True},
+                                           doubleSide=True)
+        elif self.materialType == "line":
+            sphereMaterial = LineMaterial({"useVertexColors": True},
+                                          doubleSide=True)
+        else:
+            sphereMaterial = SurfaceMaterial({"useVertexColors": True},
+                                             doubleSide=True)
         sphereGeometry = SphereGeometry(radius=.5,
                                         uStart=0, uEnd=np.pi,
                                         vStart=-np.pi/2, vEnd=np.pi/2,
@@ -81,4 +111,4 @@ class Main(Base):
 
 
 if __name__ == '__main__':
-    Main(fullScreen=True).run()
+    Main(fullScreen=False).run()
