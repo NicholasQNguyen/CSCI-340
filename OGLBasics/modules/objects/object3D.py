@@ -16,33 +16,32 @@ y = 1
 z = 2
 
 
-class Object3D(object):        
+class Object3D(object):
     """As described in Developing Graphics Frameworks
        with Python and OpenGL by Lee Stemkoski and
        Michael Pascal.
-       
        Edits include change to use absolute transformation
        values instead of accumulative values."""
     def __init__(self):
-        self.parent   = None
+        self.parent = None
         self.children = []
-        self.rotation = vec(0,0,0)
-        self.position = vec(0,0,0)
-        self.scale    = vec(1,1,1)
-    
+        self.rotation = vec(0, 0, 0)
+        self.position = vec(0, 0, 0)
+        self.scale = vec(1, 1, 1)
+
     def update(self, deltaTime=0):
         """Stub method so that all objects can be called
            to update even if they do not need to update."""
         pass
-        
+
     def add(self, child):
         self.children.append(child)
         child.parent = self
-    
+
     def remove(self, child):
         self.children.remove(child)
         child.parent = None
-    
+
     def getDescendantList(self):
         """Depth-first traversal to obtain a list of descendants."""
         descendants = []
@@ -51,15 +50,14 @@ class Object3D(object):
             node = nodesToProcess.pop(0)
             descendants.append(node)
             nodesToProcess = node.children + nodesToProcess
-            
         return descendants
-    
-    ## Absolute transformation calculation ##
+
+    # Absolute transformation calculation
     def getWorldMatrix(self):
         """Obtain the final transformation matrix based on all
            transforms in parent chain."""
         t = Matrix.makeIdentity()
-        if self.parent == None:
+        if self.parent is None:
             return t
         else:
             t = Matrix.scaleAsymmetric(t,
@@ -75,8 +73,8 @@ class Object3D(object):
                               self.rotation[y],
                               self.rotation[z])
             return self.parent.getWorldMatrix() @ t
-    
-    ## Mutator methods to adjust absolute values for translations ##
+
+    # Mutator methods to adjust absolute values for translations
     def setPosition(self, newPosition):
         self.position = newPosition
 

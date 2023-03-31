@@ -9,11 +9,14 @@ from ..utils.vector import vec, lerp
 def randomColor(u, v, uMaxIndex, vMaxIndex):
     return vec(random.random(), random.random(), random.random())
 
+
 def blue(u, v, uMaxIndex, vMaxIndex):
     return vec(0, 0, 1)
 
+
 def purple(u, v, uMaxIndex, vMaxIndex):
     return vec(0.5, 0, 0.5)
+
 
 def rainbowGradient(u, v, uMaxIndex, vMaxIndex,
                     orientation="u", wrap=False):

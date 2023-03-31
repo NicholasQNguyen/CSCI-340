@@ -100,7 +100,6 @@ class EllipsoidGeometry(AbstractParametric):
                              vStart, vEnd,
                              vResolution, S,
                              colorFunction=colorFunction)
-            
 
 
 class SphereGeometry(EllipsoidGeometry):
@@ -126,8 +125,6 @@ class SphereGeometry(EllipsoidGeometry):
                              vStart=vStart,
                              vEnd=vEnd,
                              colorFunction=colorFunction)
-            
-        
 
 
 class CylindricalGeometry(AbstractParametric):

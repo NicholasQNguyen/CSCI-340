@@ -9,18 +9,19 @@ from . import Mesh
 from ..utils.matrix import Matrix
 from numpy.linalg import inv
 
+
 class Scene(Object3D):
     def __init__(self):
         super().__init__()
-    
+
     def update(self, deltaTime):
         descendantList = self.getDescendantList()
-        
+
         meshList = [x for x in descendantList if isinstance(x, Mesh)]
-        
+
         for mesh in meshList:
             # Only update if the mesh is visible
-            if mesh.visible:        
+            if mesh.visible:
                 mesh.update(deltaTime)
 
 
