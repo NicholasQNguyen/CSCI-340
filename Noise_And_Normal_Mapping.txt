@@ -1,0 +1,21 @@
+Noise and Normal Mapping
+________________________
+Irregular mounting like planes w/ noise machine
+Static/Doesn't change for noise                              Noisy Planes
+Surface function to use noise machine for z coordinate
+x and y are same
+Can't animate no more
+u and v resolution gotta be pretty dang small
+------------------------------------------------------------
+Can color based on height to make mountains
+    dependent on world position
+        Don't need to store color in mountain                Mountain coloring
+            Keep data in shader
+------------------------------------------------------------
+water is semi-transparent and super specular                 Better water
+Moving is hard because can't do NoiseMachine every frame
+    Use a prerendered tiled heightmap
+------------------------------------------------------------
+We can use a normal map instead of a normal calculation
+Use a bumb to fuck up the normal slightly
+

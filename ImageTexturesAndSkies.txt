@@ -1,0 +1,29 @@
+## UV Coordinates
+Same logic as ray tracing
+    Set UV at vertices and interpolate
+
+## Texture Class
+pygame surface of image
+texture reference
+
+load and upload texture
+
+## Uploading Data
+creates pixel to data and send to texture buffer
+Can auto make a mipmap based on bind target
+
+MAG_FILTER
+If texture smaller than surface, need to upscale
+
+MIN_FILTER
+If texture is larger than surface, need to mipmap
+
+UV and ST
+UV between 0 and 1
+ST for surface coordinate
+
+Sampling
+upload data to texture famebks
+limietd number o ftexture youa -f  bf
+activateTexture assigns texture to what it's associated with
+
