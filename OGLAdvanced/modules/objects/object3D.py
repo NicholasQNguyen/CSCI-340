@@ -74,6 +74,9 @@ class Object3D(object):
                               self.rotation[z])
             return self.parent.getWorldMatrix() @ t
 
+    def getPosition(self):
+        return self.position
+
     # Mutator methods to adjust absolute values for translations
     def setPosition(self, newPosition):
         self.position = newPosition

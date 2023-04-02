@@ -11,6 +11,7 @@ import numpy as np
 from modules.oGL.base import Base
 from modules.renderer import Renderer
 from modules.objects import Scene, Camera, MovingMesh, AxesHelper, GridHelper, Group
+from modules.objects.lights import DirectionalLight
 from modules.geometry import (BoxGeometry,
                               SphereGeometry,
                               PyramidGeometry,
@@ -202,6 +203,8 @@ class Main(Base):
         cylinderMesh = MovingMesh(cylinderGeometry, cylinderMaterial)
         cylinderMesh.setPosition([-3.75, 1.75, -4])
         self.scene.add(cylinderMesh)
+        # Lights
+        self.scene.add(DirectionalLight(direction = vec(0, 0, 0)))
 
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""

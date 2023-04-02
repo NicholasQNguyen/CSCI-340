@@ -63,6 +63,11 @@ class AbstractParametric(AbstractGeometry):
         self.addAttribute("vec3", "vertexColor", colorData)
         self.countVertices()
 
+    def calcNormal(self, P0, P1, P2):
+        v1 = vec(*P1) - vec(*P0)
+        v2 = vec(*P2) - vec(*P0)
+        return normalize(np.cross(v1, v2))
+
 
 # Some parametric shapes
 class PlaneGeometry(AbstractParametric):
