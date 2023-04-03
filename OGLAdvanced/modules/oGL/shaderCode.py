@@ -107,8 +107,52 @@ lightCalcPhong = """
                 return startingColor;
             }
             
-            vec3 totalColor = startingColor;     
+            vec3 totalColor = startingColor; 
+            float diffuseValue;
+            float specularValue;
+            float attenuation;
+            vec3 lightDirection;
             
-            return light.color * totalColor;
+            if (light.lightType == 2)
+            {
+                lightDirection = normalize(light.direction);
+            }
+            else
+            {
+                // Calculate attenuation and light direction
+                lightDirection = normalize(pointPosition - light.position);
+                float distance = length(light.position - pointPosition);
+                attenuation = 1.0 / light.attenuation[0] + 
+                                    light.attenuation[1] * distance +
+                                    light.attenuation[2] * distance * distance;
+            }
+            // Normalize point normal and calculate diffuse value   
+            vec3 nPointNormal = normalize(pointNormal);
+            diffuseValue = max(dot(pointNormal, lightDirection), 0.0);
+            diffuseValue *= attenuation;
+            if (diffuseValue > 0)
+            {
+                // Calculate view direction
+                vec3 viewDirection = normalize(lightDirection);
+
+                // Calculate the reflected direction
+                vec3 reflectedDirection = normalize(reflect(viewDirection, pointNormal));
+
+                // Calculate the specular value
+                specularValue = max(dot(viewDirection, reflectedDirection), 0.0);
+
+                // Calculate final specular value 
+                specularValue = specularStrength * pow(specularValue, shininess);
+            }
+
+            // Calculate the total color increase for diffuse and
+            //    add it to total color
+            totalColor += (diffuse - totalColor) * diffuseValue;
+            // Calculate the total color increase for specular and
+            //    add it to total color
+            totalColor += (specular - totalColor) * specularValue;
+
+            // Return the total color times the light's color
+            return totalColor * light.color;
         }
 """

@@ -23,6 +23,7 @@ from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.materials.lambert import LambertMaterial
+from modules.materials.phong import PhongMaterial
 from modules.utils.vector import vec
 
 
@@ -88,7 +89,7 @@ class Main(Base):
         self.scene.add(mesh)
         # Box
         if self.materialType == "point":
-            material = LambertMaterial({"useVertexColors": True})
+            material = PhongMaterial({"useVertexColors": True})
         elif self.materialType == "line":
             material = LineMaterial({"useVertexColors": True})
         else:
