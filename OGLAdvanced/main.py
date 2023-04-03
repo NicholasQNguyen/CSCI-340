@@ -204,7 +204,7 @@ class Main(Base):
         cylinderMesh.setPosition([-3.75, 1.75, -4])
         self.scene.add(cylinderMesh)
         # Lights
-        self.scene.add(DirectionalLight(direction = vec(0, 0, 0)))
+        self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
 
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""
