@@ -136,7 +136,7 @@ lightCalcPhong = """
                 vec3 viewDirection = normalize(pointPosition - viewPosition);
 
                 // Calculate the reflected direction
-                vec3 reflectedDirection = normalize(reflect(viewDirection, pointNormal));
+                vec3 reflectedDirection = normalize(reflect(lightDirection, nPointNormal));
 
                 // Calculate the specular value
                 specularValue = max(dot(viewDirection, reflectedDirection), 0.0);
@@ -148,6 +148,7 @@ lightCalcPhong = """
             // Calculate the total color increase for diffuse and
             //    add it to total color
             totalColor += (diffuse - totalColor) * diffuseValue;
+
             // Calculate the total color increase for specular and
             //    add it to total color
             totalColor += (specular - totalColor) * specularValue;
