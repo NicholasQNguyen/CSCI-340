@@ -133,7 +133,7 @@ lightCalcPhong = """
             if (diffuseValue > 0)
             {
                 // Calculate view direction
-                vec3 viewDirection = normalize(lightDirection);
+                vec3 viewDirection = pointPosition - viewPosition;
 
                 // Calculate the reflected direction
                 vec3 reflectedDirection = normalize(reflect(viewDirection, pointNormal));
