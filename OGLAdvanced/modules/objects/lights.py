@@ -8,31 +8,16 @@ class Light(Object3D):
     DUMMY = 1
     DIRECTIONAL = 2
     POINT = 3
-
-    lightStruct = \
-    """
-    struct Light
-    {
-        int lightType;
-        vec3 color;
-        vec3 direction;
-        vec3 position;
-        vec3 attenuation;
-    };
-    uniform Light light0;
-    uniform Light light1;
-    uniform Light light2;
-    uniform Light light3;
-    """
-
     def __init__(self, color=vec(1, 1, 1),
                  attenuation=vec(1, 0, 0),
                  lightType=1):
         super().__init__()
         self.lightType = lightType
         self.color = vec(*color)
-        self.attentuation = vec(*attenuation)       
+        self.attenuation = vec(*attenuation)       
 
+    def getDirection(self):
+        return self.rotation
 
 class DirectionalLight(Light):
     def __init__(self, direction, color=vec(1, 1, 1)):
