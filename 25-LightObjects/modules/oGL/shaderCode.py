@@ -121,7 +121,7 @@ lightCalcPhong = """
             {
                 // Calculate attenuation and light direction
                 lightDirection = normalize(pointPosition - light.position);
-                float distance = length(light.position - pointPosition);
+                float distance = length(pointPosition - light.position);
                 attenuation = 1.0 / light.attenuation[0] + 
                                     light.attenuation[1] * distance +
                                     light.attenuation[2] * distance * distance;
@@ -133,7 +133,7 @@ lightCalcPhong = """
             if (diffuseValue > 0)
             {
                 // Calculate view direction
-                vec3 viewDirection = pointPosition - viewPosition;
+                vec3 viewDirection = normalize(pointPosition - viewPosition);
 
                 // Calculate the reflected direction
                 vec3 reflectedDirection = normalize(reflect(viewDirection, pointNormal));
