@@ -31,7 +31,7 @@ class Main(Base):
         
         
         geometry = SphereGeometry()
-        material = LambertMaterial({"useVertexColors" : False,
+        material = PhongMaterial({"useVertexColors" : False,
                                   "useFaceNormals" : True})
         self.mesh = Mesh(geometry, material)
         self.mesh.position =[0,0.5,-1]
