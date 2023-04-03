@@ -5,9 +5,54 @@ Code modified from
 """
 
 from .abstract import AbstractMaterial
+from ..objects.lights import Light
 
 class BasicMaterial(AbstractMaterial):
     """Contains basic shader codes."""
+
+    lightCalcLambert = \
+    """
+    vec3 lightCalc(Light light, vec3 startingColor, vec3 diffuse,
+                   vec3 pointPosition, vec3 pointNormal)
+    {
+        // Set initial values
+        vec3 totalColor = startingColor;
+        float lightAttenuation;
+        vec3 lightDirection;
+        float diffuseValue;
+
+        // Calculate attenuation and light direction
+        if (light.lightType == 1)
+        {
+            return startingColor;
+        }
+        else if (light.lightType == 2)
+        {
+            lightDirection = normalize(light.direction);
+        }
+        
+        else
+        {
+            lightDirection = normalize(light.position - pointPosition);
+            float a = light.attenuation[0];
+            float b = light.attenuation[1];
+            float c = light.attenuation[2];
+            float d = distance(pointPosition, light.position);
+            lightAttenuation = 1 / (a + (b * d) + (c * d * d));
+        }
+        // Normalize point normal and calculate diffuse value 
+        vec3 nPointNormal = normalize(pointNormal);
+        diffuseValue = max(dot(nPointNormal, lightDirection), 0.0); 
+        diffuseValue *= lightAttenuation;
+
+        // Calculate the total color increase for diffuse and
+        //    add it to total color
+        totalColor += (diffuse - totalColor) * diffuseValue;
+
+        // Return the total color times the light's color
+        return totalColor * light.color;
+    }
+    """
     
     def __init__(self):
         vertexShaderCode = """
@@ -45,7 +90,10 @@ class BasicMaterial(AbstractMaterial):
             }
         }
         """
-        fragmentShaderCode = """
+        fragmentShaderCode = \
+        Light.lightStruct + \
+        self.lightCalcLambert + \
+        """
         uniform vec3 baseColor;
         uniform bool useVertexColors;
         in vec3 color;

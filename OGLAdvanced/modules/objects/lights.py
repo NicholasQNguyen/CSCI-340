@@ -9,7 +9,7 @@ class Light(Object3D):
     DIRECTIONAL = 2
     POINT = 3
 
-    glslCode = \
+    lightStruct = \
     """
     struct Light
     {
@@ -18,7 +18,7 @@ class Light(Object3D):
         vec3 direction;
         vec3 position;
         vec3 attenuation;
-    }
+    };
     uniform Light light0;
     uniform Light light1;
     uniform Light light2;
