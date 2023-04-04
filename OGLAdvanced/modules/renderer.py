@@ -11,17 +11,17 @@ from .objects.lights import Light
 
 class Renderer(object):
     """Handles the rendering of all meshes in the scene."""
-    
     def __init__(self, clearColor=[0,0,0]):
-        
         glEnable( GL_DEPTH_TEST )
         
-        # Required for antialiasing
         glEnable( GL_MULTISAMPLE )
-        glClearColor(clearColor[0], clearColor[1], clearColor[2], 1)
-    
-    def render(self, scene, camera, renderTarget=None):
+        glClearColor(clearColor[0], clearColor[1],
+                     clearColor[2], 1)
         
+        glEnable(GL_BLEND)
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+
+    def render(self, scene, camera, renderTarget=None):
         # Extract list of all Mesh objects in scene
         descendantList = scene.getDescendantList()        
         meshList = [x for x in descendantList if isinstance(x, Mesh)]
