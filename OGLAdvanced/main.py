@@ -76,7 +76,7 @@ class Main(Base):
         self.scene.add(floorMesh)
         # Purple Pyramid
         if self.materialType == "point":
-            material = LambertMaterial({"useVertexColors": True})
+            material = PhongMaterial({"useVertexColors": True})
         elif self.materialType == "line":
             material = LineMaterial({"useVertexColors": True})
         else:

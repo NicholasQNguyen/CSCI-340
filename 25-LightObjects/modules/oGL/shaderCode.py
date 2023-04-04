@@ -90,7 +90,8 @@ lightCalcLambert = """
         }
 """
 
-lightCalcPhong = """
+lightCalcPhong = \
+        """
         uniform vec3 viewPosition;
         uniform float specularStrength;
         uniform float shininess;
@@ -110,14 +111,14 @@ lightCalcPhong = """
             vec3 totalColor = startingColor; 
             float diffuseValue;
             float specularValue;
-            float attenuation;
+            float attenuation = 1.0;
             vec3 lightDirection;
             
             if (light.lightType == 2)
             {
                 lightDirection = normalize(light.direction);
             }
-            else
+            else if (light.lightType == 3)
             {
                 // Calculate attenuation and light direction
                 lightDirection = normalize(pointPosition - light.position);
@@ -127,7 +128,7 @@ lightCalcPhong = """
                                     light.attenuation[2] * distance * distance;
             }
             // Normalize point normal and calculate diffuse value   
-            vec3 nPointNormal = normalize(pointNormal);
+            pointNormal = normalize(pointNormal);
             diffuseValue = max(dot(pointNormal, lightDirection), 0.0);
             diffuseValue *= attenuation;
             if (diffuseValue > 0)
@@ -136,7 +137,7 @@ lightCalcPhong = """
                 vec3 viewDirection = normalize(pointPosition - viewPosition);
 
                 // Calculate the reflected direction
-                vec3 reflectedDirection = normalize(reflect(lightDirection, nPointNormal));
+                vec3 reflectedDirection = normalize(reflect(lightDirection, pointNormal));
 
                 // Calculate the specular value
                 specularValue = max(dot(viewDirection, reflectedDirection), 0.0);

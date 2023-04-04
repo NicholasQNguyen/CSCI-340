@@ -121,22 +121,22 @@ lightCalcPhong = """
             {
                 // Calculate attenuation and light direction
                 lightDirection = normalize(pointPosition - light.position);
-                float distance = length(light.position - pointPosition);
+                float distance = length(pointPosition - light.position);
                 attenuation = 1.0 / light.attenuation[0] + 
                                     light.attenuation[1] * distance +
                                     light.attenuation[2] * distance * distance;
             }
             // Normalize point normal and calculate diffuse value   
             vec3 nPointNormal = normalize(pointNormal);
-            diffuseValue = max(dot(pointNormal, lightDirection), 0.0);
+            diffuseValue = max(dot(nPointNormal, lightDirection), 0.0);
             diffuseValue *= attenuation;
             if (diffuseValue > 0)
             {
                 // Calculate view direction
-                vec3 viewDirection = normalize(lightDirection);
+                vec3 viewDirection = normalize(pointPosition - viewPosition);
 
                 // Calculate the reflected direction
-                vec3 reflectedDirection = normalize(reflect(viewDirection, pointNormal));
+                vec3 reflectedDirection = normalize(reflect(lightDirection, nPointNormal));
 
                 // Calculate the specular value
                 specularValue = max(dot(viewDirection, reflectedDirection), 0.0);
@@ -148,6 +148,7 @@ lightCalcPhong = """
             // Calculate the total color increase for diffuse and
             //    add it to total color
             totalColor += (diffuse - totalColor) * diffuseValue;
+
             // Calculate the total color increase for specular and
             //    add it to total color
             totalColor += (specular - totalColor) * specularValue;
