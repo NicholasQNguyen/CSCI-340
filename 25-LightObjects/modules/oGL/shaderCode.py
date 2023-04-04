@@ -109,8 +109,8 @@ lightCalcPhong = \
             }
             
             vec3 totalColor = startingColor; 
-            float diffuseValue;
-            float specularValue;
+            float diffuseValue = 0.0;
+            float specularValue = 0.0;
             float attenuation = 1.0;
             vec3 lightDirection;
             
