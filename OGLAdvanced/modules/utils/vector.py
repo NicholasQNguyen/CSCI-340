@@ -78,10 +78,13 @@ def posDot(v,w):
     return max(0.0, dot)
 
 
-def calcNormal(P0, P1, P2):
+def calcNormal(P0, P1, P2, reversedN):
     v1 = vec(*P1) - vec(*P0)
     v2 = vec(*P2) - vec(*P0)
-    normal = np.cross(v1,v2)
+    if not reversedN:
+        normal = np.cross(v1,v2)
+    else:
+        normal = np.cross(v2,v1)
     normal = normalize(normal)
     return normal
 

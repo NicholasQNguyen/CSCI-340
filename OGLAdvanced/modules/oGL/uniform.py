@@ -32,6 +32,16 @@ class Uniform(object):
                                             variableName + ".position")
             self.variableRef["attenuation"]=glGetUniformLocation(programRef,
                                             variableName + ".attenuation")
+        elif self.dataType == "sampler2D":
+            textureObjectRef, textureUnitRef = self.data
+            # activate texture unit
+            glActiveTexture(GL_TEXTURE0 + textureUnitRef)
+            # associate texture object reference to currently
+            # active texture unit
+            glBindTexture(GL_TEXTURE_2D, textureObjectRef)
+            # upload texture unit number (0...15) to
+            # uniform variable in shader
+            glUniform1i(self.variableRef, textureUnitRef)
         else:
             self.variableRef = glGetUniformLocation(programRef,
                                                     variableName)

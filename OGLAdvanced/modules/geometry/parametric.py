@@ -20,8 +20,8 @@ class AbstractParametric(AbstractGeometry):
        of detail."""
        
     def __init__(self, uStart, uEnd, uResolution,
-                       vStart, vEnd, vResolution,
-                       surfaceFunction):
+                 vStart, vEnd, vResolution,
+                 surfaceFunction, reversedN=False):
         super().__init__()
         
         # Generate set of points based on the function
@@ -44,7 +44,7 @@ class AbstractParametric(AbstractGeometry):
                 P0 = surfaceFunction(u,       v)
                 P1 = surfaceFunction(u+0.001, v)
                 P2 = surfaceFunction(u,       v+0.001)
-                normal = calcNormal(P0, P1, P2)
+                normal = calcNormal(P0, P1, P2, reversedN)
                     
                 nArray.append(normal)
                 
@@ -99,8 +99,8 @@ class AbstractParametric(AbstractGeometry):
                 
                 # face normal vectors
                    
-                fn0 = calcNormal(pA, pB, pC)
-                fn1 = calcNormal(pA, pC, pD)
+                fn0 = calcNormal(pA, pB, pC, reversedN)
+                fn1 = calcNormal(pA, pC, pD, reversedN)
                 faceNormalData += [fn0,fn0,fn0, fn1,fn1,fn1]
                 
                 # uv coordinates
