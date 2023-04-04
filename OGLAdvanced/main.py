@@ -26,6 +26,7 @@ from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.materials.lambert import LambertMaterial
 from modules.materials.phong import PhongMaterial
+from modules.materials.mountainMaterial import MountainMaterial
 from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
 
@@ -70,19 +71,14 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # Floor
-        if self.materialType == "point":
-            floorMaterial = PointMaterial({"useVertexColors": True})
-        elif self.materialType == "line":
-            floorMaterial = LineMaterial({"useVertexColors": True})
-        else:
-            floorMaterial = SurfaceMaterial({"useVertexColors": True})
+        floorMaterial = MountainMaterial({"useVertexColors" : True})
         floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
         # Box
-        material = PhongMaterial({"useVertexColors": True})
+        material = PhongMaterial({"useVertexColors": False})
         geometry = BoxGeometry(width=3, height=3, depth=3)
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(1, 0, 0))
@@ -100,8 +96,8 @@ class Main(Base):
         self.scene.add(self.mesh)
         # Image Sphere
         geometry = SphereGeometry()
-        material = ImageMaterial(JEWELS, {"useVertexColors" : False,
-                                 "useFaceNormals" : True})
+        material = ImageMaterial(JEWELS, {"useVertexColors" : True,
+                                         "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
