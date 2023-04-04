@@ -3,13 +3,17 @@ Author: Liz Matthews
 Code modified from
   https://medium.com/swlh/ray-tracing-from-scratch-in-python-41670e6a96f9
 """
+import numpy as np
+import random
 
 from . import AbstractGeometry, PolygonGeometry
 from ..utils.matrix import Matrix
 from ..utils.vector import normalize, vec, calcNormal
 from ..utils.definitions import EPSILON, safeMultiply
+from ..utils.noise import NoisePatterns, NoiseMachine
 
-import numpy as np
+NOISE_PATTERNS = NoisePatterns.getInstance()
+noiseMachine = NoiseMachine(seed=random.randint(0, 5000))
 
 
 class AbstractParametric(AbstractGeometry):
@@ -18,7 +22,6 @@ class AbstractParametric(AbstractGeometry):
        of the shape. *Start, *End, and *Resolution define
        how much of the shape is created and at what level
        of detail."""
-       
     def __init__(self, uStart, uEnd, uResolution,
                  vStart, vEnd, vResolution,
                  surfaceFunction, reversedN=False):
@@ -127,6 +130,17 @@ class PlaneGeometry(AbstractParametric):
         def S(u,v):
             return [u, v, 0]
         
+        super().__init__(-width/2, width/2,
+                         widthSegments,
+                         -height/2, height/2,
+                         heightSegments, S)
+
+class NoisePlaneGeometry(AbstractParametric):
+    def __init__(self, width=1, height=1,
+                 widthSegments=8, heightSegments=8):
+        def S(u,v):
+            return [u, v, noiseMachine.noise2d(u, v)]
+
         super().__init__(-width/2, width/2,
                          widthSegments,
                          -height/2, height/2,

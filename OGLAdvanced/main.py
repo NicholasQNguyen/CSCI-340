@@ -18,7 +18,8 @@ from modules.geometry import (BoxGeometry,
                               PyramidGeometry,
                               RectangleGeometry,
                               PolygonGeometry,
-                              CylinderGeometry)
+                              CylinderGeometry,
+                              NoisePlaneGeometry)
 from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
                                          purple, blue)
 from modules.movementRig import MovementRig
@@ -29,6 +30,8 @@ from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
 
 BRICKS = "resources/images/bricks.png"
+CIRCLES = "resources/images/circles.png"
+JEWELS = "resources/images/jewels.png"
 
 
 class Main(Base):
@@ -73,7 +76,7 @@ class Main(Base):
             floorMaterial = LineMaterial({"useVertexColors": True})
         else:
             floorMaterial = SurfaceMaterial({"useVertexColors": True})
-        floorGeometry = RectangleGeometry(width=30, height=30)
+        floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
@@ -97,8 +100,8 @@ class Main(Base):
         self.scene.add(self.mesh)
         # Image Sphere
         geometry = SphereGeometry()
-        material = ImageMaterial(BRICKS, {"useVertexColors" : False,
-                                  "useFaceNormals" : True})
+        material = ImageMaterial(JEWELS, {"useVertexColors" : False,
+                                 "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
