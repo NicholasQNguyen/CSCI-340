@@ -74,34 +74,25 @@ class Main(Base):
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
-        # Purple Pyramid
-        if self.materialType == "point":
-            material = PhongMaterial({"useVertexColors": True})
-        elif self.materialType == "line":
-            material = LineMaterial({"useVertexColors": True})
-        else:
-            material = LambertMaterial({"useVertexColors": True})
-        geometry = PyramidGeometry(colorFunction=purple)
-        mesh = MovingMesh(geometry, material)
-        mesh.setRotVel(vec(0.0337, 0.0514, 0))
-        mesh.setRotationalSpeed(2)
-        mesh.setPosition([0, 1, -4])
-        self.scene.add(mesh)
         # Box
-        if self.materialType == "point":
-            material = PhongMaterial({"useVertexColors": True})
-        elif self.materialType == "line":
-            material = LineMaterial({"useVertexColors": True})
-        else:
-            material = LambertMaterial({"useVertexColors": True})
+        material = PhongMaterial({"useVertexColors": True})
         geometry = BoxGeometry(width=3, height=3, depth=3)
         mesh = MovingMesh(geometry, material)
-        mesh.setRotVel(vec(0, 1, 0))
-        mesh.setRotationalSpeed(4)
-        mesh.setPosition([0, 0, 0])
+        mesh.setRotVel(vec(1, 0, 0))
+        mesh.setRotationalSpeed(2)
+        mesh.setPosition([4, 0, 0])
         self.scene.add(mesh)
+        # Sphere
+        geometry = SphereGeometry()
+        material = PhongMaterial({"useVertexColors" : False,
+                                  "useFaceNormals" : True})
+        self.mesh = MovingMesh(geometry, material)
+        self.mesh.setRotVel(vec(1, 0, 0))
+        self.mesh.setRotationalSpeed(2)
+        self.mesh.position =[0,0,0]
+        self.scene.add(self.mesh)
         # Lights
-        self.scene.add(DirectionalLight(direction = vec(0, -1, 0)))
+        self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
 
     def update(self):
         """Most of the work is in scene, rig, and renderer!"""

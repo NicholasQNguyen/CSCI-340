@@ -8,6 +8,37 @@ import numpy as np
 from math import sqrt
 from .definitions import EPSILON
 
+
+
+def rot3D(vector, xAngle, yAngle, zAngle):
+    return rotZ(rotY(rotX(vector,
+                          xAngle),
+                     yAngle),
+                zAngle)
+def rot3DInv(vector, xAngle, yAngle, zAngle):
+    return rotX(rotY(rotZ(vector,
+                          -zAngle),
+                     -yAngle),
+                -xAngle)
+
+def rotX(vector, theta):
+    x,y,z = vector
+    return vec(x,
+               y*np.cos(theta) - z*np.sin(theta),
+               y*np.sin(theta) + z*np.cos(theta))
+
+def rotY(vector, theta):
+    x,y,z = vector
+    return vec(x*np.cos(theta) - z*np.sin(theta),
+               y,
+               x*np.sin(theta) + z*np.cos(theta))
+
+def rotZ(vector, theta):
+    x,y,z = vector
+    return vec(x*np.cos(theta) - y*np.sin(theta),
+               x*np.sin(theta) + y*np.cos(theta),
+               z)
+
 def magnitude(vector):    
     """Give the magnitude of a vector."""
     return np.linalg.norm(vector)
@@ -18,6 +49,10 @@ def normalize(vector):
     if mag == 0.0:
         return vec(1,0,0)
     return vector / mag
+
+def reflected(vector, normal):
+    """Reflect vector about normal."""
+    return vector - 2 * np.dot(vector, normalize(normal)) * normalize(normal)
 
 def lerp(a, b, percent):
     """Linearly interpolate between a and b given a percent."""
@@ -42,6 +77,13 @@ def posDot(v,w):
     dot = np.dot(v,w)
     return max(0.0, dot)
 
+
+def calcNormal(P0, P1, P2):
+    v1 = vec(*P1) - vec(*P0)
+    v2 = vec(*P2) - vec(*P0)
+    normal = np.cross(v1,v2)
+    normal = normalize(normal)
+    return normal
 
 if __name__ == '__main__':
     print(getConeAbout(vec(0,1,0), np.pi / 4, 2))
