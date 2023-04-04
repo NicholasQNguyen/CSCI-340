@@ -15,6 +15,8 @@ class PhongMaterial(AbstractMaterial):
         fShaderCode = lightStruct + lightCalcPhong + """
         uniform float ambMul; 
         uniform float specMul;
+        uniform float alpha;
+        uniform bool shaded;
         in vec3 position;
         in vec3 normal;
         in vec3 color;
@@ -33,7 +35,7 @@ class PhongMaterial(AbstractMaterial):
             total = lightCalc(light3, total, color, specular,
                               position, normal);
             
-            fragColor = vec4(total, 1);
+            fragColor = vec4(total, alpha);
         }
         """
         
@@ -49,8 +51,10 @@ class PhongMaterial(AbstractMaterial):
         self.addUniform("float", "specMul", 1.5)
         self.addUniform("float", "specularStrength", 1)
         self.addUniform("float", "shininess", 300)
+        self.addUniform("float", "alpha", 1.0)
         self.addUniform("bool", "useFaceNormals", False)
         self.addUniform("bool", "useVertexColors", False)
+        self.addUniform("bool", "shaded", False)
         
         self.locateUniforms()
         
