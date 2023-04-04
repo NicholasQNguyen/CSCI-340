@@ -1,7 +1,13 @@
+import pygame
+import numpy as np
+
+from ..oGL.openGLUtils import OpenGLUtils
+from ..oGL.uniform import Uniform
+from OpenGL.GL import *
+
 class Texture(object):
-    def __init__(self, fileName=None, properties={}):
-        self.surface = None
-        
+    def __init__(self, fileName=None, properties={},
+                 surface = None):
         self.textureRef = glGenTextures(1)
         
         self.properties = {

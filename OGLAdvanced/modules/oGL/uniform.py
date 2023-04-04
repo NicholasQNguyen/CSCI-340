@@ -13,6 +13,7 @@ class Uniform(object):
         #  int | bool | float | vec2 | vec3 | vec4 | mat4
         self.dataType = dataType
         
+        print("DATA", data)
         self.data = data
         
         self.variableRef = None

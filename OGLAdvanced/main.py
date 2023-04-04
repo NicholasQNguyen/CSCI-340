@@ -7,6 +7,7 @@ Code modified from Developing Graphics Frameworks
 import pygame
 from pygame.locals import *
 import numpy as np
+import pathlib
 
 from modules.oGL.base import Base
 from modules.renderer import Renderer
@@ -24,7 +25,10 @@ from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.materials.lambert import LambertMaterial
 from modules.materials.phong import PhongMaterial
+from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
+
+BRICKS = "resources/images/bricks.png"
 
 
 class Main(Base):
@@ -90,6 +94,15 @@ class Main(Base):
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[0,0,0]
+        self.scene.add(self.mesh)
+        # Image Sphere
+        geometry = SphereGeometry()
+        material = ImageMaterial(BRICKS, {"useVertexColors" : False,
+                                  "useFaceNormals" : True})
+        self.mesh = MovingMesh(geometry, material)
+        self.mesh.setRotVel(vec(1, 0, 0))
+        self.mesh.setRotationalSpeed(2)
+        self.mesh.position =[-4,0,0]
         self.scene.add(self.mesh)
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
