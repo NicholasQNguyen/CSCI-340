@@ -96,7 +96,7 @@ imageFragmentShader = \
                 vec4 tColor = texture2D(texture, UV);
                 if (tColor.z < 0.01)
                 {
-                    discard;
+                    // discard;
                 }
                 diffuse *= tColor.rgb;
             }

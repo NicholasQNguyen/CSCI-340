@@ -106,7 +106,7 @@ class Main(Base):
         # Image Sphere
         geometry = BoxGeometry()
         material = ImageMaterial(BRICKS, {"useVertexColors" : True,
-                                         "useFaceNormals" : True})
+                                          "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 1, 0))
         self.mesh.setRotationalSpeed(1)
