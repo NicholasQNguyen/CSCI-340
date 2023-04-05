@@ -25,13 +25,26 @@ class MountainMaterial(AbstractMaterial):
         vec3(0.90196078, 0.90196078, 0.98039216),
         vec3(1.0,        1.0,        1.0)
         );
+        /*
+        const vec3 colors[] = vec3[](
+        vec3(0.5,        0.0,        0.5),
+        vec3(0.5, 0.0, 0.5),
+        vec3(0.5,        0.0, 0.5       ),
+        vec3(0.5,        0.0, 0.5       ),
+        vec3(0.5, 0.0, 0.5 ),
+        vec3(0.5, 0.0, 0.5),
+        vec3(0.5,        0.0,        0.5)
+        );
+        */
         const float split = 0.3;
         uniform float ambMul; 
         uniform float specMul;
         uniform float maxHeight;
         uniform float minHeight;
+        uniform float alpha;
         in vec3 position;
         in vec3 normal;
+        in vec3 color;
         out vec4 fragColor;
         void main()
         {
@@ -53,7 +66,19 @@ class MountainMaterial(AbstractMaterial):
                 index += startIndex;
                 diffuse = mix(colors[index], colors[index+1], newPercent);
             }
-            fragColor = vec4(diffuse, 1);
+            // fragColor = vec4(diffuse, 1);
+            vec3 specular = (diffuse + vec3(0.1,0.1,0.1)) * specMul;
+            vec3 total =  diffuse * ambMul;
+            total = lightCalc(light0, total, diffuse, specular,
+                              position, normal);
+            total = lightCalc(light1, total, diffuse, specular,
+                              position, normal);
+            total = lightCalc(light2, total, diffuse, specular,
+                              position, normal);
+            total = lightCalc(light3, total, color, specular,
+                              position, normal);
+            
+            fragColor = vec4(total, alpha);
         }
         """
         super().__init__(vertexShaderCode, fragmentShaderCode)
@@ -66,5 +91,6 @@ class MountainMaterial(AbstractMaterial):
         self.addUniform("float", "specMul", 1.5)
         self.addUniform("float", "maxHeight", 1)
         self.addUniform("float", "minHeight", 300)
+        self.addUniform("float", "alpha", 1.0)
         self.locateUniforms()
  

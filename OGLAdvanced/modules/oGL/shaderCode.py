@@ -33,7 +33,6 @@ vertexShaderWithNormals = """
                 color *= vertexColor;
                 }
             UV = vertexUV * repeatUV + offsetUV;
-   
         }
         
 """
