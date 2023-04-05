@@ -44,7 +44,6 @@ class MountainMaterial(AbstractMaterial):
         uniform float alpha;
         in vec3 position;
         in vec3 normal;
-        in vec3 color;
         out vec4 fragColor;
         void main()
         {
@@ -75,7 +74,7 @@ class MountainMaterial(AbstractMaterial):
                               position, normal);
             total = lightCalc(light2, total, diffuse, specular,
                               position, normal);
-            total = lightCalc(light3, total, color, specular,
+            total = lightCalc(light3, total, diffuse, specular,
                               position, normal);
             
             fragColor = vec4(total, alpha);
@@ -93,4 +92,13 @@ class MountainMaterial(AbstractMaterial):
         self.addUniform("float", "minHeight", 300)
         self.addUniform("float", "alpha", 1.0)
         self.locateUniforms()
+
+        # Render both sides? default: both side only
+        # Vertices ordered counterclockwise
+        self.settings["doubleSide"] = True
  
+    def updateRenderSettings(self):
+        if self.settings["doubleSide"]:
+            glDisable(GL_CULL_FACE)
+        else:
+            glEnable(GL_CULL_FACE)
