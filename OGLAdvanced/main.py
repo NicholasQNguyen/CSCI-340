@@ -96,12 +96,21 @@ class Main(Base):
         self.scene.add(self.mesh)
         # Image Sphere
         geometry = SphereGeometry()
-        material = ImageMaterial(JEWELS, {"useVertexColors" : True,
+        material = ImageMaterial(BRICKS, {"useVertexColors" : True,
                                          "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[-4,0,0]
+        self.scene.add(self.mesh)
+        # Image Sphere
+        geometry = BoxGeometry()
+        material = ImageMaterial(BRICKS, {"useVertexColors" : True,
+                                         "useFaceNormals" : True})
+        self.mesh = MovingMesh(geometry, material)
+        self.mesh.setRotVel(vec(1, 1, 0))
+        self.mesh.setRotationalSpeed(1)
+        self.mesh.position =[0, 4,0]
         self.scene.add(self.mesh)
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
