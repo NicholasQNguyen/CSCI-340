@@ -1,32 +1,72 @@
+"""
+Author: Liz Matthews
+"""
+
 from .abstract import AbstractMaterial
-from .texture import Texture
-from ..oGL.shaderCode import lightCalcPhong, lightStruct, vertexShaderWithNormals, imageVertexShader, imageFragmentShader
+from ..oGL.shaderCode import lightCalcLambert, lightStruct, vertexShaderWithNormals
 from OpenGL.GL import *
 
 class ImageMaterial(AbstractMaterial):
-    """Contains basic shader codes."""
     def __init__(self, texture=None, properties={}):
-        self.texture = Texture(texture)
+        vShaderCode = """
+        uniform mat4 projectionMatrix;
+        uniform mat4 viewMatrix;
+        uniform mat4 modelMatrix;
+        in vec3 vertexPosition; 
+        in vec2 vertexUV;
+        out vec2 UV;
+        void main() {
+            gl_Position = projectionMatrix * viewMatrix *
+                          modelMatrix * vec4(vertexPosition, 1);
+                
+            UV = vertexUV;
+        }
+     
+        """
+        fShaderCode = """
         
-        vertexShaderCode = \
-        imageVertexShader
-
-        fragmentShaderCode = \
-        lightStruct + lightCalcPhong + imageFragmentShader
-
-        super().__init__(vertexShaderCode, fragmentShaderCode)
-        self.addUniform("Light", "light0", None )
-        self.addUniform("Light", "light1", None )
-        self.addUniform("Light", "light2", None )
-        self.addUniform("Light", "light3", None )        
-        self.addUniform("vec3", "baseColor", [1.0, 1.0, 1.0])
-        self.addUniform("vec3", "viewPosition", [0,0,0])
-        self.addUniform("bool", "useUVColors", True) 
-        self.addUniform("float", "ambMul", 0.3)
-        self.addUniform("float", "specMul", 1.5)
-        self.addUniform("float", "specularStrength", 1)
-        self.addUniform("float", "shininess", 300)
-        self.addUniform("bool", "useFaceNormals", False)
-        self.addUniform("bool", "useVertexColors", False)
+        uniform sampler2D texture;
+        in vec2 UV;
+        out vec4 fragColor;
+        void main()
+        {
+            vec4 diffuse = texture2D(texture, UV);
+            if (diffuse.a < 0.01)
+                discard;
+            
+            fragColor = diffuse;
+        }
+        """
+        
+        super().__init__(vShaderCode, fShaderCode)
+        
+        self.addUniform("sampler2D", "texture", [texture.textureRef, 1])
+        
         self.locateUniforms()
-        self.texture.uploadData()
+        
+        # Render vertices as surface
+        self.settings["drawStyle"] = GL_TRIANGLES
+        
+        # Render both sides? default: front side only
+        # Vertices ordered counterclockwise
+        self.settings["doubleSide"] = True
+        
+        # Render triangles as wireframe?
+        self.settings["wireframe"] = False
+        
+        # Line thickness for wireframe rendering
+        self.settings["lineWidth"] = 1
+        self.setProperties(properties)
+        
+    def updateRenderSettings(self):
+        if self.settings["doubleSide"]:
+            glDisable(GL_CULL_FACE)
+        else:
+            glEnable(GL_CULL_FACE)
+            
+        if self.settings["wireframe"]:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE)
+        else:
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL)
+        
+        glLineWidth(self.settings["lineWidth"])  

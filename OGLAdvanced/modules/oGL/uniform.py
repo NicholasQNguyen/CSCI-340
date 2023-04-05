@@ -12,9 +12,7 @@ class Uniform(object):
         # type of data:
         #  int | bool | float | vec2 | vec3 | vec4 | mat4
         self.dataType = dataType
-        
         self.data = data
-        
         self.variableRef = None
     
     def locateVariable(self, programRef, variableName):

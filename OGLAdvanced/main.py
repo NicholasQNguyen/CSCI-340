@@ -29,6 +29,7 @@ from modules.materials.phong import PhongMaterial
 from modules.materials.mountainMaterial import MountainMaterial
 from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
+from modules.texture import Texture
 
 BRICKS = "resources/images/bricks.png"
 CIRCLES = "resources/images/circles.png"
@@ -103,7 +104,7 @@ class Main(Base):
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[-4,0,0]
         self.scene.add(self.mesh)
-        # Image Sphere
+        # Image box
         geometry = BoxGeometry()
         material = ImageMaterial(BRICKS, {"useVertexColors" : True,
                                           "useFaceNormals" : True})
