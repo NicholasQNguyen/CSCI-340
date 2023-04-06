@@ -7,7 +7,7 @@ Code modified from Developing Graphics Frameworks
 import pygame
 from pygame.locals import *
 import numpy as np
-import pathlib
+import os
 
 from modules.oGL.base import Base
 from modules.renderer import Renderer
@@ -31,9 +31,10 @@ from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
 from modules.texture import Texture
 
-BRICKS_PATH = "resources/images/bricks.png"
-CIRCLES_PATH = "resources/images/circles.png"
-JEWELS_PATH = "resources/images/jewels.png"
+IMAGE_FOLDER = "resources/images"
+BRICKS_PATH = os.path.join(IMAGE_FOLDER, "bricks.png")
+CIRCLES_PATH = os.path.join(IMAGE_FOLDER, "circles.png")
+JEWELS_PATH = os.path.join(IMAGE_FOLDER, "jewels.png")
 BRICKS = Texture(BRICKS_PATH)
 CIRCLES = Texture(CIRCLES_PATH)
 JEWELS = Texture(JEWELS_PATH)
