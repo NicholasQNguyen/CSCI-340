@@ -100,8 +100,8 @@ class Main(Base):
         self.scene.add(self.mesh)
         # Image Sphere
         geometry = SphereGeometry()
-        material = ImageMaterial(BRICKS, {"useVertexColors" : True,
-                                         "useFaceNormals" : True})
+        material = ImageMaterial(BRICKS)
+                                      
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
@@ -109,8 +109,7 @@ class Main(Base):
         self.scene.add(self.mesh)
         # Image box
         geometry = BoxGeometry()
-        material = ImageMaterial(BRICKS, {"useVertexColors" : True,
-                                          "useFaceNormals" : True})
+        material = ImageMaterial(BRICKS)
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 1, 0))
         self.mesh.setRotationalSpeed(1)

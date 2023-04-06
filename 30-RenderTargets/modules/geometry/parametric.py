@@ -21,7 +21,8 @@ class AbstractParametric(AbstractGeometry):
     def __init__(self, uStart, uEnd, uResolution,
                        vStart, vEnd, vResolution,
                        surfaceFunction,
-                       colorFunction=None):
+                       colorFunction=None,
+                       reversedNormals=False):
         super().__init__()
         
         # Generate set of points based on the function

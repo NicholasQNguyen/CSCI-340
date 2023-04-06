@@ -67,7 +67,7 @@ class Main(Base):
         mesh2 = Mesh(sphere, imageMat)
         mesh.setRotateX(-0.5 * np.pi)
         mesh.setPosition(vec(0,-0.2,0))
-        mesh2.setPosition(vec(0,2,0))
+        mesh2.setPosition(vec(0,0,0))
         self.scene.add(mesh)
         self.scene.add(mesh2)
         
