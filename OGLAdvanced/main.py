@@ -31,9 +31,12 @@ from modules.materials.imageMaterial import ImageMaterial
 from modules.utils.vector import vec
 from modules.texture import Texture
 
-BRICKS = "resources/images/bricks.png"
-CIRCLES = "resources/images/circles.png"
-JEWELS = "resources/images/jewels.png"
+BRICKS_PATH = "resources/images/bricks.png"
+CIRCLES_PATH = "resources/images/circles.png"
+JEWELS_PATH = "resources/images/jewels.png"
+BRICKS = Texture(BRICKS_PATH)
+CIRCLES = Texture(CIRCLES_PATH)
+JEWELS = Texture(JEWELS_PATH)
 
 
 class Main(Base):
