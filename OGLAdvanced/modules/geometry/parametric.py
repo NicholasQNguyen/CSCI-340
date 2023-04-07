@@ -146,6 +146,17 @@ class NoisePlaneGeometry(AbstractParametric):
                          -height/2, height/2,
                          heightSegments, S)
 
+class WobblyGeometry(AbstractParametric):
+    def __init__(self, width=1, height=1,
+                 widthSegments=8, heightSegments=8):
+        def S(u,v):
+            return [u, v, u**2 - v**2]
+
+        super().__init__(-width/2, width/2,
+                         widthSegments,
+                         -height/2, height/2,
+                         heightSegments, S)
+
 class EllipsoidGeometry(AbstractParametric):
     def __init__(self, width=1, height=1, depth=1,
              radiusSegments=32, heightSegments=16,

@@ -34,7 +34,6 @@ class PhongMaterial(AbstractMaterial):
                               position, normal);
             total = lightCalc(light3, total, color, specular,
                               position, normal);
-            
             fragColor = vec4(total, alpha);
         }
         """
@@ -59,7 +58,7 @@ class PhongMaterial(AbstractMaterial):
         self.addUniform("float", "alpha", 1.0)
         self.addUniform("bool", "useFaceNormals", False)
         self.addUniform("bool", "useVertexColors", False)
-        self.addUniform("bool", "shaded", False)
+        self.addUniform("bool", "shaded", True)
         
         self.locateUniforms()
         

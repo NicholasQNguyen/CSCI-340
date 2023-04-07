@@ -18,6 +18,7 @@ from modules.geometry import (BoxGeometry,
                               PyramidGeometry,
                               RectangleGeometry,
                               PolygonGeometry,
+                              WobblyGeometry,
                               CylinderGeometry,
                               NoisePlaneGeometry)
 from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
@@ -104,7 +105,6 @@ class Main(Base):
         # Image Sphere
         geometry = SphereGeometry()
         material = ImageMaterial(BRICKS)
-                                      
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
@@ -117,6 +117,15 @@ class Main(Base):
         self.mesh.setRotVel(vec(1, 1, 0))
         self.mesh.setRotationalSpeed(1)
         self.mesh.position =[4, 3, 0]
+        self.scene.add(self.mesh)
+        # Wobbly thing
+        geometry = WobblyGeometry()
+        material = PhongMaterial({"useVertexColors" : False,
+                                  "useFaceNormals" : True})
+        self.mesh = MovingMesh(geometry, material)
+        self.mesh.setRotVel(vec(0, 0, 0))
+        self.mesh.setRotationalSpeed(2)
+        self.mesh.position =[2,3,0]
         self.scene.add(self.mesh)
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
