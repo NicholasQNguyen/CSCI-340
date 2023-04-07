@@ -67,7 +67,7 @@ class Main(Base):
         self.rig.add(self.camera)
 
         # The following does not work until part 2 is completed
-        self.rig.setPosition([1, 1, 4])
+        self.rig.setPosition([1, 6, 4])
         self.scene.add(self.rig)
         axes = AxesHelper(axisLength=2)
         self.scene.add(axes)
