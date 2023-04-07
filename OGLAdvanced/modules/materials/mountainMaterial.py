@@ -99,7 +99,7 @@ class MountainMaterial(AbstractMaterial):
                               position, normal);
             total = lightCalc(light3, total, diffuse, specular,
                               position, normal);
-            fragColor = vec4(total, alpha);
+            // fragColor = vec4(total, alpha);
         }
         """
         super().__init__(vertexShaderCode, fragmentShaderCode)
@@ -110,7 +110,7 @@ class MountainMaterial(AbstractMaterial):
         self.addUniform("bool", "useFaceNormals", False)        
         self.addUniform("float", "ambMul", 0.3)
         self.addUniform("float", "specMul", 1.5)
-        self.addUniform("float", "maxHeight", 1)
+        self.addUniform("float", "maxHeight", 1.25)
         self.addUniform("float", "minHeight", 0)
         self.addUniform("float", "alpha", 1.0)
         self.locateUniforms()

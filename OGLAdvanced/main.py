@@ -88,7 +88,7 @@ class Main(Base):
         mesh = MovingMesh(geometry, material)
         mesh.setRotVel(vec(1, 0, 0))
         mesh.setRotationalSpeed(2)
-        mesh.setPosition([6, 0, 0])
+        mesh.setPosition([6, 3, 0])
         self.scene.add(mesh)
         # Sphere
         geometry = SphereGeometry()
@@ -97,7 +97,7 @@ class Main(Base):
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
-        self.mesh.position =[0,0,0]
+        self.mesh.position =[0,3,0]
         self.scene.add(self.mesh)
         # Image Sphere
         geometry = SphereGeometry()
@@ -106,7 +106,7 @@ class Main(Base):
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
-        self.mesh.position =[-4,0,0]
+        self.mesh.position =[-4,3,0]
         self.scene.add(self.mesh)
         # Image box
         geometry = BoxGeometry()
@@ -114,7 +114,7 @@ class Main(Base):
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 1, 0))
         self.mesh.setRotationalSpeed(1)
-        self.mesh.position =[4, 0, 0]
+        self.mesh.position =[4, 3, 0]
         self.scene.add(self.mesh)
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))

@@ -137,7 +137,7 @@ class PlaneGeometry(AbstractParametric):
 
 class NoisePlaneGeometry(AbstractParametric):
     def __init__(self, width=1, height=1,
-                 widthSegments=100, heightSegments=100):
+                 widthSegments=200, heightSegments=200):
         def S(u,v):
             return [u, v, noiseMachine.noise2d(u, v) * 2]
 
