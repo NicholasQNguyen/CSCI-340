@@ -96,6 +96,7 @@ class ImageMaterial(AbstractMaterial):
         self.addUniform("Light", "light3", None )
         self.addUniform("vec3", "baseColor", [1.0, 1.0, 1.0])
         self.addUniform("mat4", "projectionMatrix", [0,0,0])
+        self.addUniform("vec3", "viewPosition", [0,0,0])
         self.addUniform("mat4", "viewMatrix", [0,0,0])
         self.addUniform("mat4", "modelMatrix", [0,0,0])
         self.addUniform("vec2", "repeatUV", [0,0])
