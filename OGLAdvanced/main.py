@@ -76,12 +76,14 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # Floor
+        """
         floorMaterial = MountainMaterial({"useVertexColors" : True})
         floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
+        """
         # Box
         material = PhongMaterial({"useVertexColors": False})
         geometry = BoxGeometry(width=3, height=3, depth=3)
