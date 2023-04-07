@@ -1,10 +1,10 @@
 """
 Author: Liz Matthews
 """
-
 from .abstract import AbstractMaterial
 from ..oGL.shaderCode import lightCalcPhong, lightStruct, vertexShaderWithNormals
 from OpenGL.GL import *
+
 
 class ImageMaterial(AbstractMaterial):
     def __init__(self, texture=None, properties={}):
@@ -23,7 +23,7 @@ class ImageMaterial(AbstractMaterial):
         in vec3 faceNormal;
         in vec2 vertexUV;
         out vec3 color;
-        out vec3 normal;        
+        out vec3 normal;
         out vec3 position;
         out vec2 UV;
         void main() {
@@ -43,13 +43,13 @@ class ImageMaterial(AbstractMaterial):
             
             UV = vertexUV * repeatUV + offsetUV;
         }
-     
         """
         fShaderCode = \
         lightStruct + lightCalcPhong + \
         """
         uniform sampler2D texture;
         uniform bool useUVColors;
+        uniform bool shaded;
         uniform float ambMul;
         uniform float specMul;
         in vec3 color;
@@ -64,32 +64,36 @@ class ImageMaterial(AbstractMaterial):
             {
                 vec4 tColor = texture2D(texture, UV);
                 if (tColor.a < 0.01)
+                {
                    discard;
+                }
                 diffuse *= tColor.rgb;
             }
             vec3 total =  diffuse;
             total = total * ambMul;
-            vec3 specular = (diffuse + vec3(0.1,0.1,0.1)) * specMul;
-            total = lightCalc(light0, total, diffuse, specular,
-                              position, normal);
-            total = lightCalc(light1, total, diffuse, specular,
-                              position, normal);
-            total = lightCalc(light2, total, diffuse, specular,
-                              position, normal);
-            total = lightCalc(light3, total, diffuse, specular,
-                              position, normal);
+            if (shaded)
+            {
+                vec3 specular = (diffuse + vec3(0.1,0.1,0.1)) * specMul;
+                total = lightCalc(light0, total, diffuse, specular,
+                                  position, normal);
+                total = lightCalc(light1, total, diffuse, specular,
+                                  position, normal);
+                total = lightCalc(light2, total, diffuse, specular,
+                                  position, normal);
+                total = lightCalc(light3, total, diffuse, specular,
+                                  position, normal);
+            }
             fragColor = vec4(total, 1);
         }
-
 """
-        
+
         super().__init__(vShaderCode, fShaderCode)
         
         self.addUniform("sampler2D", "texture", [texture.textureRef, 1])
         self.addUniform("Light", "light0", None )
         self.addUniform("Light", "light1", None )
         self.addUniform("Light", "light2", None )
-        self.addUniform("Light", "light3", None )        
+        self.addUniform("Light", "light3", None )
         self.addUniform("vec3", "baseColor", [1.0, 1.0, 1.0])
         self.addUniform("mat4", "projectionMatrix", [0,0,0])
         self.addUniform("mat4", "viewMatrix", [0,0,0])
@@ -104,7 +108,7 @@ class ImageMaterial(AbstractMaterial):
         self.addUniform("bool", "useFaceNormals", False)
         self.addUniform("bool", "useUVColors", True)
         self.addUniform("bool", "useVertexColors", False)
-        self.addUniform("bool", "shaded", False)
+        self.addUniform("bool", "shaded", True)
         
         self.locateUniforms()
         
