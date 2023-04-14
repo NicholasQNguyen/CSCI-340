@@ -25,6 +25,7 @@ from modules.geometry.objectFile import ObjectFileGeometry
 from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
                                          purple, blue)
 from modules.objects.viewscreen import Viewscreen
+from modules.objects.mirror import Mirror 
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.materials.lambert import LambertMaterial
@@ -81,14 +82,14 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # Floor
-        """
+        # """
         floorMaterial = MountainMaterial({"useVertexColors" : True})
         floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
-        """
+        # """
         # Box
         material = PhongMaterial({"useVertexColors": False})
         geometry = BoxGeometry(width=3, height=3, depth=3)
@@ -121,19 +122,21 @@ class Main(Base):
         self.mesh = MovingMesh(geometry, material)
         self.mesh.setRotVel(vec(1, 0, 1))
         self.mesh.setRotationalSpeed(2)
-        self.mesh.position =[2,3,0]
+        self.mesh.position =[0,3,5]
         self.scene.add(self.mesh)
         # Viewport thing
-        self.viewscreen = Viewscreen(vec(0, 5, 0), vec(0, 0, -1),
+        self.viewscreen = Mirror(vec(0, 5, 0), vec(0, 0, -1),
                                vec(0, 0, -1), vec(0, 0, -1))
         self.scene.add(self.viewscreen)
         # Obj test
+        """
         geometry = ObjectFileGeometry(ICE_CREAM)
         material = PhongMaterial({"useVertexColors" : False,
                                   "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.position =[2,3,0]
         self.scene.add(self.mesh)
+        """
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
 
