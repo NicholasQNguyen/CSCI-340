@@ -20,11 +20,11 @@ class ObjectFileGeometry(AbstractGeometry):
             if not values:
                 continue
             if values[0] == "v":
-                vertex = map(float, values[1:4])
+                self.vertices.append(map(float, values[1:4]))
             elif values[1] == "vn":
-                normal = map(float, values[1:4])
+                self.normals.append(map(float, values[1:4]))
             elif values[0] == "vt":
-                textureCoordinate = map(float, values[1:3])
+                self.texcoords.append(map(float, values[1:3]))
             elif values[0] == "f":
                 faceVertices = []
                 normals = []
@@ -40,8 +40,22 @@ class ObjectFileGeometry(AbstractGeometry):
                         normals.append(int(w[2]))
                     else:
                         normals.append(0)
-                self.texcoords.append(texcoords)
-                self.faces.append(faceVertices)
-                self.normals.append(normals)
+                self.faces.append((faceVertices, texcoords, normals))
+        vertices = []
+        normals = []
+        texcoords = []
         for face in self.faces:
+            vertices.append(face[0])
+            normals.append(face[1])
+            texcoords.append(face[2])
             print("FACE", face)
+        for current in range(1, len(vertices) -1):
+            p0 = 0
+            p1 = current
+            p2 = current + 1
+            for i in [0, current, current + 1]:
+                pass
+        """
+        When add atributes to geometry.
+        If you have vertexUVCoords, use vec2 not vec3.
+        """

@@ -123,18 +123,17 @@ class Main(Base):
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[2,3,0]
         self.scene.add(self.mesh)
-        # Wobbly thing
-        self.mesh = Viewscreen(vec(0, 0, 0), vec(0, 0, -1), vec(0, 0, -1), vec(0, 0, -1))
-        self.scene.add(self.mesh)
+        # Viewport thing
+        self.viewscreen = Viewscreen(vec(0, 5, 0), vec(0, 0, -1),
+                               vec(0, 0, -1), vec(0, 0, -1))
+        self.scene.add(self.viewscreen)
         # Obj test
-        """
         geometry = ObjectFileGeometry(ICE_CREAM)
         material = PhongMaterial({"useVertexColors" : False,
                                   "useFaceNormals" : True})
         self.mesh = MovingMesh(geometry, material)
         self.mesh.position =[2,3,0]
         self.scene.add(self.mesh)
-        """
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
 
@@ -142,6 +141,8 @@ class Main(Base):
         """Most of the work is in scene, rig, and renderer!"""
         self.scene.update(self.deltaTime)
         self.rig.update(self.deltaTime)
+        self.renderer.render(self.scene, self.viewscreen.camera,
+                             self.viewscreen.renderTarget)
         self.renderer.render(self.scene, self.camera)
 
 
