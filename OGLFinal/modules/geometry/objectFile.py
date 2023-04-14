@@ -1,4 +1,7 @@
-class ObjectFileGeometery(AbstractGeometry):
+from . import AbstractGeometry
+
+
+class ObjectFileGeometry(AbstractGeometry):
     def __init__(self, objFileName):
         super().__init__()
         self.objFileName = objFileName
@@ -17,11 +20,11 @@ class ObjectFileGeometery(AbstractGeometry):
             if not values:
                 continue
             if values[0] == "v":
-                vertex = float(values[1:4])
+                vertex = map(float, values[1:4])
             elif values[1] == "vn":
-                normal = float(values[1:4])
+                normal = map(float, values[1:4])
             elif values[0] == "vt":
-                textureCoordinate = float(values[1:3])
+                textureCoordinate = map(float, values[1:3])
             elif values[0] == "f":
                 faceVertices = []
                 normals = []
@@ -41,4 +44,4 @@ class ObjectFileGeometery(AbstractGeometry):
                 self.faces.append(faceVertices)
                 self.normals.append(normals)
         for face in self.faces:
-            
+            print("FACE", face)

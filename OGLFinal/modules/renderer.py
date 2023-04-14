@@ -4,6 +4,7 @@ Code modified from Developing Graphics Frameworks
   with Python and OpenGL by Lee Stemkoski and
   Michael Pascale.
 """
+import pygame
 
 from OpenGL.GL import *
 from .objects import Mesh
@@ -20,6 +21,7 @@ class Renderer(object):
         
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        self.windowSize = pygame.display.get_surface().get_size()
 
     def render(self, scene, camera, renderTarget=None):
         # Extract list of all Mesh objects in scene
@@ -30,6 +32,15 @@ class Renderer(object):
         while len(lightList) < 4:
             lightList.append(Light())
         
+        if renderTarget:
+            glBindFramebuffer(GL_FRAMEBUFFER,
+                              renderTarget.framebufferRef)
+            glViewport(0, 0, renderTarget.width, renderTarget.height)
+        else:
+            glBindFramebuffer(GL_FRAMEBUFFER, 0)
+            glViewport(0, 0, *self.windowSize)
+
+
         # Clear color and depth buffers
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         

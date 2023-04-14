@@ -21,8 +21,10 @@ from modules.geometry import (BoxGeometry,
                               WobblyGeometry,
                               CylinderGeometry,
                               NoisePlaneGeometry)
+from modules.geometry.objectFile import ObjectFileGeometry
 from modules.geometry.colorFuncs import (randomColor, rainbowGradient,
                                          purple, blue)
+from modules.objects.viewscreen import Viewscreen
 from modules.movementRig import MovementRig
 from modules.materials import SurfaceMaterial, PointMaterial, LineMaterial
 from modules.materials.lambert import LambertMaterial
@@ -33,12 +35,14 @@ from modules.utils.vector import vec
 from modules.texture import Texture
 
 IMAGE_FOLDER = os.path.join("resources", "images")
+OBJ_FOLDER = os.path.join("resources", "models")
 BRICKS_PATH = os.path.join(IMAGE_FOLDER, "bricks.png")
 CIRCLES_PATH = os.path.join(IMAGE_FOLDER, "circles.png")
 JEWELS_PATH = os.path.join(IMAGE_FOLDER, "jewels.png")
 BRICKS = Texture(BRICKS_PATH)
 CIRCLES = Texture(CIRCLES_PATH)
 JEWELS = Texture(JEWELS_PATH)
+ICE_CREAM = os.path.join(OBJ_FOLDER, "icecream.obj")
 
 
 class Main(Base):
@@ -77,12 +81,14 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # Floor
+        """
         floorMaterial = MountainMaterial({"useVertexColors" : True})
         floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
         floorMesh.setRotate(3 * np.pi / 2, 0, 0)
         floorMesh.setRotationalSpeed(0)
         self.scene.add(floorMesh)
+        """
         # Box
         material = PhongMaterial({"useVertexColors": False})
         geometry = BoxGeometry(width=3, height=3, depth=3)
@@ -99,14 +105,6 @@ class Main(Base):
         self.mesh.setRotVel(vec(1, 0, 0))
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[0,3,0]
-        self.scene.add(self.mesh)
-        # Image Sphere
-        geometry = SphereGeometry()
-        material = ImageMaterial(BRICKS)
-        self.mesh = MovingMesh(geometry, material)
-        self.mesh.setRotVel(vec(1, 0, 0))
-        self.mesh.setRotationalSpeed(2)
-        self.mesh.position =[-4,3,0]
         self.scene.add(self.mesh)
         # Image box
         geometry = BoxGeometry()
@@ -125,6 +123,18 @@ class Main(Base):
         self.mesh.setRotationalSpeed(2)
         self.mesh.position =[2,3,0]
         self.scene.add(self.mesh)
+        # Wobbly thing
+        self.mesh = Viewscreen(vec(0, 0, 0), vec(0, 0, -1), vec(0, 0, -1), vec(0, 0, -1))
+        self.scene.add(self.mesh)
+        # Obj test
+        """
+        geometry = ObjectFileGeometry(ICE_CREAM)
+        material = PhongMaterial({"useVertexColors" : False,
+                                  "useFaceNormals" : True})
+        self.mesh = MovingMesh(geometry, material)
+        self.mesh.position =[2,3,0]
+        self.scene.add(self.mesh)
+        """
         # Lights
         self.scene.add(DirectionalLight(direction = vec(1, 0, 0)))
 

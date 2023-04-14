@@ -120,3 +120,20 @@ class Matrix(object):
     @staticmethod
     def scaleAsymmetric(matrix, a, b, c):
         return Matrix.applyMatrix(matrix, Matrix.makeScaleAsymmetric(a, b, c))
+
+    @staticmethod
+    def makePerspectiveAsymmetric(left =-1, right=1, bottom=-1, top=1, near=0.1,
+                                  far=1000):
+        rlAdd = right + left
+        rlSub = right - left
+        tbAdd = top   + bottom
+        tbSub = top   - bottom
+        fnAdd = far   + near
+        fnSub = far   - near
+        return np.array([[(2*near)/rlSub,           0, rlAdd/rlSub,        0],
+                       [             0,(2*near)/tbSub, tbAdd/tbSub,        0],
+                       [             0,             0,-fnAdd/fnSub,-(2*far*near)/fnSub],
+                       [             0,             0,          -1, 0]]).astype(float)
+    
+
+
