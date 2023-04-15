@@ -82,7 +82,7 @@ class Main(Base):
         grid.setRotateX(-np.pi/2)
         self.scene.add(grid)
         # Floor
-        # """
+        #  """
         floorMaterial = MountainMaterial({"useVertexColors" : True})
         floorGeometry = NoisePlaneGeometry(width=30, height=30)
         floorMesh = MovingMesh(floorGeometry, floorMaterial)
@@ -125,9 +125,9 @@ class Main(Base):
         self.mesh.position =[0,3,5]
         self.scene.add(self.mesh)
         # Viewport thing
-        self.viewscreen = Mirror(vec(0, 5, 0), vec(0, 0, -1),
+        self.mirror = Mirror(vec(0, 5, 0), vec(0, 0, -1),
                                vec(0, 0, -1), vec(0, 0, -1))
-        self.scene.add(self.viewscreen)
+        self.scene.add(self.mirror)
         # Obj test
         """
         geometry = ObjectFileGeometry(ICE_CREAM)
@@ -144,8 +144,9 @@ class Main(Base):
         """Most of the work is in scene, rig, and renderer!"""
         self.scene.update(self.deltaTime)
         self.rig.update(self.deltaTime)
-        self.renderer.render(self.scene, self.viewscreen.camera,
-                             self.viewscreen.renderTarget)
+        self.renderer.render(self.scene, self.mirror.camera,
+                             self.mirror.renderTarget)
+        self.mirror.updateView(self.rig)
         self.renderer.render(self.scene, self.camera)
 
 
